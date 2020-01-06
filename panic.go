@@ -13,7 +13,7 @@ import (
 // "morning" -> "gimnnor") the result can be used as a signature to 
 // create words in the same class
 func sortRunes(str string) string {
-   runes := bytes.Runes[]byte(str))
+   runes := bytes.Runes([]byte(str))
    var temp rune
    for i := 0; i < len(runes); i++ {
       for j := i + 1; j < len(runes); j++ {
@@ -67,7 +67,7 @@ func write(fname string, anagrams map[string][]string) {
 
 // mapWords maps each word to its associate signature
 func mapWords(words []string) map[string][]string {
-   anagrams := make(map[string][]string {
+   anagrams := make(map[string][]string)
    for _, word := range words {
       wordSig := sortRunes(word)
       anagrams[wordSig] = append(anagrams[wordSig], word)
