@@ -75,4 +75,15 @@ func mapWords(words []string) map[string][]string {
    return anagrams
 }
 
-
+func main() {
+   words, err := load("dict.txt")
+   if err != nil {
+      fmt.Println("unableto load file: ", err)
+      os.Exit(1)
+   }
+   
+   // generate map of anagrams
+   anagrams := mapWords(words)
+   // write output in file
+   write("out.txt", anagrams)
+}
