@@ -7,4 +7,9 @@ func main() {
    for _, i := range val {
       fmt.Println(i)
    }
+   var truth = [256]bool{true}
+   for _, j := range truth {
+      fmt.Println(j)
+   }
+
 }
