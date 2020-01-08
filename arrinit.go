@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+type galaxies [14]string
+
 func main() {
    var val [100]int = [100]int{1,2,3,4,5}
    for _, i := range val {
@@ -35,4 +37,11 @@ func main() {
    }
    seven := [7]string{"grumpy", "sleepy", "bashful"} 
    fmt.Println(len(seven), cap(seven))
+   namedGalaxies := &galaxies{ 
+         "Andromeda", 
+         "Black Eye", 
+         "Bode's", 
+   }
+   fmt.Println(namedGalaxies)
+   fmt.Println(*namedGalaxies)
 }
