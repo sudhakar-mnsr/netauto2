@@ -27,4 +27,10 @@ func main() {
    for _, i := range board {
       fmt.Println(i)
    }
+   // The literal value can be indexed, to make sure only some needed are
+   // initialized others being 0
+   var msg = [12]rune{0: 'H', 2: 'E', 4: 'L', 6: 'O', 8: '!'}
+   for _, i := range msg {
+      fmt.Println(i)
+   }
 }
