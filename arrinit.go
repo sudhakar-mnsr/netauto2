@@ -33,4 +33,6 @@ func main() {
    for _, i := range msg {
       fmt.Println(i)
    }
+   seven := [7]string{"grumpy", "sleepy", "bashful"} 
+   fmt.Println(len(seven), cap(seven))
 }
