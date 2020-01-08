@@ -11,5 +11,11 @@ func main() {
    for _, j := range truth {
       fmt.Println(j)
    }
-
+   var histogram = [5]map[string]int {
+      map[string]int{"A":12, "B":5, "D":11},
+      map[string]int{"man":1344, "women":844, "children":577},
+   }
+   for _, k := range histogram {
+      fmt.Println(k)
+   }
 }
