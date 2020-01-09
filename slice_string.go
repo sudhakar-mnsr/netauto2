@@ -9,3 +9,16 @@ func main() {
    printBytes(msg)
 }
 
+func sort(str string) string {
+   bytes := []byte(str) //typecast to byte slice
+   var temp byte
+   for i := range bytes {
+      for j := i + 1; j < len(bytes); j++ {
+         if bytes[j] < bytes[i] {
+            temp = bytes[i]
+            bytes[i], bytes[j] = bytes[j], temp
+         }
+      }
+   }
+   return string(bytes)
+}
