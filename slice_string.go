@@ -22,3 +22,9 @@ func sort(str string) string {
    }
    return string(bytes)
 }
+
+func printBytes(str string) {
+   for i := range str {
+      fmt.Println(str[i])
+   }
+}
