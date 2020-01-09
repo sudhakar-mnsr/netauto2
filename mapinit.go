@@ -9,6 +9,14 @@ table := map[string][]int {
    "Men":[]int{32,55,12,42,53},
    "Women":[]int{44, 42, 23, 41, 65, 44},
 }
+hist := make(map[string]int)
+hist["Jan"] = 100
+hist["Feb"] = 200
+hist["Mar"] = 300
 fmt.Println(histogram)
 fmt.Println(table)
+fmt.Println(hist)
+fmt.Println(len(hist))
+delete(hist,"Jan")
+fmt.Println(hist)
 }
