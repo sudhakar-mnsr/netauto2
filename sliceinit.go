@@ -58,4 +58,8 @@ tables := []map[string][]int {
    months4 = append(months4,"OCT","NOV","DEC")
    fmt.Println(months4)
    fmt.Println(len(months4), cap(months4))
+   v := make([]string, len(months4), cap(months4))
+   copy(v, months4)
+   fmt.Println(v)
+   fmt.Println(len(v), cap(v))
 }
