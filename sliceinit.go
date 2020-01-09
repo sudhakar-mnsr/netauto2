@@ -42,4 +42,10 @@ tables := []map[string][]int {
    q2 := halfyr[3:]
    fmt.Println(q1)
    fmt.Println(q2)
+   // Create slice from another array
+   var months [12]string = [12]string{"Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec",}
+   q3 := months[6:9]
+   q4 := months[9:]
+   fmt.Println(q3)
+   fmt.Println(q4)
 }
