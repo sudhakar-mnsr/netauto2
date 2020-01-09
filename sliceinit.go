@@ -50,4 +50,12 @@ tables := []map[string][]int {
    fmt.Println(q3)
    fmt.Println(q4)
    fmt.Println(summer)
+   months3 := make([]string,6,12)
+   fmt.Println(cap(months3)) 
+   months4 := make([]string, 3, 3)
+   months4 = append(months4,"Jul","Aug","Sep")
+   months4 = append(months4, []string{"Jul","Aug","Sep"}...)
+   months4 = append(months4,"OCT","NOV","DEC")
+   fmt.Println(months4)
+   fmt.Println(len(months4), cap(months4))
 }
