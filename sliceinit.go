@@ -36,4 +36,10 @@ tables := []map[string][]int {
    for _, i := range graph {
       fmt.Println(i)
    }
+   // Create slice from another slice
+   var halfyr = []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun",}
+   q1 := halfyr[:3]
+   q2 := halfyr[3:]
+   fmt.Println(q1)
+   fmt.Println(q2)
 }
