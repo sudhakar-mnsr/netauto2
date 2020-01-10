@@ -21,6 +21,6 @@ func main() {
    fmt.Println(p.name)
    p_ptr := new(person)
    p_ptr.name = "unknown"
-   updateNamePtr(p, "Sudhakar MNSR"
+   updateNamePtr(p_ptr, "Sudhakar MNSR")
    fmt.Println(p_ptr.name)
 }
