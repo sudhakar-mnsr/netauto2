@@ -8,10 +8,15 @@ type name struct {
    short string
    symbol rune
 }
+type plannet struct {
+   diameter
+   name
+   desc string
+}
 
 func main() {
    earth := plannet{
-      diameter: 7926
+      diameter: 7926,
       name: name{
          long: "Earth",
          short: "E",
