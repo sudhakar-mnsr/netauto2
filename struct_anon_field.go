@@ -32,4 +32,11 @@ func main() {
    jupiter.name.symbol = '\u2643'
    jupiter.desc = "A ball of gas"
    fmt.Println(jupiter)
+   saturn := plannet{}
+   saturn.diameter = 120536
+   saturn.long = "Saturn"
+   saturn.short = "S"
+   saturn.symbol = '\u2644'
+   saturn.desc = "Slow mover"
+   fmt.Println(saturn)
 }
