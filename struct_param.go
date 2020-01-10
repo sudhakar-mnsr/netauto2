@@ -7,6 +7,9 @@ type person struct {
    title string
 }
 
+func updateNamePtr(p *person, name string) {
+   p.name = name
+}
 func updateName(p person, name string) {
    p.name = name
 }
@@ -16,4 +19,8 @@ func main() {
    p.name = "unknown"
    updateName(p, "Sudhakar MNSR")
    fmt.Println(p.name)
+   p_ptr := new(person)
+   p_ptr.name = "unknown"
+   updateNamePtr(p, "Sudhakar MNSR"
+   fmt.Println(p_ptr.name)
 }
