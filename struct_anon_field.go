@@ -25,4 +25,11 @@ func main() {
       desc: "Third rock from the sun",
    }
    fmt.Println(earth)
+   jupiter := plannet{}
+   jupiter.diameter = 88846
+   jupiter.name.long = "Jupiter"
+   jupiter.name.short = "J"
+   jupiter.name.symbol = '\u2643'
+   jupiter.desc = "A ball of gas"
+   fmt.Println(jupiter)
 }
