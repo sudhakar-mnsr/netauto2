@@ -87,7 +87,7 @@ func main() {
       }
       
       for i, c := range currencies {
-         fmt.Printf("%2d. %s[%s]\t%s\n", i, c.Code, c.Number, c.Name, c.Country)
+         fmt.Printf("%2d. %s[%s]\t%s, %s\n", i, c.Code, c.Number, c.Name, c.Country)
       }
    }
 }
