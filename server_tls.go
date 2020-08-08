@@ -23,8 +23,8 @@ func main() {
    var addr, network, cert, key string
    flag.StringVar(&addr, "e", ":4443", "service endpoint [ip addr or socket path]")
    flag.StringVar(&network, "n", "tcp", "network protocol [tcp,unix]")
-   flag.StringVar(&cert, "cert", "../certs/localhost-cert.pem", "public cert")
-   flag.StringVar(&key, "key", "../certs/localhost-key.pem", "private key")
+   flag.StringVar(&cert, "cert", "/tmp/certs/cert.pem", "public cert")
+   flag.StringVar(&key, "key", "/tmp/certs/key.pem", "private key")
    flag.Parse()
    
    // validate supported network protocols
@@ -48,7 +48,8 @@ func main() {
    
    // instead of net.Listen we now use tls.Listen to start a listener
    // on the secure port
-   ln, err := nil {
+   ln, err := tls.Listen(network, addr, tlsConfig)
+   if err != nil {
       log.Println(err)
    }
    defer ln.Close()
@@ -87,3 +88,70 @@ func main() {
    }
 }
 
+func handleConnection(conn net.Conn) {
+   defer func() {
+      if err := conn.Close(); err != nil {
+         log.Println("error closing connection:", err)
+      }
+   }()
+   
+   // set initial deadline prior to entering the client request/response
+   // loop to 45 seconds to send its initial request to loose the connection.
+   if err := conn.SetDeadline(time.Now().Add(time.Second * 45)); err != nil {
+      log.Println("failed to set deadline:", err)
+      return
+   }
+   
+   for {
+      dec := json.NewDecoder(conn)
+      var req curr.CurrencyRequest
+      if err := dec.Decode(&req); err != nil {
+         switch err := err.(type) {
+         case net.Error:
+            // is it a timeout error
+            // A deadline policy maybe implemented here using a decreasing grace
+            // period that eventually causes an error if reached. Here we just
+            // reject the connection if timeout is reached
+            if err.Timeout() {
+               log.Println("deadline reached, disconnecting...")
+            }
+            log.Println("network error:", err)
+            return
+         default:
+            if err == io.EOF {
+               log.Println("closing connection:", err)
+               return
+            }
+            enc := json.NewEncoder(conn)
+            if encerr := enc.Encode(&curr.CurrencyError{Error: err.Error()}); err != nil {
+               log.Println("failed error encoding:", encerr)
+               return
+            }
+            continue
+         }
+      }
+   
+      result := curr.Find(currencies, req.Get)
+      
+      enc := json.NewEncoder(conn)
+      if err := enc.Encode(&result); err != nil {
+         switch err := err.(type) {
+         case net.Error:
+            log.Println("failed to send response:", err)
+            return
+         default:
+            if encerr := enc.Encode(&curr.CurrencyError{Error: err.Error()}); encerr != nil {
+               log.Println("failed to send error:", encerr)
+               return
+            }
+            continue
+         }
+      }
+      
+      // renew deadline for 45 secs later
+      if err := conn.SetDeadline(time.Now().Add(time.Second * 90)); err != nil {
+         log.Println("failed to set deadline:", err)
+         return
+      }
+   }
+}
