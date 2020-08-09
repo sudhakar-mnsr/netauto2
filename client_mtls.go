@@ -25,6 +25,11 @@ func main() {
    flag.StringVar(&ca, "ca", "../certs/ca-cert.pem", "root CA certificate")
    flag.Parse()
    
+   cer, err := tls.LoadX509KeyPair(cert, key)
+   if err != nil {
+      log.Fatal(err)
+   }
+
    caCert, err := ioutil.ReadFile(ca)
    if err != nil {
       log.Fatal("failed to read CA cert", err)
