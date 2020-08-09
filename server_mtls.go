@@ -78,7 +78,7 @@ func main() {
          switch e := err.(type) {
          case net.Error:
             // if temporary error, attempt to connect again
-            if e.Temporary()
+            if e.Temporary() {
                if acceptCount > 5 {
                   log.Fatalf("unable to connect after %d retries: %v", acceptCount, err)
                }
