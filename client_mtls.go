@@ -20,9 +20,9 @@ func main() {
    var addr, network, cert, key, ca string
    flag.StringVar(&addr, "e", "localhost:4443", "service endpoint [ip addr or socket path]")
    flag.StringVar(&network, "n", "tcp", "network protocol [tcp,unix]")
-   flag.StringVar(&cert, "cert", "../certs/client-cert.pem", "public cert")
-   flag.StringVar(&key, "key", "../certs/client-key.pem", "private key")
-   flag.StringVar(&ca, "ca", "../certs/ca-cert.pem", "root CA certificate")
+   flag.StringVar(&cert, "cert", "/tmp/certs/cert.pem", "public cert")
+   flag.StringVar(&key, "key", "/tmp/certs/key.pem", "private key")
+   flag.StringVar(&ca, "ca", "/tmp/certs/cert.pem", "root CA certificate")
    flag.Parse()
    
    cer, err := tls.LoadX509KeyPair(cert, key)
