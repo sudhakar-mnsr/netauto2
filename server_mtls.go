@@ -37,3 +37,39 @@ default:
 	fmt.Println("unsupported network protocol")
 	os.Exit(1)
 }
+
+// load server cert by providing the private key that generated it
+cer, err := tls.LoadX509KeyPair(cert, key)
+if err != nil {
+   log.Fatal(err)
+}
+
+// load root CA
+caCert, err := ioutil.ReadFile(ca)
+if err != nil {
+   log.Fatal(err)
+}
+caPool := x509.NewCertPool()
+caPool.AppendCertsFromPEM(caCert)
+
+// configure tls with certs and other settings
+tlsConfig := &tls.Config{
+              ClientAuth: tls.RequireAndVerifyClientCert,
+              ClientCAs: caPool,
+              Certificates: []tls.Certificate{cer},
+}
+
+// instead of net.Listen, we now use tls.Listen to start a listener 
+// on the secure port
+ln, err := tls.Listen(network, addr, tlsConfig)
+if err != nil {
+   log.Println(err)
+}
+defer ln.Close()
+log.Println("***** Global Currency Service (secure) *****")
+log.Printf("Service started: (%s) %s; server cert %s\n", network, addr, cert)
+
+acceptDelay := time.Millisecond * 10
+acceptCount := 0
+
+
