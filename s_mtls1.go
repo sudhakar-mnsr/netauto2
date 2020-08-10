@@ -19,7 +19,7 @@ func main() {
    http.HandleFunc("/hello", helloHandler)
    
    // Create a CA certificate pool and add cert.pem to it
-   caCert, err := ioutil.ReadFile("cert.pem")
+   caCert, err := ioutil.ReadFile("/tmp/certs/cert.pem")
    if err != nil {
       log.Fatal(err)
    }
@@ -32,7 +32,7 @@ func main() {
                  ClientCAs: caCertPool,
                  ClientAuth: tls.RequireAndVerifyClientCert,
    }
-   tlsConfig. BuildNameToCertfificate()
+   tlsConfig.BuildNameToCertificate()
    
    // Create a server instance to listen on port 8443 with the TLS config
    server := &http.Server{
@@ -41,5 +41,5 @@ func main() {
    }
    
    // Listen to HTTPS connections with the server certificate and wait
-   log.Fatal(server.ListenAndServeTLS("cert.pem", "key.pem"))
+   log.Fatal(server.ListenAndServeTLS("/tmp/certs/cert.pem", "/tmp/certs/key.pem"))
 }
