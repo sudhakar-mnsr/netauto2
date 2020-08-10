@@ -36,7 +36,7 @@ func main() {
    
    // Create a server instance to listen on port 8443 with the TLS config
    server := &http.Server{
-              Addr: ":8443,
+              Addr: ":8443",
               TLSConfig: tlsConfig,
    }
    
