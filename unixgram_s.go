@@ -45,3 +45,15 @@ func main() {
       go handleConnection(conn)
    }
 }
+
+// handleConnection reads request from connection with conn.Read() then
+// write response using conn.Write(). Then the connection is closed.
+func handleConnection(conn *net.UnixConn) {
+defer conn.Close()
+buf := make([]byte, 1024)
+
+n, err := conn.Read(buf)
+if err != nil {
+   fmt.Println(err)
+   return
+}
