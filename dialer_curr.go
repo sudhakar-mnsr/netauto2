@@ -40,3 +40,22 @@ var (
    connSleepRetry = time.Second * 1
 )
 
+for connTries < connMaxRetries {
+fmt.Println("creating connection socket to", addr)
+conn, err = dialer.Dial(network, addr)
+if err != nil {
+   fmt.Println("failed to create socket:", err)
+   switch nerr := err.(type) {
+   case net.Error:
+      if nerr.Temporary() {
+         connTries++
+         fmt.Println("trying again in:", connSleepRetry)
+         time.Sleep(connSleepRetry)
+         continue
+      }
+      fmt.Println("unable to recover")
+      os.Exit(1)
+   default:
+      os.Exit(1)
+   }
+}
