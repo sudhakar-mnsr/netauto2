@@ -59,3 +59,16 @@ if err != nil {
       os.Exit(1)
    }
 }
+break
+}
+
+// did we get a connection
+if conn == nil {
+   fmt.Println("failed to create a connection successfully")
+   os.Exit(1)
+}
+defer conn.Close()
+fmt.Println("connected to currency service: ", addr)
+
+var param string
+
