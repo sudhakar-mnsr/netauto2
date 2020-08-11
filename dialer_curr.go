@@ -21,3 +21,22 @@ var network string
 flag.StringVar(&addr, "e", "localhost:4040", "service endpoint [ip addr or socket path]")
 flag.StringVar(&network, "n", "tcp", "network protocol [tcp,unix]")
 flag.Parse()
+
+// create a dialer to configure its settings instead of using default
+// dialer from net.Dial() function
+dialer := &net.Dialer{
+   Timeout: time.Second * 300,
+   KeepAlive: time.Minute * 5,
+}
+
+// simple dialing strategy with retry with a simple backoff.
+// More sophisticated retry strategies follow similar pattern but may
+// include features such as exponential backoff delay, etc
+var (
+   conn net.conn
+   err error
+   connTries = 0
+   connMaxRetries = 3
+   connSleepRetry = time.Second * 1
+)
+
