@@ -80,4 +80,9 @@ if read != 48 {
 secs := binary.BigEndian.Uint32(rsp[40:])
 frac := binary.BigEndian.Uint32(rsp[44:])
 
-
+ntpEpoch := time.Date(1900, 1, 1, 0, 0, 0, 0, time.UTC)
+unixEpoch := time.Date(1970, 1, 1, 0, 0, 0, 0, time.UTC)
+offset := unixEpoch.Sub(ntpEpoch).Seconds()
+now := float64(secs) - offset
+fmt.Printf("%v\n", time.Unix(int64(now), int64(frac)))
+}
