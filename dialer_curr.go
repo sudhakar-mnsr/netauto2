@@ -94,3 +94,20 @@ if err := json.NewEncoder(conn).Encode(&req); err != nil {
       continue
    }
 }   
+
+// Display response
+var currencies []curr1.Currency
+err = json.NewDecoder(conn).Decode(&currencies)
+if err != nil {
+   switch err := err.(type) {
+   case net.Error:
+      fmt.Println("failed to receive response:", err)
+      os.Exit(1)
+   default:
+      fmt.Println("failed to decode response:", err)
+      continue
+   }
+}
+fmt.Println(currencies)
+}
+}
