@@ -51,7 +51,7 @@ func main() {
       }
    }()
    
-   fmt.Printf"time from (%s) (%s)\n", network, conn.RemoteAddr())
+   fmt.Printf("time from (%s) (%s)\n", network, conn.RemoteAddr())
    
    // send time request
    if _, err = conn.Write(req); err != nil {
