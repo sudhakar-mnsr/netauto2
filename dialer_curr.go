@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"learning-go/ch11/curr1"
 	"net"
 	"os"
 	"time"
 
+	curr1 "currency/lib"
 	curr "currency/lib"
 )
 
@@ -33,7 +33,7 @@ func main() {
    // More sophisticated retry strategies follow similar pattern but may
    // include features such as exponential backoff delay, etc
    var (
-      conn net.conn
+      conn net.Conn
       err error
       connTries = 0
       connMaxRetries = 3
@@ -76,7 +76,7 @@ func main() {
       fmt.Print(prompt, "> ")
       _, err = fmt.Scanf("%s", &param)
       if err != nil {
-         fmt.Println("Usage: <search string or *>)
+         fmt.Println("Usage: <search string or *>")
          continue
       }
       
