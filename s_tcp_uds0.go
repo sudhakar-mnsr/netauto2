@@ -21,3 +21,13 @@ default:
 	fmt.Println("unsupported network protocol")
 	os.Exit(1)
 }
+
+// anounce service using the listen function which creates a generic
+// listen listener.
+l, err := net.Listen(network, addr)
+if err != nil {
+   fmt.Println(err)
+   os.Exit(1)
+}
+defer l.Close()
+fmt.Printf("listening at (%s) %s\n", network, addr)
