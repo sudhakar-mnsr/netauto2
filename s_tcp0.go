@@ -41,3 +41,17 @@ func main() {
       go handleConnection(conn)
    }
 }   
+
+// handleConnection reads request from connection with conn.Read() then 
+// write response using conn.Write(). THen the connection is closed.
+
+func handleConnection(conn *net.TCPConn) {
+defer conn.Close()
+buf := make([]byte, 1024)
+ 
+n, err := conn.Read(buf)
+if err != nil {
+   fmt.Println(err)
+   return
+}
+
