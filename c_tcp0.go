@@ -24,7 +24,7 @@ func main() {
    // is no need to specify the local address
    conn, err := net.DialTCP("tcp", nil, raddr)
    if err != nil {
-      fmt.Printl("failed to connect to server:", err)
+      fmt.Println("failed to connect to server:", err)
       os.Exit(1)
    }
    defer conn.Close()
