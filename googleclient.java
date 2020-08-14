@@ -23,3 +23,21 @@ public class GoogleClient {
  catch(MalformedURLException e) { System.err.println(e); }
  catch(IOException e) { System.err.println(e); }
  }
+
+private void dumpDetails(HttpsURLConnection conn) {
+ try {
+ print("Status code: " + conn.getResponseCode());
+ print("Cipher suite: " + conn.getCipherSuite());
+ Certificate[ ] certs = conn.getServerCertificates();
+ for (Certificate cert : certs) {
+ print("\tCert. type: " + cert.getType());
+ print("\tHash code: " + cert.hashCode());
+ print("\tAlgorithm: " + cert.getPublicKey().getAlgorithm());
+ print("\tFormat: " + cert.getPublicKey().getFormat());
+ print("");
+ }
+ }
+ catch(Exception e) { System.err.println(e); }
+ }
+ private void print(Object s) { System.out.println(s); }
+}
