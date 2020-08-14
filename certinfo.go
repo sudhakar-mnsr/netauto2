@@ -47,3 +47,22 @@ type tbsCertificate struct {
    SubjectUniqueID asn1.BitString `asn1:"optional, tag:2"`
    Extensions []pkix.Extension `asn1:"optional, explicit, tag:3"`
 }
+
+// certUniqueIDs extracts the subject and issuer unique IDs which are
+// byte strings. These are not common but may be present in x509v2
+// certificates or later under tags 1 and 2 (before x509v3 extensions)
+func certUniqueIDs(tbsAsnData []byte) (issuerUniqueID, subjectUniqueID []byte, err error) {
+   var tbs tbsCertificate
+   rest err := asn1.Unmarshal(tbsAsnData, &tbs)
+   if err != nil {
+      return nil, nil, err
+   }
+   
+   if len(rest) > 0 {
+      return nil, nil, asn1.SyntaxError{Msg: "trailing data"}
+   }
+   iuid := tbs.UniqueID.RightAligh()
+   suid := tbs.SubjectUniqueID.RightAlign()
+   return iuid, suid, err
+}
+
