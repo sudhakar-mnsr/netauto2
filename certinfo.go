@@ -66,3 +66,22 @@ func certUniqueIDs(tbsAsnData []byte) (issuerUniqueID, subjectUniqueID []byte, e
    return iuid, suid, err
 }
 
+// printName prints the fields of a distinguished name, which include such 
+// things as its common name and locality
+func printNames(names []pkix.AttributeTypeAndValue, buf *bytes.Buffer) []string {
+values := []string{}   
+for _, name := range names {
+oid := name.Type
+if len(oid) == 4 && oid[0] == 2 && oid[1] == 5 && oid[2] == 4 {
+switch oid[3] {
+case 3:
+   values = append(values, fmt.Sprintf("CN=%s", name.Value))
+case 6:
+   values = append(values, fmt.Sprintf("C=%s", name.Value))
+case 8:
+   values = append(values, fmt.Sprintf("ST=%s", name.Value))
+case 10:
+   values = append(values, fmt.Sprintf("O=%s", name.Value))
+case 11:
+   values = append(values, fmt.Sprintf("OU=%s", name.Value))
+
