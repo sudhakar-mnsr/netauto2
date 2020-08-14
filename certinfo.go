@@ -21,3 +21,10 @@ var (
    oldExtensionAuthorityInfoAccess = []int{1, 3, 6, 1, 5, 5, 7, 1, 1}
    oidNSComment                    = []int{2, 16, 840, 1, 113730, 1, 13}
 )
+
+// validity allows unmarshaling the certificate validity date range
+type validity struct {
+   NotBefore, NotAfter time.Time
+}
+
+
