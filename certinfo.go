@@ -118,3 +118,11 @@ func dsaKeyPrinter(name string, val *big.Int, buf *bytes.Buffer) {
    }
    buf.WriteString("\n")
 }
+
+func printVersion(version int, buf *bytes.Buffer) {
+   hexVersion := version - 1
+   if hexVersion < 0 {
+      hexVersion = 0
+   }
+   buf.WriteString(fmt.Sprintf("%8sVersion: %d (%#x)\n, "", version, hexVersion))
+}
