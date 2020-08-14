@@ -103,3 +103,18 @@ if len(values) > 0 {
    }
    return values
 }
+
+// dsaKeyPrinter formats the Y, P, Q or G components of a DSA public key.
+func dsaKeyPrinter(name string, val *big.Int, buf *bytes.Buffer) {
+   buf.WriteString(fmt.Sprintf("%16s%s:", "", name))
+   for i, b := range val.Bytes() {
+      if (i % 15) == 0 {
+         buf.WriteString(fmt.Sprintf("\n%20s", ""))
+      }
+      buf.WriteString(fmt.Sprintf("%02x", b)
+      if i != len(val.Bytes())-1 { 
+         buf.WriteString(":")
+      }
+   }
+   buf.WriteString("\n")
+}
