@@ -126,3 +126,15 @@ func printVersion(version int, buf *bytes.Buffer) {
    }
    buf.WriteString(fmt.Sprintf("%8sVersion: %d (%#x)\n, "", version, hexVersion))
 }
+
+func printSubjectInformation(subj *pkix.Name, pkAlgo x509.PublicKeyAlgorithm, pk interface{}, buf *bytes.Buffer) error {
+   buf.WriteString(fmt.Sprintf(%8sSubject: ", ""))
+   printName(sub.Names, buf)
+   buf.WriteString(fmt.Sprintf("%8sSubject Public Key Info:\n%12sPublic Key Algorithm: ", "", ""))
+   switch pkAlgo {
+   case x509.RSA:
+      buf.WriteString(fmt.Sprintf("RSA\n"))
+      // Some implementations (notably OpenSSL) prepend 0x00 to the modulus
+      // if its most-significant bit is set. THere is no need to do that
+      // here because the modulus is always unsigned and the extra byte can
+      // be confusing given the bit length.
