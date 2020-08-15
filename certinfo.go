@@ -210,3 +210,28 @@ func printSubjKeyId(ext pkix.Extension, buf *bytes.Buffer) error {
    buf.WriteString("\n")
    return nil
 }
+
+func printSubjAltNames(ext pkix.Extension, dnsNames []string, emailAddresses []string, ipAddresses []net.IP, buf *bytes.Buffer) error {
+   // subjectAltName: RFC 5280 4.2.1.6
+   // TODO: Currently crypto/x509 only extracts DNS, email, and IP addresses
+   // We should add the others to it or implement them here.
+   buf.WriteString(fmt.Sprintf("%12sX509v3 Subject Alternative Name:", ""))
+   if ext.Critical {
+      buf.WriteString(" critical\n")
+   } else {
+      buf.WriteString("\n")
+   }
+   if len(dnsNames) > 0 {
+      buf.WriteString(fmt.Sprintf("%16sDNS:%s", "", dnsNames[0]))
+      for i := 1; i < len(dnsNames); i++ {
+         buf.WriteString(fmt.Sprintf(", DNS:%s", dnsNames[i]))
+      }
+      buf.WriteString("\n")
+   }
+   if len(emailAddresses) > 0 {
+      buf.WriteString(fmt.Sprintf("%16semail:%s", "", emailAddresses[0]))
+      for i := 1; i < len(dnsNames); i++ {
+         buf.WriteString(fmt.Sprintf(", DNS:%s", dnsNames[i]))
+      }
+      buf.WriteString("\n")
+   }
