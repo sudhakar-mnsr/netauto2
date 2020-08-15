@@ -230,8 +230,8 @@ func printSubjAltNames(ext pkix.Extension, dnsNames []string, emailAddresses []s
    }
    if len(emailAddresses) > 0 {
       buf.WriteString(fmt.Sprintf("%16semail:%s", "", emailAddresses[0]))
-      for i := 1; i < len(dnsNames); i++ {
-         buf.WriteString(fmt.Sprintf(", DNS:%s", dnsNames[i]))
+      for i := 1; i < len(emailAddresses); i++ {
+         buf.WriteString(fmt.Sprintf(", email:%s", emailAddresses[i]))
       }
       buf.WriteString("\n")
    }
