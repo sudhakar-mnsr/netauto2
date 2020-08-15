@@ -138,3 +138,17 @@ func printSubjectInformation(subj *pkix.Name, pkAlgo x509.PublicKeyAlgorithm, pk
       // if its most-significant bit is set. THere is no need to do that
       // here because the modulus is always unsigned and the extra byte can
       // be confusing given the bit length.
+      buf.WriteString(fmt.Sprintf("%16sModulus:", ""))
+      for i, val := range rsaKey.N.Bytes() {
+         if (i % 15) == 0 {
+            buf.WriteString(fmt.Sprintf("\n%20s", ""))
+         }
+         buf.WriteString(fmt.Sprintf("%02x", val))
+         if i != len(rsaKey.N.Bytes())-1 {
+            buf.WriteString(":")
+         }
+      }
+      buf.WriteString(fmt.Sprintf("\n%16sExponent: %d (%#x)\n", "", rsaKey.E, rsa.E))
+   } else{
+      return errors.New(certinfo: Expected rsa.PublicKey for type x509.RSA")
+   }   
