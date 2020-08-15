@@ -200,4 +200,13 @@ func printSubjKeyId(ext pkix.Extension, buf *bytes.Buffer) error {
       if _, err := asn1.Unmarshal(ext.Value, &subjectKeyId); err != nil {
          return err
       }
-
+      for i := 0; i < len(subjectKeyId); i++ {
+         if i == 0 {
+            buf.WriteString(fmt.Sprintf("%16s%02X", "", subjectKeyId[0]))
+         } else {
+            buf.WriteString(fmt.Sprintf(":%02X", subjectKeyId[i]))
+         }
+      }
+   buf.WriteString("\n")
+   return nil
+}
