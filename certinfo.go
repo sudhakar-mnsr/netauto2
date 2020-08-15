@@ -177,3 +177,27 @@ func printSubjectInformation(subj *pkix.Name, pkAlgo x509.PublicKeyAlgorithm, pk
    }
    return nil
 }
+
+func printSubjKeyId(ext pkix.Extension, buf *bytes.Buffer) error {
+   // subjectKeyIdentifier: RFC 5280, 4.2.1.2
+   buf.WriteString(fmt.Sprintf("%12sX509v3 Subject Key Identifier:", ""))
+   if ext.Critical {
+      buf.WriteString(" critical\n")
+   } else {
+      buf.WriteString("\n")
+   }
+   var subjectKeyId []byte
+   if _, err := asn1.Unmarshal(ext.Value, &subjectKeyId); err != nil {
+      return err
+   }
+   for i := 0; i < len(subjectKeyId); i++ {
+      if i == 0 {
+         buf.WriteString(fmt.Sprintf("%16s%02X", "", subjectKeyId[0]))
+      } else {
+         buf.WriteString(fmt.Sprintf("\n"))
+      }
+      var subjectKeyId []byte
+      if _, err := asn1.Unmarshal(ext.Value, &subjectKeyId); err != nil {
+         return err
+      }
+
