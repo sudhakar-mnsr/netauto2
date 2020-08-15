@@ -152,3 +152,14 @@ func printSubjectInformation(subj *pkix.Name, pkAlgo x509.PublicKeyAlgorithm, pk
    } else{
       return errors.New(certinfo: Expected rsa.PublicKey for type x509.RSA")
    }   
+   case x509.DSA:
+      buf.WriteString(fmt.Sprintf("DSA\n"))
+      if dsaKey, ok := pk.(*dsa.PublicKey); ok {
+         dsaKeyPrinter("pub", dsaKey.Y, buf)
+         dsaKeyPrinter("P", dsaKey.P, buf)
+         dsaKeyPrinter("Q", dsaKey.Q, buf)
+         dsaKeyPrinter("G", dsaKey.G, buf)
+      } else {
+         return errors.New("certinfo: Expected dsa.PublicKey for type x509.DSA")
+      }
+
