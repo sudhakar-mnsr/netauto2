@@ -162,4 +162,18 @@ func printSubjectInformation(subj *pkix.Name, pkAlgo x509.PublicKeyAlgorithm, pk
       } else {
          return errors.New("certinfo: Expected dsa.PublicKey for type x509.DSA")
       }
-
+   case x509.ECDSA:
+      buf.WriteString(fmt.Sprintf("ECDSA\n"))
+      if ecdsaKey, ok := pk.(*ecdsa.PublicKey); ok {
+         buf.WriteString(fmt.Sprintf("16sPublic-Key: (%d bit)\n", "", ecdsaKey.Params().BitSize))
+         dsaKeyPrinter("X", ecdsaKey.X, buf)
+         dsaKeyPrinter("Y", ecdsaKey.Y, buf)
+         buf.WriteString(fmt.Sprintf("%16sCurve: %s\n", "", ecdsaKey.Params().Name))
+      } else {
+         return errors.New("certinfo: Expected ecdsa.PublicKey for type x509.DSA")
+      }
+   default:
+      return errors.New("certinfo: Unknown public key type")
+   }
+   return nil
+}
