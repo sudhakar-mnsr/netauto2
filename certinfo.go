@@ -381,6 +381,26 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
             } else {
                buf.WriteString("\n")
             }
+         case 30:
+            // nameConstraints: RFC 5280, 4.2.1.10
+            // TODO: Currently crypto/x509 only supports "Permitted" and not
+            // "Excluded" subtrees. Furthermore it assumes alltypes are DNS
+            // names which is not necessarily true. This missing functionality
+            // should be implementd.
+            buf.WriteString(fmt.Sprintf("%12sX509v3 Name Constraints:", ""))
+            if ext.Critical {
+               buf.WriteString(" critical\n")
+            } else {
+               buf.WriteString("\n")
+            }
+            if len(cert.PermittedDNSDomains) > 0 {
+               buf.WriteString(fmt.Sprintf("%16sPermitted:\n%18s%s", "", "", cert.PermittedDNSDomains[0]))
+               for i := 1; i < len(cert.PermittedDNSDomains); i++ {
+                  buf.WriteString(fmt.Sprintf(", %s", cert.PermittedDNSDomains[i]))
+               }
+               buf.WriteString("\n")
+            }
+
 
 }
 
