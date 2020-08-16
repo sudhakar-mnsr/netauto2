@@ -324,7 +324,15 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
                buf.WriteString("\n")
             }
             usages := []string{}
-
+            if cert.KeyUsage&x509.KeyUsageDigitalSignature > 0 {
+               usages = append(usages, "Digital Signature")
+            }
+            if cert.KeyUsage&x509.KeyUsageContentCommitment > 0 {
+               usages = append(usages, "Content Commitment")
+            }
+            if cert.KeyUsage&x509.KeyUsageKeyEncipherment > 0 {
+               usages = append(usages, "Key Encipherment")
+            }
 
 }
 
