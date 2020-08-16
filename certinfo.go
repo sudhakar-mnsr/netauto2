@@ -287,7 +287,19 @@ if err != nil {
    return "", err
 }
 
-  
+// Issuer/Subject Unique ID, typically used in old v2 certificates
+issuerUID, subjectUID, err := certUniqueIDs(cert.RawTBSCertificate)
+if err != nil {
+   return "", errors.New(fmt.Sprintf("certinfo: Error parsing TBS unique attributes: %s\n", err.Error()))
+}
+if len(issuerUID) > 0 {
+   buf.WriteString(fmt.Sprintf("%8sIssuer Unique ID: %02x", "", issuerUID[0]))
+   for i := 1; i < len(issuerUID); i++ {
+      buf.WriteString(fmt.Sprintf(":%02x", issuerUID[i]))
+   }
+   buf.WriteString("\n")
+}
+
 }
 
 // CertificateRequestText returns a human-readable string representation of 
