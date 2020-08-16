@@ -304,4 +304,3 @@ func CertificateRequestText(csr *x509.CertificateRequest) (string, error) {
    printSignature(csr.Signature, &buf)
    return buf.String(), nil
 }
-}
