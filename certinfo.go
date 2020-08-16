@@ -348,6 +348,39 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
             if cert.KeyUsage&x509.KeyUsageDecipherOnly > 0 {
                usages = append(usages, "Decipher Only")
             }
+            if len(usages) > 0 {
+               buf.WriteString(fmt.Sprintf("%16s%s", "", usages[0]))
+               for i := 1; i < len(usages); i++ {
+                  buf.WriteString(fmt.Sprintf(", %s", usages[i]))
+               }
+               buf.WriteString("\n")
+            } else {
+               buf.WriteString(fmt.Sprintf("%16sNone\n", ""))
+            }
+         case 17:
+            err = printSubjAltNames(ext, cert.DNSNames, cert.EmailAddresses, cert.IPAddresses, &buf)
+         case 19:
+            if !cert.BasicConstraintsValid {
+               break
+            }
+            buf.WriteString(fmt.Sprintf("%12sX509v3 Basic Constraints:", ""))
+            if ext.Critical {
+               buf.WriteString(" critical\n")
+            } else {
+               buf.WriteString("\n")
+            }
+            if cert.IsCA {
+               buf.WriteString(fmt.Sprintf("%16sCA:TRUE", ""))
+            } else {
+               buf.WriteString(fmt.Sprintf("%16sCA:FALSE", ""))
+            }
+            if cert.MaxPathLenZero {
+               buf.WriteString(fmt.Sprintf(", pathlen:0\n"))
+            } else if cert.MaxPathLen > 0 {
+               buf.WriteString(fmt.Sprintf(", pathlen:%d\n", cert.MaxPathLen))
+            } else {
+               buf.WriteString("\n")
+            }
 
 }
 
