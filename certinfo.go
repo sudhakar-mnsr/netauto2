@@ -269,25 +269,35 @@ func CertificateText(cert *x509.Certificate) (string, error) {
 // the certificate request csr. The format is similar (but not identical)
 // to the OpenSSL way of printing certificates.
 func CertificateRequestText(csr *x509.CertificateRequest) (string, error) {
-var buf bytes.Buffer
-buf.Grow(4096)
-
-buf.WriteString(fmt.Sprintf("Certificate Request:\n"))
-buf.WriteString(fmt.Sprintf("%4sData:\n", ""))
-printVersion(csr.Version, &buf)
-
-// Subject information
-err := printSubjectInformation(&csr.Subject, csr.PublicKeyAlgorithm, csr.PublicKey, &buf)
-if err != nil {
-   return "", err
+   var buf bytes.Buffer
+   buf.Grow(4096)
+   
+   buf.WriteString(fmt.Sprintf("Certificate Request:\n"))
+   buf.WriteString(fmt.Sprintf("%4sData:\n", ""))
+   printVersion(csr.Version, &buf)
+   
+   // Subject information
+   err := printSubjectInformation(&csr.Subject, csr.PublicKeyAlgorithm, csr.PublicKey, &buf)
+   if err != nil {
+      return "", err
+   }
+   
+   // Optional extensions for X509v3
+   if csr.Version == 3 && len(csr.Extensions) > 0 {
+   buf.WriteString(fmt.Sprintf("%8sRequested Extensions:\n", ""))
+   var err error
+   for _, ext := range csr.Extensions {
+      if len(ext.Id) == 4 && ext.Id[0] == 2 && ext.Id[1] == 5 && ext.Id[2] == 29 {
+         switch ext.Id[3] {
+         case 14:
+            err = printSubjKeyId(ext, &buf)
+         case 17:
+            err = printSubjAltNames(ext, csr.DNSNames, csr.EmailAddresses, csr.IPAddresses, &buf)
+         }
+      }
+      if err != nil {
+         return "", err
+      }
+   }
+   buf.WriteString("\n")
 }
-
-// Optional extensions for X509v3
-if csr.Version == 3 && len(csr.Extensions) > 0 {
-buf.WriteString(fmt.Sprintf("%8sRequested Extensions:\n", ""))
-var err error
-for _, ext := range csr.Extensions {
-   if len(ext.Id) == 4 && ext.Id[0] == 2 && ext.Id[1] == 5 && ext.Id[2] == 29 {
-      switch ext.Id[3] {
-      case 14:
-      
