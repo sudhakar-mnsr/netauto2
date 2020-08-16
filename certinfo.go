@@ -244,3 +244,17 @@ func printSubjAltNames(ext pkix.Extension, dnsNames []string, emailAddresses []s
    }
    return nil 
 }
+
+func printSignature(sigAlgo x509.SignatureAlgorithm, sig []byte, buf *bytes.Buffer) {
+   buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s", "", sigAlgo))
+   for i, val := range sig {
+      if (i % 18) == 0 {
+         buf.WriteString(fmt.Sprintf("\n%9s", ""))
+      }
+      buf.WriteString(fmt.Sprintf("%02x", val))
+      if i != len(sig)-1 {
+         buf.WriteString(":")
+      }
+   }
+   buf.WriteString("\n")
+}
