@@ -264,3 +264,20 @@ func printSignature(sigAlgo x509.SignatureAlgorithm, sig []byte, buf *bytes.Buff
 // OpenSSL way of printing certificates.
 func CertificateText(cert *x509.Certificate) (string, error) {
 }
+
+// CertificateRequestText returns a human-readable string representation of 
+// the certificate request csr. The format is similar (but not identical)
+// to the OpenSSL way of printing certificates.
+func CertificateRequestText(csr *x509.CertificateRequest) (string, error) {
+var buf bytes.Buffer
+buf.Grow(4096)
+
+buf.WriteString(fmt.Sprintf("Certificate Request:\n"))
+buf.WriteString(fmt.Sprintf("%4sData:\n", ""))
+printVersion(csr.Version, &buf)
+
+// Subject information
+err := printSubjectInformation(&csr.Subject, csr.PublicKeyAlgorithm, csr.PublicKey, &buf)
+if err != nil {
+   return "", err
+}
