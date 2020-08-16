@@ -275,6 +275,18 @@ buf.WriteString(fmt.Sprintf("%4sSignature Algorithm: %s\n", "", cert.SignatureAl
 // Issuer information
 buf.WriteString(fmt.Sprintf("%8sIssuer: ", ""))
 printName(cert.Issuer.Names, &buf)
+
+// Validity information
+buf.WriteString(fmt.Sprintf("%8sValidity: ", ""))
+buf.WriteString(fmt.Sprintf("%12sNot Before: %s\n", "", cert.NotBefore.Format("Jan 2 15:04:05 2006 MST")))
+buf.WriteString(fmt.Sprintf("%12sNot After: %s\n", "", cert.NotAfter.Format(Jan 2 15:04:05 2006 MST")))
+
+// Subject information
+err := printSubjectInformation(&cert.Subject, cert.PublicKeyAlgorithm, cert.PublicKey, &buf)
+if err != nil {
+   return "", err
+}
+
   
 }
 
