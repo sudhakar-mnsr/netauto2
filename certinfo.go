@@ -281,3 +281,13 @@ err := printSubjectInformation(&csr.Subject, csr.PublicKeyAlgorithm, csr.PublicK
 if err != nil {
    return "", err
 }
+
+// Optional extensions for X509v3
+if csr.Version == 3 && len(csr.Extensions) > 0 {
+buf.WriteString(fmt.Sprintf("%8sRequested Extensions:\n", ""))
+var err error
+for _, ext := range csr.Extensions {
+   if len(ext.Id) == 4 && ext.Id[0] == 2 && ext.Id[1] == 5 && ext.Id[2] == 29 {
+      switch ext.Id[3] {
+      case 14:
+      
