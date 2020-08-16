@@ -333,6 +333,21 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
             if cert.KeyUsage&x509.KeyUsageKeyEncipherment > 0 {
                usages = append(usages, "Key Encipherment")
             }
+            if cert.KeyUsage&x509.KeyUsageKeyAgreement > 0 {
+               usages = append(usages, "Key Agreement")
+            }
+            if cert.KeyUsage&x509.KeyUsageCertSign > 0 {
+               usages = append(usages, "Certificate Sign")
+            }
+            if cert.KeyUsage&x509.KeyUsageCRLSign > 0 {
+               usages = append(usages, "CRL Sign")
+            }
+            if cert.KeyUsage&x509.KeyUsageEncipherOnly > 0 {
+               usages = append(usages, "Encipher Only")
+            }
+            if cert.KeyUsage&x509.KeyUsageDecipherOnly > 0 {
+               usages = append(usages, "Decipher Only")
+            }
 
 }
 
