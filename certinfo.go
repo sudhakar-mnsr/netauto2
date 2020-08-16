@@ -400,6 +400,23 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
                }
                buf.WriteString("\n")
             }
+         case 31:
+            // CRLDistributionPoints: RFC 5280, 4.2.1.13
+            // TODO: Currently crypto/x509 doesnot fully implement this sec
+            // including types and reason flags.
+            buf.WriteString(fmt.Sprintf("%12sX509v3 CRL Distribution Points:", ""))
+            if ext.Critical {
+               buf.WriteString(" critical\n")
+            } else {
+               buf.WriteString("\n")
+            } 
+            if len(cert.CRLDistributionPoints) > 0 {
+               buf.WriteString(fmt.Sprintf("\n%16sFull Name:\n%18sURI:%s", "", "", cert.CRLDistributionPoints[0]))
+               for i := 1; i < len(cert.CRLDistributionPoints); i++ {
+                  buf.WriteString(fmt.Sprintf(", URI:%s", cert.CRLDistributionPoints[i]))
+               }
+               buf.WriteString("\n\n")
+            }
 
 
 }
