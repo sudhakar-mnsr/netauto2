@@ -258,3 +258,9 @@ func printSignature(sigAlgo x509.SignatureAlgorithm, sig []byte, buf *bytes.Buff
    }
    buf.WriteString("\n")
 }
+
+// CertificateText returns a human-readable string representation of the 
+// certificate cert. The format is similar (but not identical) to the 
+// OpenSSL way of printing certificates.
+func CertificateText(cert *x509.Certificate) (string, error) {
+}
