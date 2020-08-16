@@ -417,6 +417,20 @@ if cert.Version == 3 && len(cert.Extensions) > 0 {
                }
                buf.WriteString("\n\n")
             }
+         case 32:
+            // certificatePoliciesExt: RFC 5280, 4.2.1.4
+            // TODO: Currently crypto/x509 doesnot fully implement this
+            // including the certification practice statement (CPS)
+            buf.WriteString(fmt.Sprintf("%12sX509v3 Certificate Policies:", ""))
+            if ext.Critical {
+               buf.WriteString(" critical\n")
+            } else {
+               buf.WriteString("\n")
+            } 
+            for _, val := range cert.PolicyIdentifiers {
+               buf.WriteString(fmt.Sprintf("%16sPolicy: %s\n", "", val.String()))
+            }
+
 
 
 }
