@@ -299,6 +299,32 @@ if len(issuerUID) > 0 {
    }
    buf.WriteString("\n")
 }
+if len(subjectUID) > 0 {
+   buf.WriteString(fmt.Sprintf("%8sSubject Unique ID: %02x", "", subjectUID[0]))
+   for i := 1; i < len(subjectUID); i++ {
+      buf.WriteString(fmt.Sprintf(":%02x", subjectUID[i]))
+   }
+   buf.WriteString("\n")
+}
+
+// Optional extensions for X509v3
+if cert.Version == 3 && len(cert.Extensions) > 0 {
+   buf.WriteString(fmt.Sprintf("%8sX509v3 extensions:\n", ""))
+   for _, ext := range cert.Extensions {
+      if len(ext.Id) == 4 && ext.Id[0] == 2 && ext.Id[1] == 5 && ext.Id[2] == 29 {
+         switch ext.Id[3] {
+         case 14:
+            err = printSubjKeyId(ext, &buf)
+         case 15:
+            // keyUsage: RFC 5280, 4.2.1.3
+            buf.WriteString(fmt.Sprintf("%12sX509v3 Key Usage:", ""))
+            if ext.Critical {
+               buf.WriteString(" critical\n"
+            } else {
+               buf.WriteString("\n")
+            }
+            usages := []string{}
+
 
 }
 
