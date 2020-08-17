@@ -11,13 +11,13 @@ import (
 
 func main() {
    // Read the key pair to create certificate
-   cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
+   cert, err := tls.LoadX509KeyPair("/tmp/certs/cert.pem", "/tmp/certs/key.pem")
    if err != nil {
       log.Fatal(err)
    }
    
    // Create a CA certificate pool and add cert.pem to it
-   caCert, err := ioutil.ReadFile("cert.pem")
+   caCert, err := ioutil.ReadFile("/tmp/certs/cert.pem")
    if err != nil {
       log.Fatal(err)
    }
