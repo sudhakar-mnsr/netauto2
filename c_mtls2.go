@@ -42,7 +42,7 @@ func main() {
    }
    
    // Read the response body
-   defer r.Body.CLose()
+   defer r.Body.Close()
    body, err := ioutil.ReadAll(r.Body)
    if err != nil {
       log.Fatal(err)
