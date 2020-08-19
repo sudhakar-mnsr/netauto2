@@ -45,3 +45,10 @@ func addrInfo(addr net.Addr) string {
    }
 
    var scope string
+   switch {
+   case ipAddr.IsLoopback():
+      scope = "loopback"
+   case ipAddr.IsGlobalUnicast():
+      scope = "global unicast"
+   case ipAddr.IsMulticast():
+      scope = "global multiunicast"
