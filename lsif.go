@@ -60,3 +60,7 @@ func addrInfo(addr net.Addr) string {
       scope = "interface multiunicast"
    case ipAddr.IsUnspecified():
       scope = "unspecified"
+   default:
+      scope = "unknown"
+   }
+
