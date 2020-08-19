@@ -64,3 +64,12 @@ func addrInfo(addr net.Addr) string {
       scope = "unknown"
    }
 
+   return fmt.Sprintf(
+      "%s network=%s addr=%s mask=%v scope=%s",
+      ipNet.Network(),
+      ipNet.IP.String(),
+      ipAddr.String(),
+      ipAddr.DefaultMask(),
+      scope,
+   }
+} 
