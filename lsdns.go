@@ -137,7 +137,7 @@ func main() {
          ls.hostLkp(host)
       }
    default:
-      fmt.Println("flag ip or host must be provided"
+      fmt.Println("flag ip or host must be provided")
       os.Exit(1)
    }
 }
