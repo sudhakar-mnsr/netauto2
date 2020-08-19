@@ -37,3 +37,11 @@ func main() {
       }
    }
 }
+
+func addrInfo(addr net.Addr) string {
+   ipAddr, ipNet, err := net.ParseCIDR(addr.String())
+   if err != nil {
+      return "unknown"
+   }
+
+   var scope string
