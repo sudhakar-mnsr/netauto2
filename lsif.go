@@ -52,3 +52,11 @@ func addrInfo(addr net.Addr) string {
       scope = "global unicast"
    case ipAddr.IsMulticast():
       scope = "global multiunicast"
+   case ipAddr.IsLinkLocalUnicast():
+      scope = "link local unicast"
+   case ipAddr.IsLinkLocalMulticast():
+      scope = "link local multicast"
+   case ipAddr.IsInterfaceLocalMulticast():
+      scope = "interface multiunicast"
+   case ipAddr.IsUnspecified():
+      scope = "unspecified"
