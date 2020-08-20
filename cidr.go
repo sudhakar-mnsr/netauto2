@@ -33,3 +33,10 @@ if err != nil {
    os.Exit(1)
 }
 
+// Given IPv4 block 192.168.100.14/24.
+// The followings uses IPNet to get:
+// - The routing address for the subnet - 192.168.100.0
+// - one-bits of the network mask 24 of 32 i.e 255.255.255.0
+// - Total hosts in the network 2^8
+// Wildcard the inverse of the subnet i.e 0.0.0.255
+// Max address of the subnet 192.168.100.255
