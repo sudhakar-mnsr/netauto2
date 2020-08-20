@@ -78,3 +78,11 @@ func lastIP(ip net.IP, mask net.IPMask) net.IP {
          return nil
       }
    }
+
+   var ipVal net.IP
+   // apply network mask to each octet
+   for i, octet := range ipIn {
+      ipVal = append(ipVal, octet|mask[i])
+   }
+   return ipVal
+}
