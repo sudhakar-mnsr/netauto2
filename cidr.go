@@ -66,3 +66,7 @@ func wildcard(mask net.IP) net.IP {
    }
    return ipVal
 }
+
+// lastIP calculates the highest addressable IP for the given subnet.
+// It loops through each octet of the subnets IP address and applies 
+// bitwise OR operation to each corresponding octet from mask
