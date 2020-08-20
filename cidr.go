@@ -57,3 +57,12 @@ func main() {
    fmt.Printf("Wildcard Mask:                  %s\n", wildcardIP)
    fmt.Println()
 }
+
+// wildcard returns the opposite of the netmask for the network
+func wildcard(mask net.IP) net.IP {
+   var ipVal net.IP
+   for _, octet := range mask {
+      ipVal = append(ipVal, ^octet)
+   }
+   return ipVal
+}
