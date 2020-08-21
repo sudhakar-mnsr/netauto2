@@ -90,8 +90,16 @@ func getTokenHandler(w http.ResponseWriter, r *http.Request) {
 }       
 
 func main() {
-r := mux.NewRouter()
-r.HandleFunc("/getToken", getTokenHandler)
-r.HandleFunc("/healthcheck", HealthcheckHandler)
-http.Handle("/", r)
-srv := &http.Server{
+   r := mux.NewRouter()
+   r.HandleFunc("/getToken", getTokenHandler)
+   r.HandleFunc("/healthcheck", HealthcheckHandler)
+   http.Handle("/", r)
+   srv := &http.Server{
+      Handler: r,
+      Addr: "127.0.0.1:8000"
+      // Good practice: enforce timeouts for servers you create!
+      writeTimeout: 15 * time.Second,
+      ReadTimeout: 15 * time.Second,
+   }
+   log.Fatal(srv.ListenAndServe())
+}  
