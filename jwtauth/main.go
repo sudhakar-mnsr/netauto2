@@ -88,3 +88,10 @@ func getTokenHandler(w http.ResponseWriter, r *http.Request) {
       return
    }
 }       
+
+func main() {
+r := mux.NewRouter()
+r.HandleFunc("/getToken", getTokenHandler)
+r.HandleFunc("/healthcheck", HealthcheckHandler)
+http.Handle("/", r)
+srv := &http.Server{
