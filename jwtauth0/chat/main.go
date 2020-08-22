@@ -3,6 +3,9 @@ package main
 import (
    "log"
    "net/http"
+   "text/template"
+   "path/filepath"
+   "sync"
 )
 
 func main() {
