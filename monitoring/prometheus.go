@@ -44,3 +44,13 @@ func MetricHandler(handlerFunc func(http.ResponseWriter, *http.Request)) http.Ha
       httpDurations.WithLabelValues(request.URL.Path, request.Method).Observe(float64(msElapsed))
    })
 }
+
+func main() {
+   helloWorld := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+      w.Header().Set("Content-Type", "text/plain")
+      w.Write([]byte("hello world"))
+   })
+   http.Handle("/", MetricHandler(helloWorld))
+   http.Handle("/metrics", promhttp.Handler())
+   log.Fatal(http.ListenAndServe(":8080", nil))
+}
