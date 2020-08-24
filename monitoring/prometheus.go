@@ -20,7 +20,8 @@ var (
    httpDurations = prometheus.NewSummaryVec(
                    prometheus.SummaryOpts{
                       Name: "http_request_durations_microseconds",
-                      Help: "HTTP request counts",
+                      Help: "HTTP request latency distributions.",
+                      Objectives: map[float64]float64{},
                    },
                    []string{"path", "method"},
    )
