@@ -22,3 +22,12 @@ func main() {
          log.Fatal(err)
       }
       defer stmt.Close()
+
+      res, err := stmt.Exec("GET /", 1, time.Now())
+      if err != nil || res == nil {
+         log.Fatal(err)
+      }
+
+      w.Header().Set("Content-Type", "application/json; charset=utf-8")
+      fmt.Fprintf(w, "{\"hello\": \"world\"}")
+   })
