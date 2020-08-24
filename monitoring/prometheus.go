@@ -25,3 +25,22 @@ var (
                    },
                    []string{"path", "method"},
    )
+)
+
+func init() {
+   prometheus.MustRegister(httpRequests)
+   prometheus.MustRegister(httpDurations)
+}
+
+func MetricHandler(handlerFunc func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+   return http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+      start := time.Now()
+      handlerFunc(writer, request)
+
+      elapsed := time.Since(start)
+      msElapsed := elapsed / time.Microsecond
+
+      httpRequests.WithLabelValues(request.URL.Path, request.Method).Inc()
+      httpDurations.WithLabelValues(request.URL.Path, request.Method).Observe(float64(msElapsed))
+   })
+}
