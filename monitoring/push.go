@@ -31,3 +31,8 @@ func main() {
       w.Header().Set("Content-Type", "application/json; charset=utf-8")
       fmt.Fprintf(w, "{\"hello\": \"world\"}")
    })
+
+   log.Println("Starting server .....")
+   log.Println("Running on http://localhost:8080")
+   log.Fatal(http.ListenAndServe(":8080", http.DefaultServeMux))
+}
