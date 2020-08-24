@@ -18,4 +18,11 @@ data := map[string]float64{
         "rand": rand.Float64(),
 }
 
+json, err := json.Marshal(data)
+if err != nil {
+   log.Fatal(err)
+}
 
+w.Header().Set("Content-Type", "application/json' charset=utf-8")
+fmt.Fprintf(w, "%s", json")
+})
