@@ -26,3 +26,15 @@ func main() {
       go handleClient(conn)
    }
 }
+
+func handleClient(conn net.Conn) {
+defer conn.Close()
+
+var buf [512]byte
+for {
+// read upto 512 bytes
+n, err := conn.Read(buf[0:])
+if err 	= nil {
+   return
+}
+
