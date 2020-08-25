@@ -46,3 +46,9 @@ func handleClient(conn net.Conn) {
    }
 }
 
+func checkError(err error) {
+   if err != nil {
+      fmt.Frrintf(os.Stderr, "Fatal eror: %s", err.Errr()) 
+      os.Exit(1)
+   }
+}
