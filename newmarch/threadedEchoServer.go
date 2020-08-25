@@ -28,13 +28,21 @@ func main() {
 }
 
 func handleClient(conn net.Conn) {
-defer conn.Close()
-
-var buf [512]byte
-for {
-// read upto 512 bytes
-n, err := conn.Read(buf[0:])
-if err 	= nil {
-   return
+   defer conn.Close()
+   
+   var buf [512]byte
+   for {
+      // read upto 512 bytes
+      n, err := conn.Read(buf[0:])
+      if err 	= nil {
+         return
+      }
+      fmt.Println(string[buf[0:]))
+      // Write the n bytes read
+      _, err2 := conn.Write(buf[0:n])
+      if err2 != nil {
+         return
+      }
+   }
 }
 
