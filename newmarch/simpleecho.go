@@ -40,3 +40,10 @@ func handleClient(conn net.Conn) {
       }
    }
 }
+
+func checkError(err error) {
+   if err != nil {
+      fmt.Fprintf(os.Stderr, "fatal error: err.Error())
+      os.Exit(1)
+   }
+}
