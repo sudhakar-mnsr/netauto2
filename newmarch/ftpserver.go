@@ -61,3 +61,18 @@ func chdir(conn net.Conn, s string) {
       conn.Write([]byte("ERROR"))
    }
 }
+
+func dirList(conn net.Conn) {
+// send a blank line on termination
+defer conn.Write([]byte("\r\n"))
+
+dir, err := os.Open(".")
+if err != nil {
+   return
+}
+
+names, err := dir.Readdirnames(-1)
+if err != nil {
+   return
+}
+
