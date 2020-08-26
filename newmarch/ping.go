@@ -1,5 +1,9 @@
 /* Ping
- */
+ Prepare an IP connection
+ Prepare ICMP echo command
+ Send a ping request to host
+ Get a reply
+*/
 package main
 
 import (
