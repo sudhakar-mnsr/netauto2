@@ -53,3 +53,11 @@ func handleClient(conn net.Conn) {
       }
    }
 }
+
+func chdir(conn net.Conn, s string) {
+   if os.Chdir(s) == nil {
+      conn.Write([]byte("OK"))
+   } else {
+      conn.Write([]byte("ERROR"))
+   }
+}
