@@ -31,3 +31,25 @@ func main() {
       go handleClient(conn)
    }
 }
+
+func handleClient(conn net.Conn) {
+   defer conn.Close()
+   var buf [512]byte
+   for {
+      n, err := conn.Read(buf[0:])
+      if err != nil {
+         conn.Close()
+         return
+      }
+      
+      s := string(buf[0:n])
+      // decode request
+      if s[0:2] == CD {
+         chdir(conn, s[3:])
+      } else if s[0:3] == DIR {
+         dirList(conn)
+      } else if s[0:3] == PWD {
+         pwd(conn)
+      }
+   }
+}
