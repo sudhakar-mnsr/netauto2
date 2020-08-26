@@ -37,3 +37,6 @@ if err != nil {
    os.Exit(1)
 }
 
+conn, err := net.DialIP("ip4:icmp", localAddr, remoteAddr)
+checkError(err)
+
