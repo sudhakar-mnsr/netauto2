@@ -16,7 +16,7 @@ import (
 )
 
 // set the IP address of your choise
-const myIPAddress = "192.168.1.2"
+const myIPAddress = "127.0.0.1"
 const ipv4HeaderSize = 20
 
 func main() {
@@ -57,7 +57,7 @@ func main() {
    msg[3] = byte(check & 255)
    
    // send the message
-   _, err = conn.Write(msg[0:len]
+   _, err = conn.Write(msg[0:len])
    checkError(err)
    
    fmt.Print("Message sent:   ")
