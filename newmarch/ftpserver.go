@@ -62,6 +62,15 @@ func chdir(conn net.Conn, s string) {
    }
 }
 
+func pwd(conn net.Conn) {
+   s, err := os.Getwd()
+   if err != nil {
+      conn.Write([]byte(""))
+      return
+   }
+   conn.Write([]byte(s))
+}
+
 func dirList(conn net.Conn) {
    // send a blank line on termination
    defer conn.Write([]byte("\r\n"))
