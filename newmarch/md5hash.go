@@ -1,5 +1,8 @@
-/* A hash has an io.Writer
-   you write data to be hashed to this writer
+/* Go has support for MD4, MD5, RIPEMD-160, SHA1, SHA224, SHA256
+   SHA384 and SHA512. All follow same pattern as below
+   A function new (or similar) returns hash object
+   hash has an io.Writer
+   write data to be hashed to this writer
    query the number of bytes in the hash value by Size
    query hash value by Sum
    MD5:
