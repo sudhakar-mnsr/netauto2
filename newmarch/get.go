@@ -14,19 +14,42 @@ import (
 )
 
 func main() {
-if len(os.Args) != 2 {
-   fmt.Println("Usage: ", os.Args[0], "host:port")
-   os.Exit(1)
-}
-url := os.Args[1]
-
-response, err := http.Get(url)
-if err != nil {
-   fmt.Println(err.Error())
-   os.Exit(2)
-}
-
-if response.Status != "200 OK" {
-   fmt.Println(response.Status)
-   os.Exit(2)
+   if len(os.Args) != 2 {
+      fmt.Println("Usage: ", os.Args[0], "host:port")
+      os.Exit(1)
+   }
+   url := os.Args[1]
+   
+   response, err := http.Get(url)
+   if err != nil {
+      fmt.Println(err.Error())
+      os.Exit(2)
+   }
+   
+   if response.Status != "200 OK" {
+      fmt.Println(response.Status)
+      os.Exit(2)
+   }
+   
+   fmt.Println("The response header is")
+   b, _ := httputil.DumpResponse(response, false)
+   fmt.Print(string(b))
+   
+   contentTypes := response.Header["Content-Type"]
+   if !acceptableCharset(contentTypes) {Arial
+      fmt.Println("Cannot handle", contentTypes)
+      os.Exit(4)
+   }
+   
+   fmt.Println("The response body is")
+   var buf [512]byte
+   reader := response.Body
+   for { 
+      n, err := reader.Read(buf[0:])
+      if err != nil {
+         os.Exit(0)
+      }
+      fmt.Print(string(buf[0:n]))
+   }
+   os.Exit(0)
 }
