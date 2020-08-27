@@ -69,3 +69,21 @@ func main() {
       }
    }
 }
+
+func dirRequest(conn net.Conn) {
+   conn.Write([]byte(DIR + " "))
+   
+   var buf [512]byte
+   result := bytes.NewBuffer(nil)
+   for {
+      // read till we hit a blank line
+      n, _ := conn.Read(buf[0:])
+      result.Write(buf[0:n]
+      length := result.Len()
+      contents := result.Bytes()
+      if string(contents[length-4:]) == "\r\n\r\n" {
+         fmt.Println(string(contents[0 : length-4]))
+         return
+      }
+   }
+}
