@@ -18,6 +18,9 @@ func main() {
    src := []byte("hello 16b block")
    
    var enc [16]byte
+   cipher.Encrypt(enc[0:], src)
+
+   var decrypt [16]byte
    cipher.Decrypt(decrypt[0:], enc[0:])
    result := bytes.NewBuffer(nil)
    result.Write(decrypt[0:])
