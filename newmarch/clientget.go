@@ -27,7 +27,9 @@ func main() {
    // only accept UTF-8
    request.Header.Add("Accept-Charset", "utf-8;q=1, ISO-8859-1;q=0")
    checkError(err)
-   
+
+   response, err := client.Do(request)
+   checkError(err)
    if response.Status != "200 OK" {
       fmt.Println(response.Status)
       os.Exit(2)
