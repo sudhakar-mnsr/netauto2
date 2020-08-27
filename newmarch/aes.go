@@ -15,7 +15,7 @@ func main() {
    if err != nil {
       fmt.Println(err.Error())
    }
-   src := []byte("hello 16b block")
+   src := []byte("hello 16 b block")
    
    var enc [16]byte
    cipher.Encrypt(enc[0:], src)
