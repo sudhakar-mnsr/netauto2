@@ -71,3 +71,10 @@ func getCharset(response *http.Response) string {
    chSet := strings.Trim(contentType[idx+8:], " ")
    return strings.ToLower(chSet)
 }
+
+func checkError(err error) {
+   if err != nil {
+      fmt.Println("Fatal error ", err.Error())
+      os.Exit(1)
+   }
+}
