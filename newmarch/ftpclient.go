@@ -97,3 +97,11 @@ func cdRequest(conn net.Conn, dir string) {
       fmt.Println("Failed to change dir")
    }
 }
+
+func pwdRequest(conn net.Conn) {
+   conn.Write([]byte(PWD))
+   var response [512]byte
+   n, _ := conn.Read(response[0:n])
+   s := string(response[0:n])
+   fmt.Println("Current dir \"" + s + "\"")
+}
