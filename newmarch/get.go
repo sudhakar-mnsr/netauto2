@@ -53,3 +53,14 @@ func main() {
    }
    os.Exit(0)
 }
+
+func acceptableCharset(contentTypes []string) bool {
+   // each type is like [text/html; charset=utf-8]
+   // we want the utf-8 only
+   for _, cType := range contentTypes {
+      if strings.Index(cType, "utf-8") != -1 {
+         return true
+      }
+   }
+   return false
+}
