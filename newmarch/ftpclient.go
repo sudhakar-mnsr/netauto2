@@ -54,7 +54,7 @@ func main() {
          dirRequest(conn)
       case uiCd:
          if len(strs) != 2 {
-            fmt.Println("cd <dir>)
+            fmt.Println("cd <dir>")
             continue
          }
          fmt.Println("CD \"",strs[1], "\"")
@@ -78,7 +78,7 @@ func dirRequest(conn net.Conn) {
    for {
       // read till we hit a blank line
       n, _ := conn.Read(buf[0:])
-      result.Write(buf[0:n]
+      result.Write(buf[0:n])
       length := result.Len()
       contents := result.Bytes()
       if string(contents[length-4:]) == "\r\n\r\n" {
