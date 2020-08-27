@@ -10,11 +10,16 @@ import (
 )
 
 func main() {
-key := []byte("my key, len 16 b")
-cipher, err := aes.NewCipher(key)
-if err != nil {
-   fmt.Println(err.Error())
+   key := []byte("my key, len 16 b")
+   cipher, err := aes.NewCipher(key)
+   if err != nil {
+      fmt.Println(err.Error())
+   }
+   src := []byte("hello 16b block")
+   
+   var enc [16]byte
+   cipher.Decrypt(decrypt[0:], enc[0:])
+   result := bytes.NewBuffer(nil)
+   result.Write(decrypt[0:])
+   fmt.Println(string(result.Bytes()))
 }
-src := []byte("hello 16b block")
-
-
