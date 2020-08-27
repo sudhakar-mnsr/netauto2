@@ -87,3 +87,13 @@ func dirRequest(conn net.Conn) {
       }
    }
 }
+
+func cdRequest(conn net.Conn, dir string) {
+   conn.Write([]byte(CD + " " + dir))
+   var response [512]byte
+   n, _ := conn.Read(response[0:])
+   s := string(response[0:n])
+   if s != "OK" {
+      fmt.Println("Failed to change dir")
+   }
+}
