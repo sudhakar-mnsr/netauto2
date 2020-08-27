@@ -24,3 +24,14 @@ checkError(err)
 rawURL := os.Args[2]
 url, err := url.Parse(rawURL)
 checkError(err)
+
+transport := &http.Transport(Proxy: http.ProxyURL(proxyURL))
+client := &http.Client(Transport: transport)
+
+request, err := http.NewRequest("GET", url.String(), nil)
+
+urlp, _ := transport.Proxy(request)
+fmt.Println("Proxy ", urlp)
+dump, _ := httputil.DumpRequest(request, false)
+fmt.Println(string(dump))
+
