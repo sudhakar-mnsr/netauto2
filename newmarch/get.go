@@ -36,7 +36,7 @@ func main() {
    fmt.Print(string(b))
    
    contentTypes := response.Header["Content-Type"]
-   if !acceptableCharset(contentTypes) {Arial
+   if !acceptableCharset(contentTypes) {
       fmt.Println("Cannot handle", contentTypes)
       os.Exit(4)
    }
