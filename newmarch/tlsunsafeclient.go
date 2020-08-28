@@ -37,3 +37,24 @@ client := &http.Client{Transport: transport}
 request, err := http.NewRequest("GET", url.String(), nil)
 // only accept UTF-8
 checkError(err)
+
+response, err := client.Do(request)
+checkError(err)
+
+if response.Status != "200 OK" {
+   fmt.Println(response.Status)
+   os.Exit(2)
+}
+fmt.Println("get a response")
+
+chSet := getCharset(response)
+fmt.Printf("got charset %s\n", chSet)
+if chSet != "UTF-8" {
+   fmt.Println("Cannot handle", chSet)
+   os.Exit(4)
+}
+
+var buf [512]byte
+reader := response.Body
+fmt.Println("got body")
+
