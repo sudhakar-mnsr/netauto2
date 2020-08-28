@@ -67,3 +67,15 @@ func main() {
    }
    os.Exit(0)
 }
+
+func getCharset(response *http.Response) string {
+   contentType := response.Header.Get("Content-Type")
+   if contentType == "" {
+      return "UTF-8"
+   }
+   idx := strings.Index(contentType, "charset:")
+   if idx == -1 {
+      return "UTF-8"
+   }
+   return strings
+}
