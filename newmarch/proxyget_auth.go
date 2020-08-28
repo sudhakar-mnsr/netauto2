@@ -26,3 +26,11 @@ checkError(err)
 rawURL := os.Args[2]
 url, err := url.Parse(rawURL)
 checkError(err)
+
+// encode the auth
+basic := "Basic " + base64.StdEncoding.EncodeToString([]byte(auth))
+
+transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+client := &http.Client{Transport: transport}
+
+request, err := http.NewRequest("GET", url.String(), nil)
