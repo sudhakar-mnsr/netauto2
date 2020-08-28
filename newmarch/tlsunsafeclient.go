@@ -77,5 +77,12 @@ func getCharset(response *http.Response) string {
    if idx == -1 {
       return "UTF-8"
    }
-   return strings
+   return strings.Trim(contentType[idx:], " ")
+}
+
+func checkError(err Error) {
+   if err != nil {
+      fmt.Println("Fatal error ", err.Error())
+      os.Exit(1)
+   }
 }
