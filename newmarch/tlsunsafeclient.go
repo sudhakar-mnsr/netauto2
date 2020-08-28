@@ -17,3 +17,23 @@ import (
    "crypto/tls"
 )
 
+func main() {
+if len(os.Args) != 2 {
+   fmt.Println("Usage: ", os.Args[0], "https://host:port/page")
+   os.Exit(1)
+}
+url, err := url.Parse(os.Args[1])
+checkError(err)
+
+if url.Scheme != "https" {
+   fmt.Println("Not https scheme ", url.Scheme)
+   os.Exit(1)
+}
+
+transport := &http.Transport{}
+transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+client := &http.Client{Transport: transport}
+
+request, err := http.NewRequest("GET", url.String(), nil)
+// only accept UTF-8
+checkError(err)
