@@ -35,3 +35,16 @@ fmt.Println("Proxy ", urlp)
 dump, _ := httputil.DumpRequest(request, false)
 fmt.Println(string(dump))
 
+response, err := client.Do(request)
+
+checkError(err)
+fmt.Println("Read ok")
+
+if response.Status != "200 OK" {
+   fmt.Println(response.Status)
+   os.Exit(2)
+}
+fmt.Println("Response ok")
+
+var buf [512]byte
+reader := response.Body
