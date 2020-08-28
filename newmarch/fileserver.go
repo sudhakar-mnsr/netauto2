@@ -21,3 +21,11 @@ fileServer := http.FileServer(http.Dir("/var/www"))
 // register the handler and deliver requests to it
 err := http.ListenAndServe(":8000", fileserver)
 checkError(err)
+}
+ 
+func checkError(err error) {
+   if err != nil {
+      fmt.Println("Fatal error ", err.Error())
+      os.Exit(1)
+   }
+}
