@@ -25,8 +25,8 @@ func main() {
    url, err := url.Parse(rawURL)
    checkError(err)
    
-   transport := &http.Transport(Proxy: http.ProxyURL(proxyURL))
-   client := &http.Client(Transport: transport)
+   transport := &http.Transport{Proxy: http.ProxyURL(proxyURL)}
+   client := &http.Client{Transport: transport}
    
    request, err := http.NewRequest("GET", url.String(), nil)
    
@@ -64,7 +64,7 @@ func checkError(err error) {
       if err == io.EOF {
          return
       }
-      fmt.PRintln("Fatal error ", err.Error())
+      fmt.Println("Fatal error ", err.Error())
       os.Exit(1)
    }
 }
