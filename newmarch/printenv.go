@@ -11,7 +11,7 @@ import (
 func main() {
    // file handler for most files
    fileServer := http.FileServer(http.Dir("/var/www"))
-   http.Handle("?", fileserver)
+   http.Handle("/", fileServer)
    
    // function handler for /cgi-bin/printenv
    http.HandleFunc("/cgi-bin/printenv", printEnv)
