@@ -69,3 +69,24 @@ func manageFlashCards(rw http.ResponseWriter, req *http.Request) {
       listWords(rw, cardname)
    }
 }
+
+func showFlashCards(rw http.ResponseWriter, cardname, order, half string) {
+fmt.Println("Loading card name", cardname)
+cards := new(flashcards.FlashCards)
+flashcards.LoadJSON(cardname, &cards)
+if order == "sequential" {
+   cards.CardOrder = "SEQUENTIAL"
+} else {
+   cards.CardOrder = "RANDOM"
+}
+fmt.Println("half is", half)
+if half == "Random" {
+   cards.ShowHalf = "RANDOM_HALF"
+} else if half == "English" {
+   cards.ShowHalf = "ENGLISH_HALF"
+} else {
+   cards.ShowHalf = "CHINESE_HALF"
+}
+fmt.Println("loaded cards", len(cards.Cards))
+fmt.Println("Card name", cards.Name)
+
