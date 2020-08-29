@@ -46,3 +46,26 @@ func listFlashCards(rw http.ResponseWriter, req *http.Request) {
    }
    t.Execute(rw, flashCardNames)
 }
+
+/* 
+ * Called from ListFlashcards.html on form submission
+ */
+func manageFlashCards(rw http.ResponseWriter, req *http.Request) {
+   set := req.FormValue("flashcardSets")
+   order := req.FormValue("order")
+   action := req.FormValue("submit")
+   half := req.FormValue("half")
+   fmt.Println("set chosen is", set)
+   fmt.Println("order is", order)
+   fmt.Println("action is", action)
+   fmt.Println("half is", half)
+   
+   cardname := "flashcardSets/" + set
+   
+   fmt.Println("cardname", cardname, "action", action)
+   if action == "Show cards in set" {
+      showFlashCards(rw, cardname, order, half)
+   } else if action == "List words in set" {
+      listWords(rw, cardname)
+   }
+}
