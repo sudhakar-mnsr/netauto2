@@ -12,3 +12,9 @@ import (
    "fmt"
    "os"
 )
+
+func main() {
+reader := rand.Reader
+bitSize := 512
+key, err := rsa.GenerateKey(reader, bitSize)
+checkError(err)
