@@ -15,4 +15,11 @@ import (
    "os"
 )
 
+func main() {
+// deliver files from the directory /var/www
+fileServer := http.FileServer(http.Dir("/var/www"))
 
+// register the handler and deliver requests to it
+err := http.ListenAndServeTLS(":8000", "jan.mewmarch.name.pem", "private.pem", fileServer)
+checkError(err)
+}
