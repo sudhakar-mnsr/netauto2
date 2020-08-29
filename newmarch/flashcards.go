@@ -105,3 +105,30 @@ func showFlashCards(rw http.ResponseWriter, cardname, order, half string) {
       return
    }
 }
+
+func listWords(rw http.ResponseWriter, cardname string) {
+   fmt.Println("Loading card name", cardname)
+   cards := new(flashcards.FlashCards)
+   flashcards.LoadJSON(cardname, cards)
+   fmt.Println("loaded cards", len(cards.Cards))
+   fmt.Println("card name", cards.Name)
+   
+   t := template.New("ListWords.html")
+   
+   t = t.Funcs(template.FuncMap("pinyin": templatefunc.PinyinFormatter})
+   t, er := t.ParseFiles("html/listWords.html")
+   
+   if err != nil {
+      fmt.Println("Parse error " + err.Error()}
+      http.Error(rw, err.Error(), http.StatusInternalServerError)
+      return
+   }
+   err = t.Execute(rw, cards)
+   if err != nil {
+      fmt.Println("Execute error" + err.Error())
+      http.Error(rw, err.Error(), http.StatusInternalServerError)
+      return
+   }
+   fmt.Println("No error")
+}
+
