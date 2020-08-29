@@ -40,3 +40,14 @@ func saveGobKey(fileName string, key interface{}) {
    checkError(err)
    outFile.Close()
 }
+
+func savePEMKey(fileName string, key *rsa.PrivateKey) {
+   outFile, err := os.Create(fileName)
+   checkError(err)
+   
+   var privateKey = &pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(key)}
+   
+   pem.Encode(outFile, privateKey)
+   
+   outFile.Close()
+}
