@@ -36,3 +36,13 @@ func main() {
    err := http.ListenAndServe(port, nil)
    checkError(err)
 }
+
+func listFlashCards(rw http.ResponseWriter, req *http.Request) {
+   flashCardsNames := flashcards.ListFlashCardsNames()
+   t, err := template.ParseFiles("html/ListFlashcards.html")
+   if err != nil {
+      http.Error(rw, err.Error(), http.StatusInternalServerError)
+      return
+   }
+   t.Execute(rw, flashCardNames)
+}
