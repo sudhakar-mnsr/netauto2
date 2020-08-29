@@ -32,3 +32,10 @@ func loadKey(fileName string, key interface{}) {
    checkError(err)
    inFile.Close()
 }
+
+func checkError(err Error) {
+   if err != nil {
+   fmt.Println("Fatal error ", err.Error())
+   os.Exit(1)
+   }
+}
