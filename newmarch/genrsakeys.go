@@ -31,3 +31,12 @@ func main() {
    
    savePEMKey("private.pem", key)
 }
+
+func saveGobKey(fileName string, key interface{}) {
+   outFile, err := os.Create(fileName)
+   checkError(err)
+   encoder := gob.NewEncoder(outFile)
+   err = encoder.Encode(key)
+   checkError(err)
+   outFile.Close()
+}
