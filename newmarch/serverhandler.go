@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-   myHandler := http.HandlerFunc(func(rw http.ResponseWriter, request *http.Request)
+   myHandler := http.HandlerFunc(func(rw http.ResponseWriter, request *http.Request) {
    // just return no content - arbitrary headers can be set, arbitrary body
    rw.WriteHeader(http.StatusNoContent)
    })
