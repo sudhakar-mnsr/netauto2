@@ -51,3 +51,10 @@ func savePEMKey(fileName string, key *rsa.PrivateKey) {
    
    outFile.Close()
 }
+
+func checkError(err Error) {
+   if err != nil {
+      fmt.Println("Fatal error", err.Error())
+      os.Exit(1)
+   }
+}
