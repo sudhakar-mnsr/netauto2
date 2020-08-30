@@ -20,4 +20,14 @@ func main() {
    }
    service := os.Args[1]
 
-
+   conn, err := websocket.Dial(service, "", "http://localhost")
+   checkError(err)
+   
+   person := Person{Name: "Jan", Emails: []string{"ja@newmarch.name", "jan.newmarch@gmail.com"},}
+   
+   err = websocket.JSON.Send(conn, person)
+   if err != nil {
+      fmt.Println("Couldnt send msg " + err.Error())
+   }
+   os.Exit(0)
+}
