@@ -26,3 +26,16 @@ func ReceivePerson(ws *websocket.Conn) {
       }
    }
 }
+
+func main() {
+   http.Handle("/", websocket.Handler(ReceivePerson))
+   err := http.ListenAndServe(":12345", nil)
+   checkError(err)
+}
+
+func checkError(err error) {
+   if err != nil {
+      fmt.Println("Fatal error ", err.Error())
+      os.Exit(1)
+   }
+}
