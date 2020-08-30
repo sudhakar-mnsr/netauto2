@@ -4,7 +4,7 @@ package main
 
 import (
    "fmt"
-   "glang.org/x/net/websocket"
+   "golang.org/x/net/websocket"
    "io"
    "os"
 )
@@ -20,7 +20,7 @@ func main() {
    checkError(err)
    var msg string
    for {
-      err := websocket.Message
+      err := websocket.Message.Receive(conn, &msg)
       if err != nil {
          if err == io.EOF {
             break
