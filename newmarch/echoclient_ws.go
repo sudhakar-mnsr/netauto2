@@ -15,3 +15,16 @@ if len(os.Args) != 2 {
    os.Exit(1)
 }
 service := os.Args[1]
+
+conn, err := websocket.Dial(service, "", "http://localhost:12345")
+checkError(err)
+var msg string
+for {
+err := websocket.Message
+if err != nil {
+   if err == io.EOF {
+      break
+   }
+   fmt.Println("Couldnt receive msg " + err.Error())
+   break
+}
