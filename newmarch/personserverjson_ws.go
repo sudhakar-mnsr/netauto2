@@ -15,4 +15,14 @@ type Person struct {
 }
 
 func ReceivePerson(ws *websocket.Conn) {
-var person Person
+   var person Person
+   err := websocket.JSON.Receive(ws, &person)
+   if err != nil {
+      fmt.Println("Cant receive")
+   } else {
+      fmt.Println("Name: " + person.Name)
+      for _, e := range person.Emails {
+         fmt.Println("An email: " + e)
+      }
+   }
+}
