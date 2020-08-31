@@ -14,7 +14,7 @@ import (
 
 var ROOT_DIR = "/home/httpd/html/golang-hidden/websockets"
 
-func GetTemp(ws *websocket.Conn) {
+func GetDate(ws *websocket.Conn) {
    for {
       msg, _ := exec.Command("date").Output()
       fmt.Println("Sending to client: " + string(msg[:]))
@@ -42,4 +42,11 @@ func main() {
    err := http.ListenAndServer)
    err := http.ListenAndServe(":12345", nil)
    checkError(err)
+}
+
+func checkError(err error) {
+   if err != nil {
+      fmt.Println("Fatal error ", err.Error())
+      os.Exit(1)
+   }
 }
