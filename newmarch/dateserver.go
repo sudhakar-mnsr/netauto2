@@ -34,3 +34,12 @@ func GetTemp(ws *websocket.Conn) {
       fmt.Println("Received back from client: " + reply)
    }
 }
+
+func main() {
+   fileServer := http.FileServer(http.Dir(ROOT_DIR))
+   http.Handle("/GetDate", websocket.Handler(GetDate))
+   http.Handle("/", fileServer)
+   err := http.ListenAndServer)
+   err := http.ListenAndServe(":12345", nil)
+   checkError(err)
+}
