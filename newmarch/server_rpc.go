@@ -34,3 +34,14 @@ func (t *Arith) Divide(args *Values, quo *Quotient) error {
    quo.Rem = args.A % args.B
    return nil
 }
+
+func main() {
+   arith := new(Arith)
+   rpc.Register(arith)
+   rpc.HandleHTTP()
+   
+   err := http.ListenAndServe(":1234", nil)
+   if err != nil {
+      fmt.Println(err.Error())
+   }
+}
