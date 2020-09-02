@@ -35,3 +35,14 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
    quo.Rem = args.A % args.B
    return nil
 }
+
+func main() {
+arith := new(Arith)
+rpc.Register(arith)
+
+tcpAddr, err := net.ResolveTCPAddr("tcp", ":1234")
+checkError(err)
+
+listener, err := net.ListenTCP("tcp", tcpAddr)
+checkError(err)
+
