@@ -10,3 +10,11 @@
 #The plan is to fake HQ network as 192.168.10.0/24 (database 192.168.10.60)
 #Remote network to be faked as 192.168.20.0/24 (database 192.168.20.60)
 
+#On Router 2
+iptunnel add vpn1 mode gre remote 1.2.8.1 local 1.2.7.1 key 8132912
+ifconfig vpn1 10.10.10.1 pointopoint 10.10.10.2 netmask 255.255.255.252
+
+#On Router 2
+iptunnel add vpn1 mode gre remote 1.2.7.1 local 1.2.8.1 key 8132912
+ifconfig vpn1 10.10.10.2 pointopoint 10.10.10.1 netmask 255.255.255.252
+
