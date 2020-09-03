@@ -31,3 +31,7 @@ iptables t nat A POSTROUTING s 192.168.1.60 d 192.168.20.60 j SNAT -to 192.168.1
 
 #map IP of 192.168.1.60 to 192.168.20.60 (Remote)
 
+ifconfig eth1:0 192.168.20.1 netmask 255.255.255.0
+route add 192.168.10.0 netmask 255.255.255.0 gw 10.10.10.1
+iptables t nat A POSTROUTING s 192.168.1.60 d 192.168.10.60 j SNAT -to 192.168.20.60
+iptables t nat A PREROUTING d 192.168.20.60 j DNAT -to 192.168.1.60
