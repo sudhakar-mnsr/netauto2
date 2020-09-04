@@ -8,3 +8,11 @@ $IPT -t nat -F
 $IPT -t nat -A POSTROUTING -o eth0 -s 192.168.1.0/24 -p --dport 53 -j SNAT --to 1.1.2.96-1.1.2.254
 #Transparent Proxy for sales and accounting
 $IPT -t nat -A PREROUTING -s 192.168.1.0/24 -p tcp --dport 80 -j REDIRECT --to-port 3128
+#SNAT Sales and accounting for HTTPS
+$IPT -t nat -A POSTROUTING -o eth0 -s 192.168.1.0/24 -p tcp --dport 443 -j SNAT --to 1.1.2.96-1.1.2.254
+#Drop everything else from sales and accounting to the internet
+$IPT -t nat -A POSTROUTING -o eth0 -s 192.168.1.0/24 -j DROP
+#Transparent Proxy for management
+$IPT -t nat -A PREROUTING -s 1.1.2.64/27 -p tcp --dport 80 -j REDIRECT --to-port 3128
+#####################END the NAT table operations ##############
+
