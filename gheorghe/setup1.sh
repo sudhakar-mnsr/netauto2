@@ -26,4 +26,14 @@ $IPT -N MANAGEMENT
 #add authorized IPs to the MANAGEMENT chain, drop all the others
 $IPT -A MANAGEMENT -s 1.1.2.0/26 -j ACCEPT
 $IPT -A MANAGEMENT -s 1.1.3.192 -j ACCEPT
-
+$IPT -A MANAGEMENT -s 1.1.9.21 -j ACCEPT
+$IPT -A MANAGEMENT -s 1.1.19.61 -j ACCEPT
+$IPT -A MANAGEMENT -s 0/0 -j DROP
+#Jump incoming packets for port 61146 TCP to the MANAGEMENT chain
+$IPT -A INPUT -p tcp --dport 61146 -j MANAGEMENT
+#Jump packets destined to 1.1.2.2 port 61146 TCP to the MANAGEMENT chain
+$IPT -A FORWARD -d 1.1.2.2 -p tcp --dport 61146 -j MANAGEMENT
+#drop samba (netbios and ms-ds)
+$IPT -A INPUT -i eth0 -p tcp --dport 137:139 -j DROP
+$IPT -A INPUT -i eth0 -p udp --dport 137:139 -j DROP
+$IPT -A INPUT -i eth0 -p udp --dport 445 -j DROP
