@@ -10,3 +10,7 @@ iptables -I FORWARD -m layer7 --l7proto directconnect
 iptables -I FORWARD -m layer7 --l7proto bittorrent
 iptables -I FORWARD -m layer7 --l7proto edonkey
 
+#IPP2P filtering
+iptables -I FORWARD -m ipp2p --dc
+iptables -I FORWARD -m ipp2p --bit
+iptables -I FORWARD -m ipp2p --edk
