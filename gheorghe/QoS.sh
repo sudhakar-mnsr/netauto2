@@ -22,3 +22,9 @@ tc class add dev eth2 parent 20:1 classid 20:10 cbq bandwidth 100Mbit rate \
 tc class add dev eth2 parent 20:10 classid 20:100 cbq bandwidth 100Mbit rate \
 512Kbit allot 1514 weight 64Kbit prio 5 maxburst 20avpkt 100 bounded
 tc qdisc add dev eth2 parent 20:100 sfq quantum 1514b perturb 15
+tc filter add dev eth2 parent 20:0 protocol ip prio 5 handle 5 fw flowid 20:100
+#other traffic to executive dep
+tc class add dev eth2 parent 20:10 classid 20:200 cbq bandwidth 100Mbit rate \
+1536Kbit allot 1514 weight 192Kbit prio 5 maxburst 20 avpkg 1000
+tc qdisc add dev eth2 parent 20:200 sfq quantum 1514b perturb 15
+tc filter add dev eth2 parent 20:0 protocol ip prio 5 u32 match ip dst 1.1.2.64/27 flowid
