@@ -15,4 +15,15 @@ $IPT -t nat -A POSTROUTING -o eth0 -s 192.168.1.0/24 -j DROP
 #Transparent Proxy for management
 $IPT -t nat -A PREROUTING -s 1.1.2.64/27 -p tcp --dport 80 -j REDIRECT --to-port 3128
 #####################END the NAT table operations ##############
+#Flush netfilter table
+$IPT -F
+#allow packets on the loopback interface
+$IPT -A INPUT -i lo -J ACCEPT
+#delete MANAGEMENT chain if exists
+$IPT -X MANAGEMENT
+#create MANAGEMENT chain
+$IPT -N MANAGEMENT
+#add authorized IPs to the MANAGEMENT chain, drop all the others
+$IPT -A MANAGEMENT -s 1.1.2.0/26 -j ACCEPT
+$IPT -A MANAGEMENT -s 1.1.3.192 -j ACCEPT
 
