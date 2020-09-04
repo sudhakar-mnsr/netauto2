@@ -39,3 +39,8 @@ tc class add dev eth1 parent 10:1 classid 10:100 cbq bandwidth 100Mbit rate \
 1Mbit allot 1514 weight 128Kbit prio 5 maxburst 20 avpkt 1000 bounded
 tc qdisc add dev eth1 parent 10:100 sfq quantum 1514b perturb 15
 tc filter add dev eth1 parent 10:0 protocol ip prio 5 u32 match ip dst 1.1.2.2 flowid 10:
+#create the 2Mbps class for the IT dep
+tc class add dev eth1 parent 10:1 classid 10:200 cbq bandwidth 100Mbit rate
+2Mbit allot 1514 weight 256Kbit prio 5 maxburst 20 avpkt 1000 bounded
+tc qdisk add dev eth1 parent 10:200 sfq quantum 1514b perturb 15
+tc filter add dev eth1 parent 10:0 protocol ip prio 5 u32 match ip dst 1.1.2.2 flowid 10:200
