@@ -37,3 +37,23 @@ $IPT -A FORWARD -d 1.1.2.2 -p tcp --dport 61146 -j MANAGEMENT
 $IPT -A INPUT -i eth0 -p tcp --dport 137:139 -j DROP
 $IPT -A INPUT -i eth0 -p udp --dport 137:139 -j DROP
 $IPT -A INPUT -i eth0 -p udp --dport 445 -j DROP
+#deny access to the intranet web server
+$IPT -A INPUT -i eth0 -p tcp --dport 80 -j DROP
+#filter the PostgreSQL port
+$IPT -A INPUT -p tcp --dport 5432 -j DROP
+#drop incoming TCP SYN packets
+$IPT -A INPUT -i eth0 -p tcp --syn -j DROP
+#allow http, pop3, smtp for the web and mail server
+$IPT -A FORWARD -d 1.1.2.2 -p tcp -m multiport --dport 80,25,110 -j ACCEPT
+#drop all other tcp traffic for the web and mail server
+$IPT -A FORWARD -d 1.1.2.2 -p tcp --syn -j DROP
+#Drop netbios and ms-ds for the managers
+$IPT -A FORWARD -d 1.1.2.64/27 -p tcp --dport 137:139 -j DROP
+$IPT -A FORWARD -d 1.1.2.64/27 -p udp --dport 137:139 -j DROP
+$IPT -A FORWARD -d 1.1.2.64/27 -p tcp --dport 445 -j DROP
+#Flush the mangle table
+$IPT -t mangle -F
+#Mark packets belonging to dc++ and bittorrent
+$IPT -t mangle -A POSTROUTING -o eth2 -m layer7 --l7proto bittorrent -j MARK --set-mark 5
+$IPT -t mangle -A POSTROUTING -o eth2 -m layer7 --l7proto directconnect -j MARK --set-mark 5
+
