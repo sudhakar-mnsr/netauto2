@@ -1,4 +1,8 @@
 #For Headquarters we setup network interfaces and GRE encryption tunnel
+#Copying the below content into /etc/network/interfaces of HQ router and -
+#restart network, you will have five logical interfaces as below:
+#eth0, eth1, sitea, siteb, sitec
+
 #eth0 ISP interface
 auto eth0
 iface eth0 inet static
