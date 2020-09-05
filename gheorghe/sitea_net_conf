@@ -1,4 +1,5 @@
 #The router at sitea need special configuration, because it only has metro access and no internet access. Therefore it needs to have default route as IP address of the HQ router.
+#When bringing the interface eth0 no default route is set. In order to setup the tunnel we need route to the IP of HQ router via providers directly connected IP address
 #eth0 ISP interface
 company with remote locations rounter on site A, configuring 
 auto eth0
@@ -17,10 +18,14 @@ network 192.168.2.0
 broadcast 192.168.2.255
 
 #tunnel to HeadQuarters
+#After bringing up the tunnel between site A and HQ we add the default route via 10.100.100.1 which is IP address of HQ router tunnel interface
 auto hq
 iface hq inet static
 address 10.100.100.2
 netmask 255.255.255.252
 network 10.100.100.0
 broadcast 10.100.100.3
-
+pre-up /sbin/modprobe ip_gre
+pre-up /sbin/iptunnel add hq mode gre local 10.10.12.1 remote 1.1.1.1 key 111111 dev 
+up /sbin/route add default gw 10.100.100.1
+post-down /sbin/iptunnel del hq
