@@ -1,8 +1,9 @@
 #The router at sitea need special configuration, because it only has metro access and no internet access. Therefore it needs to have default route as IP address of the HQ router.
 #eth0 ISP interface
-company with remote locations rounter on site A, configuring auto eth0
+company with remote locations rounter on site A, configuring 
+auto eth0
 iface eth0 inet static
-address 10,10,12.1
+address 10.10.12.1
 netmask 255.255.255.252
 network 10.10.12.0
 broadcast 10.10.12.3
