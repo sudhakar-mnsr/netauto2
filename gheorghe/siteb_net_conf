@@ -29,5 +29,5 @@ network 10.100.200.0
 broadcast 10.100.200.3
 pre-up /sbin/modprobe ip_gre
 pre-up /sbin/iptunnel add sitehq mode gre local 1.1.2.1 remote 1.1.1.1 key 222222 dev eth0
-up /sbin/route add net 192.168.1.0/24 gw 10.100.200.1
+up /sbin/route add net 192.168.1.0/24 gw 10.100.200.2
 post-down /sbin/iptunnel del siteb
