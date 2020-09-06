@@ -97,4 +97,15 @@ for ($i=0; $i<=$#add2dgp; $i++) {
 $key = $add2bgp[$i];
 $ok = $session->cmd(String => "access-list flood permit $key/32 exact-match",
 Timeout => 20,
-Prompt => '/bgpd\(config\)[\$#>]/'
+Prompt => '/bgpd\(config\)[\$#>]/');
+$ok = $session->cmd(String => "router bgp 65000",
+Timeout => 20,
+Prompt => '/bgpd\(config\-router\)[\$#>]/');
+$ok = $session->cmd(String => "network $key/32",
+Timeout => 20,
+Prompt => '/bgpd\(config\-router\)[\$#>]/');
+
+$ok = $session->cmd(String => "exit"
+Timeout => 20,
+Prompt => '/bgpd\(config\-router\)[\$#>]/');
+
