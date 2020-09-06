@@ -105,7 +105,17 @@ $ok = $session->cmd(String => "network $key/32",
 Timeout => 20,
 Prompt => '/bgpd\(config\-router\)[\$#>]/');
 
-$ok = $session->cmd(String => "exit"
+$ok = $session->cmd(String => "exit",
 Timeout => 20,
-Prompt => '/bgpd\(config\-router\)[\$#>]/');
+Prompt => '/bgpd[\$#>]/');
+$ok = $session->cmd(String => "clear ip bgp $bgp_peer out",
+Timeout => 20,
+Prompt => '/bgpd[\$#>]/');
+$ok = $session->cmd(String => "wr me",
+Timeout => 20,
+Prompt => '/bgpd[\$#>]/');
 
+$ok = $session->cmd(String => "exit",
+Timeout => 20);
+$session->close();
+};
