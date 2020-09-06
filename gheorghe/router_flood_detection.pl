@@ -26,4 +26,16 @@ my $err;
 my %count;
 my $filter = '';
 local $dumper;
-
+$pcap = Net::Pcap::open_live($dev, $snap_length, $promisc, $to_ms, \$err);
+$pcap || die "Cant create packet decscriptor. Error was $err";
+if ( Net::Pcap::compile($pcap, \$filter, $filter_str, $optimize, $netmask) == -1) {
+$err = Net::Pcap::geterr($pcap);
+die "Invalid filter: $filter_str (error was: $err)\n";
+} else {
+Net::Pcap::setfilter($pcap, $filter);
+};
+local $SIG{ALRM} = \&loop_exit;
+my $start_time = time;
+alaram $timeinterval;
+my $exitcode = Net::Pcap::loop($pcap, $nr_packets, \&process_packet, '');
+my $end_time = time;
