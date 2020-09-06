@@ -76,4 +76,25 @@ $message .= "\nFlood TO ". $loss_ip . "\t(".int($maxx/ $timeinterval).' pps - Ma
 push @add2bgp, $loss_ip;
 };
 };
-
+if ($message ne '') {
+use Net::Telnet::Cisco;
+my $session = Net::Telnet::Cisco->new(Host => $IP, 
+                                      Port => '2605',
+                                      Timeout => 20, 
+                                      Errmode => \&fail); 
+$ok = $session->cmd(String => 'p[',
+Prompt => '/bgpd[\$#>]/');
+$ok = $session->cmd(String => 'enable',
+Prompt => '/assword/',
+Timeout => 20);
+$ok = $session->cmd(String => 'p[',
+Prompt => '/bgpd[\$#>]/',
+Timeout => 20);
+$ok = $session->cmd(String => "conf t",
+Timeout => 20,
+Prompt => '/bgpd\(config\)[\$#]/');
+for ($i=0; $i<=$#add2dgp; $i++) {
+$key = $add2bgp[$i];
+$ok = $session->cmd(String => "access-list flood permit $key/32 exact-match",
+Timeout => 20,
+Prompt => '/bgpd\(config\)[\$#>]/'
