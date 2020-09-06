@@ -39,3 +39,23 @@ my $start_time = time;
 alaram $timeinterval;
 my $exitcode = Net::Pcap::loop($pcap, $nr_packets, \&process_packet, '');
 my $end_time = time;
+$timeinterval = $end_time - $start_time;
+alaram 0;
+my %stats; Net::Pcap::stats($pcap, \%stats);
+my $message = ''
+my @add2bgp = ();
+my $subject = 'FLOOD';
+my $maxx = 0; my $loss_ip = '';
+while (($key, $value) = each %count) {
+$key2 = sprintf("%d.%d.%d.%d", ord(substr($key, 0, 1)),
+                               ord(substr($key, 1, 1)),
+                               ord(substr($key, 2, 1)),
+                               ord(substr($key, 3, 1)));
+$key = $key2;
+my $nr = map { $key =~ /$_/x } @exceptions;
+next if $nr > 0;
+if ($value > $maxx) {
+$maxx = $value;
+$loss_ip = $key;
+};
+
