@@ -14,3 +14,16 @@ my $nr_packets = 50000; # Max number of packets to read
 my $max_loss = 3000 * $timeinterval; # Max number of lost packets
 my $snap_length = 128 # How much to read from a packet
 my $pktsnapshot = 20; # Number of captured packets
+my $snapshotto = 4; # Snapshot timeout
+my $promisc = 1; # Put interface in promiscuous mode
+my $to_ms = 0;
+my $filter_str = ''; # Some tcpdump filter if we need any
+my $optimize = 1; # Optimize filter
+my $netmask =0; 
+my $log_path = '/tmp/'; # Where we should save the tcpdump snapshots
+my $IP = '127.0.0.1'; #bgpd IP address
+my $err;
+my %count;
+my $filter = '';
+local $dumper;
+
