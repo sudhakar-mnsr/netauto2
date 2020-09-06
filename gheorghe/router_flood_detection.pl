@@ -59,3 +59,15 @@ $maxx = $value;
 $loss_ip = $key;
 };
 
+if (($value/$timeinterval) > $threshold) {
+################# FLOOOOOOOOOOOOOOOOOOOOOD
+$subject .= ' '.$key;
+$message .= "\nFlood To ". $key . "\t(".int($value/ $timeinterval).' pps - Max. limit '.$threshold.')';
+push @add2bgp, $key;
+};
+};
+if ($message eq '') {
+if (($stats{ps_drop}+$stats{ps_ifdrop}) > $max_loss){
+## Flood to $loss_ip
+$subject .= ' '.$loss_ip;
+$message .= "\nFlood TO ". $loss_ip . "\t(".int($maxx/ $timeinterval).' pps - Max.limit'.$threshold.")\npackets loss by filter \t".$stats{ps_drop}.
