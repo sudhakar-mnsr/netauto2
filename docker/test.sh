@@ -21,3 +21,11 @@ ip link set dummy0 up
 sysctl -w net.ipv4.ip_foward=1
 
 ip route show
+
+ip route add 172.16.10.128 via 172.16.10.2
+# route can be made persistent by adding below line in interface configuration
+auto eth2
+iface eth2 net static
+address 172.16.10.65
+netmask 255.255.255.192
+post-up ip route add 172.16.10.192/26 via 172.16.10.66
