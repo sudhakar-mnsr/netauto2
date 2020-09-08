@@ -16,3 +16,8 @@ ip link set dummy0 up
 ip link add dummy0 type dummy
 ip address add 172.16.10.193/26 dev dummy0
 ip link set dummy0 up
+
+=========================================================
+sysctl -w net.ipv4.ip_foward=1
+
+ip route show
