@@ -1,3 +1,6 @@
+========================================
+#              BEGIN Ver1
+========================================
 # The loopback network interface
 auto lo
 iface lo inet loopback
@@ -7,3 +10,27 @@ auto eth0
 iface eth0 inet statis
    address 172.16.10.2
    netmask 255.255.255.192
+========================================
+#              End Ver1
+========================================
+
+========================================
+#              BEGIN Ver2
+========================================
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet statis
+   address 10.10.10.110
+   netmask 255.255.255.0
+   gateway 10.10.10.1
+auto eth1
+if eth1 inet static
+   address 172.16.10.1
+   netmask 255.255.255.192
+========================================
+#              End Ver2
+========================================
