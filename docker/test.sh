@@ -29,3 +29,19 @@ iface eth2 net static
 address 172.16.10.65
 netmask 255.255.255.192
 post-up ip route add 172.16.10.192/26 via 172.16.10.66
+
+# delete the configuration of interface
+ip address flush dev eth1
+ip address flush dev eth2
+
+ip link add host_bridge1
+
+# delete an interface
+ip address flush dev eth1
+ip address flush dev eth2
+
+ip link add host_bridge1 type bridge
+ip link add host_bridge1 type bridge
+
+ip link show
+
