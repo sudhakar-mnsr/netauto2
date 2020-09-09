@@ -1,0 +1,9 @@
+FROM ubuntu:12.04
+MAINTAINER Jon Langemak jon@interubernet.com
+RUN apt-get update && apt-get install -y apache2 net-tools inetutils-ping curl
+ADD index.html /var/www/index.html
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+EXPOSE 80
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
