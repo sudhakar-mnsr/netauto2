@@ -274,3 +274,17 @@ func TestfromEpisodeGetCharacter(t testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestFromMultipleEpisodesGetCharacters(t *testing.T) {
+episodes, err := GetEpisodeArray([]int{24,26})
+if err != nil {
+   t.Error(err)
+}
+
+characters, err := episodes.GetCharacters()
+if err != nil {
+   t.Error(err)
+}
+
+// Characters from episode 24 and 36
+ids24 := []int{1, 2, 3, 4, 9, 70, 107, 167, 171, 240, 265,272, 276, 329}
