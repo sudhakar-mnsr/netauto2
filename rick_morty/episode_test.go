@@ -224,3 +224,27 @@ func TestGetEpisodeSixtySix(t *testing.T) {
    }
 }
 
+func TestGetEpisodesArray(t *testing.T) {
+   episode, err := GetEpisodesArray([]int{1, 20})
+   if err != nil {
+      t.Error(err)
+   }
+
+   data, err := readfile("test-data/episodes_1-20.json")
+   if err != nil {
+      t.Error(err)
+   }
+
+   result := new(MultipleEpisodes)
+
+   json.Unmarshal(data, &result)
+
+   comparation := cmp.Equal(result, episode)
+
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
+}
