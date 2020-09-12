@@ -19,4 +19,9 @@ cndpoingStructured := new(Endpoints)
 _ = mapstructure.Decode(response, &endpointsStructured)
 
 data, err := readFile("test-data/api-info.json")
+if err != nil {
+   t.Error(err)
+}
 
+endpoints := new(Endpoints)
+json.Unmarshal(data, &endpoints)
