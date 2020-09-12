@@ -175,3 +175,14 @@ comparation := cmp.Equal(pagedResults, episodes, opt)
    }
 }
 
+func TestGetEpisodeOne(t *testing.T) {
+episode, err := GetEpisode(1)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/episode_1.json")
+if err != nil {
+   t.Error(err)
+}
+
