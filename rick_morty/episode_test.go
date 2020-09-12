@@ -142,3 +142,20 @@ func TestGetEpisodesWithFilterParamsCombined(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetEpisodesWithRandomFilters(t *testing.T) {
+options := map[string]interface{}{
+   "these": "params",
+   "must": "be",
+   "ignored": "by",
+   "the": "function",
+   "even": []string{"with", "this"},
+}
+
+episodes, err := getEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/episodes_first-page.json")
+
