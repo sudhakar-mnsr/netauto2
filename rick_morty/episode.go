@@ -25,10 +25,19 @@ case int:
    }
    delete(options, k)
 case string:
-if k == "endpoint" {
-   continue
+   if k == "endpoint" {
+      continue
+   }
+   // Valid parameters to be passed to the parameters map
+   validParams := []string{"name", "status", "species", "type", "gender"}
+   exists := containsString(validParams, k)
+   if exists {
+   hasParams = true
+   params[k] = v.(string)
+   }
+   delete(options, k)
+default:
+   delete(options, k)
+   options["endpoint"] = endpoint
 }
-// Valid parameters to be passed to the parameters map
-validParams := []string{"name", "status", "species", "type", "gender"}
-exists := containsString(validParams, k)
-
+}
