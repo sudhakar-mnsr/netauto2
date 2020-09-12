@@ -73,3 +73,11 @@ func (ae *AllEpisodes) GetNextPage() (*AllEpisodes, error) {
    
    return GetEpisodes(options)
 }
+
+func (ae *AllEpisodes) GetPreviousPage() (*AllEpisodes, error) {
+if ae.Info.Prev == "" {
+   return &AllEpisodes{}, error.New("Nothing here")
+}
+
+pageString := getLastElementSplitedBy(ae.Info.Prev, "=")
+
