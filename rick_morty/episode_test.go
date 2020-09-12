@@ -316,3 +316,17 @@ func TestFromMultipleEpisodesGetCharacters(t *testing.T) {
    }
 }
 
+func TestFromAllEpisodesGetNextPage(t *testing.T) {
+options := map[string]interface{}{"page": 1}
+
+episodes, err := GetEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+episodesNextPage, err := episodes.GetNextPage()
+if err != nil {
+   t.Error(err)
+}
+
+optionsPage2 := map[string]interface{}{"page": 2}
