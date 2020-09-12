@@ -41,3 +41,14 @@ default:
    options["endpoint"] = endpoint
 }
 }
+
+if hasParams {
+   options["endpoint"] = endpoint
+   options["params"] = params
+}
+
+data, err := makePetition(options)
+if err != nil {
+   return &AllEpisodes{}, err
+}
+episodes := new(AllEpisodes)
