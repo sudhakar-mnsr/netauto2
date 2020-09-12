@@ -144,18 +144,34 @@ func TestGetEpisodesWithFilterParamsCombined(t *testing.T) {
 }
 
 func TestGetEpisodesWithRandomFilters(t *testing.T) {
-options := map[string]interface{}{
-   "these": "params",
-   "must": "be",
-   "ignored": "by",
-   "the": "function",
-   "even": []string{"with", "this"},
-}
+   options := map[string]interface{}{
+      "these": "params",
+      "must": "be",
+      "ignored": "by",
+      "the": "function",
+      "even": []string{"with", "this"},
+   }
+   
+   episodes, err := getEpisodes(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/episodes_first-page.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(AllEpisodes)
+   json.Unmarshal(data, &pagedResults)
+   opt := sliceEmptyNullReturnTrue()
 
-episodes, err := getEpisodes(options)
-if err != nil {
-   t.Error(err)
+comparation := cmp.Equal(pagedResults, episodes, opt)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
-
-data, err := readFile("test-data/episodes_first-page.json")
 
