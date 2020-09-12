@@ -59,17 +59,27 @@ func TestGetEpisodesSecondPage(t *testing.T) {
 }
 
 func TestGetEpisodesWithParamNil(t *testing.T) {
-episodes, err := GetEpisodes(nil)
-if err != nil {
-t.Error(err)
-}
-
-data, err := readFile("test-data/episodes_first-page.json")
-if err != nil {
+   episodes, err := GetEpisodes(nil)
+   if err != nil {
    t.Error(err)
-}
+   }
+   
+   data, err := readFile("test-data/episodes_first-page.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(AllEpisodes)
+   json.Unmarshal(data, &pagedResults)
+   opt := sliceEmptyNullReturnTrue()
+   
+   comparation := cmp.Equal(pagedResults, episodes, opt)
 
-pagedResults := new(AllEpisodes)
-json.Unmarshal(data, &pagedResults)
-opt := sliceEmptyNullReturnTrue()
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
+}
 
