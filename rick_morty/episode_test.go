@@ -84,17 +84,31 @@ func TestGetEpisodesWithParamNil(t *testing.T) {
 }
 
 func TestGetEpisodesWithFilterParams(t *testing.T) {
-options := map[string]interface{}{
-   "name": "earth",
-}
+   options := map[string]interface{}{
+      "name": "earth",
+   }
+   
+   episodes, err := GetEpisodes(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/episodes_filter_name-earth.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(AllEpisodes)
+   json.Unmarshal(data, &pagedResults)
+   opt := sliceEmptyNullReturnTrue()
+   
+   comparation := cmp.Equal(pagedResults, episodes, opt)
 
-episodes, err := GetEpisodes(options)
-if err != nil {
-   t.Error(err)
-}
-
-data, err := readFile("test-data/episodes_filter_name-earth.json")
-if err != nil {
-   t.Error(err)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
 
