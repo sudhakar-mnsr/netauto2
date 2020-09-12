@@ -261,8 +261,16 @@ func TestfromEpisodeGetCharacter(t testing.T) {
    }
 
    ids := []int{1,2,3,4,5,26,139,202,273,341}
-charactersFromSlice, err := GetCharactersArray(ids)
+   charactersFromSlice, err := GetCharactersArray(ids)
    if err != nil {
       t.Error(err)
    }
 
+   comparation := cmp.Equal(characters, charactersFromSlice)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
+}
