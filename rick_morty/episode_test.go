@@ -199,3 +199,16 @@ func TestGetEpisodeOne(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetEpisodeSixtySix(t *testing.T) {
+episode, err := GetEpisode(31)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile(test-data/episode_31.json")
+if err != nil {
+   t.Error(err)
+}
+
+result := new(Episode)
