@@ -44,3 +44,18 @@ func makePetition(options map[string]interface{}) (interface{}, error) {
    }
 }
 
+req, err := http.NewRequest(http.MethodGet, baseURL+endpoint, nil)
+if err != nil {
+   return nil, err
+}
+
+q := req.URL.Query()
+
+if hasParams {
+   for key, value := range options["params"].(map[string]string) {
+      q.Add(key, value)
+   }
+   req.URL.RawQuery = q.Encode()
+}
+
+
