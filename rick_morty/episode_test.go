@@ -317,24 +317,31 @@ func TestFromMultipleEpisodesGetCharacters(t *testing.T) {
 }
 
 func TestFromAllEpisodesGetNextPage(t *testing.T) {
-options := map[string]interface{}{"page": 1}
+   options := map[string]interface{}{"page": 1}
+   
+   episodes, err := GetEpisodes(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   episodesNextPage, err := episodes.GetNextPage()
+   if err != nil {
+      t.Error(err)
+   }
+   
+   optionsPage2 := map[string]interface{}{"page": 2}
+   
+   episodesPage2, err := GetEpisodes(optionsPage2)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   comparation := cmp.Equal(episodesNextPage, episodesPage2)
 
-episodes, err := GetEpisodes(options)
-if err != nil {
-   t.Error(err)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
-
-episodesNextPage, err := episodes.GetNextPage()
-if err != nil {
-   t.Error(err)
-}
-
-optionsPage2 := map[string]interface{}{"page": 2}
-
-episodesPage2, err := GetEpisodes(optionsPage2)
-if err != nil {
-   t.Error(err)
-}
-
-comparation := cmp.Equal(episodesNextPage, episodesPage2)
-
