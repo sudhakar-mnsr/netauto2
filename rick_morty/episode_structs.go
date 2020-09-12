@@ -41,3 +41,18 @@ func (e *Episode) GetCharacters() (*MultipleCharacters, error) {
    
    return characters, nil
 }
+
+func (e *MultipleEpisodes) GetCharacters() ([]MultipleCharacters, error) {
+   charactersFromAllEpisodes := []MultipleCharacters{}
+   
+   for _, episode := range *e {
+      characters, err := episode.GetCharacters()
+      if err != nil {
+         return []MultipleCharacters{}, err
+      }
+   
+      charactersFromAllEpisodes = append(charactersFromAllEpisodes, *characters)
+   }
+   
+   return charactersFromAllEpisodes, nil
+}
