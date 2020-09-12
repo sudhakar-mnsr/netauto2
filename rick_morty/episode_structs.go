@@ -22,3 +22,11 @@ type AllEpisodes struct {
 
 type MultipleEpisodes []Episode
 
+func (e *Episode) GetCharacters() (*MultipleCharacters, error) {
+var idsCharacters []int
+for _, characterURL := range e.Characters {
+characterIDString := getLastElementSplitedBy(characterURL, "/")
+CharacterID, err := strconv.Atoi(characterIDString)
+if err != nil {
+   return &MultipleCharacters{}, err
+}
