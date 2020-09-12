@@ -81,3 +81,18 @@ func GetEpisode(integer int) (*Episode, error) {
    
    return episode, nil
 }
+
+func GetEpisodesArray(integers []int) (*MultipleEpisodes, error) {
+endpoint := endpointEpisode
+
+options := map[string]interface{}{
+   "endpoint": endpoint,
+   "integers": integers,
+}
+
+data, err := makePetition(options)
+if err != nil {
+   return &MultipleEpisodes{}, err
+}
+
+
