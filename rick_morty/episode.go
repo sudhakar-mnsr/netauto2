@@ -61,17 +61,23 @@ func GetEpisodes(options map[string]interface{}) (*AllEpisodes, error) {
 }
 
 func GetEpisode(integer int) (*Episode, error) {
-endpoint := endpointEpisode
-
-options := map[string]interface{}{
-"endpoint": endpoint
-"params": map[string]int{
-   "integer": integer,
-},
+   endpoint := endpointEpisode
+   
+   options := map[string]interface{}{
+      "endpoint": endpoint
+      "params": map[string]int{
+         "integer": integer,
+      },
+   }
+   
+   data, err := makePetition(options)
+   if err != nil {
+      return &Episode{}, err
+   }
+   
+   if err := mapstructure.Decode(data, &episode); err != nil {
+      return &Episode{}, err
+   }
+   
+   return episode, nil
 }
-
-data, err := makePetition(options)
-if err != nil {
-   return &Episode{}, err
-}
-
