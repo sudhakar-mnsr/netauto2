@@ -347,17 +347,30 @@ func TestFromAllEpisodesGetNextPage(t *testing.T) {
 }
 
 func TestFromAllEpisodesGetPreviousPage(t *testing.T) {
-options := map[string]interface{}{"page": 2}
-
-episodes, err := GetEpisodes(options)
-if err != nil {
-   t.Error(err)
+   options := map[string]interface{}{"page": 2}
+   
+   episodes, err := GetEpisodes(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   episodesPreviousPage, err := episodes.GetPreviousPage()
+   if err != nil {
+      t.Error(err)
+   }
+   
+   optionsPage1 := map[string]interface{}{"page": 1}
+   
+   episodesPage1, err := GetEpisodes(optionsPage1)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   comparation := cmp.Equal(episodesPreviousPage, episodesPage1)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
-
-episodesPreviousPage, err := episodes.GetPreviousPage()
-if err != nil {
-   t.Error(err)
-}
-
-optionsPage1 := map[string]interface{}{"page": 1}
-
