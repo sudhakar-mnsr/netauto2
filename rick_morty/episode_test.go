@@ -83,3 +83,18 @@ func TestGetEpisodesWithParamNil(t *testing.T) {
    }
 }
 
+func TestGetEpisodesWithFilterParams(t *testing.T) {
+options := map[string]interface{}{
+   "name": "earth",
+}
+
+episodes, err := GetEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/episodes_filter_name-earth.json")
+if err != nil {
+   t.Error(err)
+}
+
