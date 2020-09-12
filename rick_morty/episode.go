@@ -59,3 +59,19 @@ func GetEpisodes(options map[string]interface{}) (*AllEpisodes, error) {
    
    return episodes, nil
 }
+
+func GetEpisode(integer int) (*Episode, error) {
+endpoint := endpointEpisode
+
+options := map[string]interface{}{
+"endpoint": endpoint
+"params": map[string]int{
+   "integer": integer,
+},
+}
+
+data, err := makePetition(options)
+if err != nil {
+   return &Episode{}, err
+}
+
