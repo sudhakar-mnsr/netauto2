@@ -201,14 +201,26 @@ func TestGetEpisodeOne(t *testing.T) {
 }
 
 func TestGetEpisodeSixtySix(t *testing.T) {
-episode, err := GetEpisode(31)
-if err != nil {
-   t.Error(err)
+   episode, err := GetEpisode(31)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile(test-data/episode_31.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   result := new(Episode)
+   
+   json.Unmarshal(data, &result)
+   comparation := cmp.Equal(result, episode)
+
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
 
-data, err := readFile(test-data/episode_31.json")
-if err != nil {
-   t.Error(err)
-}
-
-result := new(Episode)
