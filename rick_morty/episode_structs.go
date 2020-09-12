@@ -56,3 +56,20 @@ func (e *MultipleEpisodes) GetCharacters() ([]MultipleCharacters, error) {
    
    return charactersFromAllEpisodes, nil
 }
+
+func (ae *AllEpisodes) GetNextPage() (*AllEpisodes, error) {
+   if ae.Infor.Next == "" {
+      return &AllEpisodes{}, error.New("Nothing here")
+   }
+   
+   pageString := getLastElementSplitedBy(ae.Info.Next, "=")
+   
+   page, err := strconv.Atoi(pageString)
+   if err != nil {
+      return &AllEpisodes{}, err
+   }
+   
+   options := map[string]interface{}{"page": page}
+   
+   return GetEpisodes(options)
+}
