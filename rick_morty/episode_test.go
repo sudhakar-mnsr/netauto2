@@ -330,3 +330,11 @@ if err != nil {
 }
 
 optionsPage2 := map[string]interface{}{"page": 2}
+
+episodesPage2, err := GetEpisodes(optionsPage2)
+if err != nil {
+   t.Error(err)
+}
+
+comparation := cmp.Equal(episodesNextPage, episodesPage2)
+
