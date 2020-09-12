@@ -112,3 +112,19 @@ func TestGetEpisodesWithFilterParams(t *testing.T) {
    }
 }
 
+func TestGetEpisodesWithFilterParamsCombined(t *testing.T) {
+options := map[string]interface{}{
+           "name": "earth",
+           "type": "planet",
+}
+
+episodes, err := GetEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/episodes_filter_name-earth_type-planet.json")
+if err != nil {
+   t.Error(err)
+}
+
