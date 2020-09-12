@@ -267,6 +267,7 @@ func TestfromEpisodeGetCharacter(t testing.T) {
    }
 
    comparation := cmp.Equal(characters, charactersFromSlice)
+
    if !comparation {
       t.Error("The response from GetEpisodes was:")
       t.Error(episodes)
@@ -276,15 +277,42 @@ func TestfromEpisodeGetCharacter(t testing.T) {
 }
 
 func TestFromMultipleEpisodesGetCharacters(t *testing.T) {
-episodes, err := GetEpisodeArray([]int{24,26})
-if err != nil {
-   t.Error(err)
+   episodes, err := GetEpisodeArray([]int{24,26})
+   if err != nil {
+      t.Error(err)
+   }
+   
+   characters, err := episodes.GetCharacters()
+   if err != nil {
+      t.Error(err)
+   }
+   
+   // Characters from episode 24 and 36
+   ids24 := []int{1, 2, 3, 4, 9, 70, 107, 167, 171, 240, 265,272, 276, 329}
+   ids26 := []int{1, 2, 3, 4, 5, 23, 47, 115, 137, 142, 180, 204, 296, 297, 319, 320, 365, 369, 467, 468, 469}
+   
+   charactersFromEpisode24, err := GetCharactersArray(ids24)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   charactersFromEpisode26, err := GetCharactersArray(ids26)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   charactersFromBothEpisodes :=[]MultipleCharacters{
+                                *charactersFromEpisode24,
+                                *charactersFromEpisode26,
+   }
+   
+   comparation := cmp.Equal(characters, charactersFromBothEpisodes)
+
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
 
-characters, err := episodes.GetCharacters()
-if err != nil {
-   t.Error(err)
-}
-
-// Characters from episode 24 and 36
-ids24 := []int{1, 2, 3, 4, 9, 70, 107, 167, 171, 240, 265,272, 276, 329}
