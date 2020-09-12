@@ -32,3 +32,18 @@ func TestGetEpisodesFirstPage(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetEpisodesSecondPage(t *testing.T) {
+options := map[string]interface{}{"page": 2}
+
+episodes, err := GetEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/episodes_second-page.json")
+if err != nil {
+   t.Error(err)
+}
+
+
