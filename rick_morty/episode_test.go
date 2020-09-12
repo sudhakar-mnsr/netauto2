@@ -57,3 +57,19 @@ func TestGetEpisodesSecondPage(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetEpisodesWithParamNil(t *testing.T) {
+episodes, err := GetEpisodes(nil)
+if err != nil {
+t.Error(err)
+}
+
+data, err := readFile("test-data/episodes_first-page.json")
+if err != nil {
+   t.Error(err)
+}
+
+pagedResults := new(AllEpisodes)
+json.Unmarshal(data, &pagedResults)
+opt := sliceEmptyNullReturnTrue()
+
