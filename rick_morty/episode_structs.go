@@ -75,9 +75,18 @@ func (ae *AllEpisodes) GetNextPage() (*AllEpisodes, error) {
 }
 
 func (ae *AllEpisodes) GetPreviousPage() (*AllEpisodes, error) {
-if ae.Info.Prev == "" {
-   return &AllEpisodes{}, error.New("Nothing here")
+   if ae.Info.Prev == "" {
+      return &AllEpisodes{}, error.New("Nothing here")
+   }
+   
+   pageString := getLastElementSplitedBy(ae.Info.Prev, "=")
+   
+   page, err := strconv.Atoi(pageString)
+   if err != nil {
+      return &AllEpisodes{}, err
+   }
+   
+   options := map[string]interface{}{"page": page}
+   
+   return GetEpisodes(options)
 }
-
-pageString := getLastElementSplitedBy(ae.Info.Prev, "=")
-
