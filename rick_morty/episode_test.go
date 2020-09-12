@@ -345,3 +345,19 @@ func TestFromAllEpisodesGetNextPage(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestFromAllEpisodesGetPreviousPage(t *testing.T) {
+options := map[string]interface{}{"page": 2}
+
+episodes, err := GetEpisodes(options)
+if err != nil {
+   t.Error(err)
+}
+
+episodesPreviousPage, err := episodes.GetPreviousPage()
+if err != nil {
+   t.Error(err)
+}
+
+optionsPage1 := map[string]interface{}{"page": 1}
+
