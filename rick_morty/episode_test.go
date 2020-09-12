@@ -166,7 +166,8 @@ func TestGetEpisodesWithRandomFilters(t *testing.T) {
    json.Unmarshal(data, &pagedResults)
    opt := sliceEmptyNullReturnTrue()
 
-comparation := cmp.Equal(pagedResults, episodes, opt)
+   comparation := cmp.Equal(pagedResults, episodes, opt)
+
    if !comparation {
       t.Error("The response from GetEpisodes was:")
       t.Error(episodes)
@@ -176,13 +177,25 @@ comparation := cmp.Equal(pagedResults, episodes, opt)
 }
 
 func TestGetEpisodeOne(t *testing.T) {
-episode, err := GetEpisode(1)
-if err != nil {
-   t.Error(err)
-}
+   episode, err := GetEpisode(1)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/episode_1.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   result := new(Episode)
+   
+   json.Unmarshal(data, &result)
+   comparation := cmp.Equal(result, episode)
 
-data, err := readFile("test-data/episode_1.json")
-if err != nil {
-   t.Error(err)
+   if !comparation {
+      t.Error("The response from GetEpisodes was:")
+      t.Error(episodes)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
 }
-
