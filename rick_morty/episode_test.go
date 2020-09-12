@@ -248,3 +248,21 @@ func TestGetEpisodesArray(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestfromEpisodeGetCharacter(t testing.T) {
+   episode, err := GetEpisode(20)
+   if err != nil {
+      t.Error(err)
+   }
+
+   characters, err := episode.GetCharacters()
+   if err != nil {
+      t.Error(err)
+   }
+
+   ids := []int{1,2,3,4,5,26,139,202,273,341}
+charactersFromSlice, err := GetCharactersArray(ids)
+   if err != nil {
+      t.Error(err)
+   }
+
