@@ -14,3 +14,11 @@ type Episode struct {
    URL string `json:"url"`
    Created string `json:"created"`
 }
+
+type AllEpisodes struct {
+   Info Info `json:"info"`
+   Results MultipleEpisodes `json:"results"`
+}
+
+type MultipleEpisodes []Episode
+
