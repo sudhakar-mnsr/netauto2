@@ -86,3 +86,25 @@ func GetLocation(integer int) (*Location, error) {
    
    return location, nil
 }
+
+func GetLocationArray(integers []int) (*MultipleLocations, error) {
+   endpoint := endpointLocation
+   
+   options := map[string]interface{}{
+              "endpoint": endpoint,
+              "integers": integers,
+   }
+   
+   data, err := makePetition(options)
+   if err != nil {
+      return &MultipleLocations{}, err
+   }
+   
+   locations := new(MultipleLocations)
+   
+   if err := mapstructure.Decode(data, &locations); err != nil {
+      return &MultipleLocations{}, err
+   }
+   
+   return locations, nil
+}
