@@ -31,3 +31,23 @@ func Test_containsStringElementPresent(t *testing.T) {
       }
    }
 }
+
+func Test_containsStringElementNotPresent(t *testing.T) {
+   sliceToIterate := []string{
+      "These",
+      "strings",
+      "are",
+      "not",
+      "present",
+      "in",
+      "the",
+      "variable",
+      "slice",
+   }
+   
+   for _, element := range sliceToIterate {
+      if containsString(slice, element) {
+         t.Errorf("The %s (%T) is present in %v", element, element, slice)
+      }
+   }
+}
