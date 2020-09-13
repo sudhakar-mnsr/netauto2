@@ -41,5 +41,24 @@ func GetLocations(options map[string]interface{}) (*AllLocations, error) {
       default:
       delete(options, k)
       options["endpoint"] = endpoint
+      }
    }
+
+   if hasParams {
+      options["endpoint"] = endpoint
+      options["params"] = params
+   }
+   
+   data, err := makePetition(options)
+   if err != nil {
+      return &AllLocations{}, err
+   }
+   
+   locations := new(AllLocations)
+   
+   if err := mapstructure.Decode(data, &locations); err != nil {
+      return &AllLocations{}, err
+   }
+   
+   return locations, nil
 }
