@@ -51,3 +51,20 @@ func Test_containsStringElementNotPresent(t *testing.T) {
       }
    }
 }
+
+func Test_sliceIntToString(t *testing.T) {
+   validResponse := "1,2,3,4,5,6,7,8,9,10"
+   response := sliceToString(sliceIntegers, ",")
+   
+   if response != validResponse {
+      t.Errorf("The valid string (%s) and the obtained (%v) differ", validResponse, sliceIntegers)
+   }
+   
+   validResponse = "1-2-3-4-5-6-7-8-9-10"
+   
+   response = sliceIntToString(sliceIntegers, "-")
+   
+   if response != validResponse {
+      t.Errorf("The valid string (%s) and the obtained (%v) differ", validResponse, sliceIntegers)
+   }
+}
