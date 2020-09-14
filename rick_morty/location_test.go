@@ -92,20 +92,32 @@ func TestGetLocationsWithParamNil(t *testing.T) {
 }
 
 func TestGetLocationsWithFilterParams(t *testing.T) {
-options := map[string]interface{}{
-   "name": "earth",
+   options := map[string]interface{}{
+      "name": "earth",
+   }
+   
+   locations, err := GetLocations(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/locations_filter_name-earth.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(AllLocations)
+   
+   json.Unmarshal(data, &pagedResults)
+   
+   opt := sliceEmptyNullReturnTrue()
+   
+   comparation := cmp.Equal(pagedResults, locations, opt)
+   
+   if ! comparation {
+   t.Error("The response from GetLocations was:")
+   t.Error(locations)
+   t.Error("The data against is being run this test is:")
+   t.Error(pagedResults)
+   }
 }
-
-locations, err := GetLocations(options)
-if err != nil {
-   t.Error(err)
-}
-
-data, err := readFile("test-data/locations_filter_name-earth.json")
-if err != nil {
-   t.Error(err)
-}
-
-pagedResults := new(AllLocations)
-
-
