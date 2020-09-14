@@ -31,10 +31,10 @@ func TestGetLocationsFirstPage(t *testing.T) {
    comparation := cmp.Equal(pagedResults, locations, opt)
    
    if !comparation {
-   t.Error("The response from GetLocations was:")
-   t.Error(locations)
-   t.Error("The data against is being run this test is:")
-   t.Error(pagedResults)
+      t.Error("The response from GetLocations was:")
+      t.Error(locations)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
    }
 }
 
@@ -57,10 +57,10 @@ func TestGetLocationsFifthPage(t *testing.T) {
    comparation := cmp.Equal(pagedResults, locations)
    
    if !comparation {
-   t.Error("The response from GetLocations was:")
-   t.Error(locations)
-   t.Error("The data against is being run this test is:")
-   t.Error(pagedResults)
+      t.Error("The response from GetLocations was:")
+      t.Error(locations)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
    }
 }
 
@@ -115,9 +115,9 @@ func TestGetLocationsWithFilterParams(t *testing.T) {
    comparation := cmp.Equal(pagedResults, locations, opt)
    
    if ! comparation {
-   t.Error("The response from GetLocations was:")
-   t.Error(locations)
-   t.Error("The data against is being run this test is:")
-   t.Error(pagedResults)
+      t.Error("The response from GetLocations was:")
+      t.Error(locations)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
    }
 }
