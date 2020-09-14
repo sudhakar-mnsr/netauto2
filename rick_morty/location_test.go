@@ -91,3 +91,21 @@ func TestGetLocationsWithParamNil(t *testing.T) {
    }
 }
 
+func TestGetLocationsWithFilterParams(t *testing.T) {
+options := map[string]interface{}{
+   "name": "earth",
+}
+
+locations, err := GetLocations(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/locations_filter_name-earth.json")
+if err != nil {
+   t.Error(err)
+}
+
+pagedResults := new(AllLocations)
+
+
