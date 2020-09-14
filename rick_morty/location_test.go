@@ -39,16 +39,28 @@ func TestGetLocationsFirstPage(t *testing.T) {
 }
 
 func TestGetLocationsFifthPage(t *testing.T) {
-options := map[string]interface{}{"page": 5}
-
-locations, err := GetLocations(options)
-if err != nil {
-   t.Error(err)
+   options := map[string]interface{}{"page": 5}
+   
+   locations, err := GetLocations(options)
+   if err != nil {
+      t.Error(err)
+   }
+   data, err := readFile("test-data/locations_fifth-page.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(AllLocations)
+   
+   json.Unmarshal(data, &pagedResults)
+   
+   comparation := cmp.Equal(pagedResults, locations)
+   
+   if !comparation {
+   t.Error("The response from GetLocations was:")
+   t.Error(locations)
+   t.Error("The data against is being run this test is:")
+   t.Error(pagedResults)
+   }
 }
-data, err := readFile("test-data/locations_fifth-page.json")
-if err != nil {
-   t.Error(err)
-}
-
-pagedResults := new(AllLocations)
 
