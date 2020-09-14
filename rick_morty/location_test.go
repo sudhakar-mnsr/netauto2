@@ -37,3 +37,18 @@ func TestGetLocationsFirstPage(t *testing.T) {
    t.Error(pagedResults)
    }
 }
+
+func TestGetLocationsFifthPage(t *testing.T) {
+options := map[string]interface{}{"page": 5}
+
+locations, err := GetLocations(options)
+if err != nil {
+   t.Error(err)
+}
+data, err := readFile("test-data/locations_fifth-page.json")
+if err != nil {
+   t.Error(err)
+}
+
+pagedResults := new(AllLocations)
+
