@@ -263,3 +263,23 @@ func TestGetLocationsArray(t *testing.T) {
       t.Error(result)
    }
 }
+
+func TestFromLocationGetResidents(t *testing.T) {
+   location, err := GetLocationsArray(21)
+   if err != nil {
+      t.Error(err)
+   }
+
+   residents, err := location.GetResidents()
+   if err != nil {
+      t.Error(err)
+   }
+
+   ids := []int{7,436}
+   charactersFromSlice, err := GetCharactersArray(ids)
+   if err != nil {
+      t.Error(err)
+   }
+
+
+
