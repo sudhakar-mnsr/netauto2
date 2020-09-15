@@ -239,3 +239,17 @@ func TestGetLocationSixtySix(t *testing.T) {
    }
 }
 
+func TestGetLocationsArray(t *testing.T) {
+   location, err := GetLocationsArray(66)
+   if err != nil {
+      t.Error(err)
+   }
+
+   data, err := readFile("test-data/location_1-20.json")
+   if err != nil {
+      t.Error(err)
+   }
+
+   result := new(MultipleLocations)
+
+
