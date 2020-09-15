@@ -213,3 +213,18 @@ func TestGetLocationOne(t *testing.T) {
       t.Error(result)
    }
 }
+
+func TestGetLocationSixtySix(t *testing.T) {
+   location, err := GetLocation(66)
+   if err != nil {
+      t.Error(err)
+   }
+
+   data, err := readFile("test-data/location_66.json")
+   if err != nil {
+      t.Error(err)
+   }
+
+   result := new(Location)
+
+
