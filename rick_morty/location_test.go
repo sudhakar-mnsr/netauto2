@@ -252,4 +252,14 @@ func TestGetLocationsArray(t *testing.T) {
 
    result := new(MultipleLocations)
 
+   json.Unmarshal(data, &result)
 
+   comparation := cmp.Equal(pageResults, location)
+
+   if !comparation {
+      t.Error("The response from GetLocation was:")
+      t.Error(location)
+      t.Error("The data against is being run this test is:")
+      t.Error(result)
+   }
+}
