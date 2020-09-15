@@ -190,17 +190,26 @@ func TestGetLocationsWithRandomFilters(t *testing.T) {
 }
 
 func TestGetLocationOne(t *testing.T) {
-location, err := GetLocation(1)
-if err != nil {
-   t.Error(err)
+   location, err := GetLocation(1)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/location_1.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   result := new(Location)
+   
+   json.Unmarshal(data, &result)
+
+   comparation := cmp.Equal(pageResults, location)
+
+   if !comparation {
+      t.Error("The response from GetLocation was:")
+      t.Error(location)
+      t.Error("The data against is being run this test is:")
+      t.Error(result)
+   }
 }
-
-data, err := readFile("test-data/location_1.json")
-if err != nil {
-   t.Error(err)
-}
-
-result := new(Location)
-
-
-
