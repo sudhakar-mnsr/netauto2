@@ -155,22 +155,36 @@ func TestGetLocationsWithFilterParamsCombined(t *testing.T) {
 }
 
 func TestGetLocationsWithRandomFilters(t *testing.T) {
-options := map[string]interface{}{
-   "these": "params",
-   "must": "be",
-   "ignored": "by",
-   "the": "function",
-   "even": []string{"with", "this"},
-}
+   options := map[string]interface{}{
+      "these": "params",
+      "must": "be",
+      "ignored": "by",
+      "the": "function",
+      "even": []string{"with", "this"},
+   }
+   
+   locations, err := GetLocations(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   data, err := readFile("test-data/locations_first-page.json")
+   if err != nil {
+      t.Error(err)
+   }
+   
+   pagedResults := new(Allocations)
 
-locations, err := GetLocations(options)
-if err != nil {
-   t.Error(err)
-}
+   json.Unmarshal(data, &pagedResults)
 
-data, err := readFile("test-data/locations_first-page.json")
-if err != nil {
-   t.Error(err)
-}
+   opt := sliceEmptyNullReturnTrue()
 
-pagedResults := new(Allocations)
+   comparation := cmp.Equal(pageResults, locations, opt)
+
+   if !comparation {
+      t.Error("The response from GetLocations was:")
+      t.Error(locations)
+      t.Error("The data against is being run this test is:")
+      t.Error(pagedResults)
+   }
+}
