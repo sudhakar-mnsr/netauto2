@@ -153,3 +153,24 @@ func TestGetLocationsWithFilterParamsCombined(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetLocationsWithRandomFilters(t *testing.T) {
+options := map[string]interface{}{
+   "these": "params",
+   "must": "be",
+   "ignored": "by",
+   "the": "function",
+   "even": []string{"with", "this"},
+}
+
+locations, err := GetLocations(options)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/locations_first-page.json")
+if err != nil {
+   t.Error(err)
+}
+
+pagedResults := new(Allocations)
