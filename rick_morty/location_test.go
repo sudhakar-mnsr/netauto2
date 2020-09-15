@@ -281,5 +281,12 @@ func TestFromLocationGetResidents(t *testing.T) {
       t.Error(err)
    }
 
+   comparation := cmp.Equal(residents, charactersFromSlice)
 
-
+   if !comparation {
+      t.Error("The response from location.GetResidents was:")
+      t.Error(residents)
+      t.Error("The data against is being run this test is:")
+      t.Error(charactersFromSlice)
+   }
+}
