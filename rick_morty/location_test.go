@@ -188,3 +188,19 @@ func TestGetLocationsWithRandomFilters(t *testing.T) {
       t.Error(pagedResults)
    }
 }
+
+func TestGetLocationOne(t *testing.T) {
+location, err := GetLocation(1)
+if err != nil {
+   t.Error(err)
+}
+
+data, err := readFile("test-data/location_1.json")
+if err != nil {
+   t.Error(err)
+}
+
+result := new(Location)
+
+
+
