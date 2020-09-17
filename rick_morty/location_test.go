@@ -377,4 +377,18 @@ if err != nil {
 
 optionsPage1 := map[string]interface{}{"page":1}
 
+locationsPage1, err := GetLocations(optionsPage1)
+if err != nil {
+   t.Error(err)
+}
 
+comparation := cmp.Equal(locationsPreviousPage, locationsPage1)
+
+
+   if !comparation {
+      t.Error("The response from location.GetPreviousPage was:")
+      t.Error(locationsPreviousPage)
+      t.Error("The data against is being run this test is:")
+      t.Error(locationsPage1)
+   }
+}
