@@ -361,3 +361,20 @@ func TestFromAllLocationsGetNextPage(t *testing.T) {
       t.Error(locationsPage2)
    }
 }
+
+func TestFromAllLocationsGetPreviousPage(t *testing.T) {
+options := map[string]interface{}{"page": 2}
+
+locations, err := GetLocations(options)
+if err != nil {
+   t.Error(err)
+}
+
+locationsPreviousPage, err := locations.GetPreviousPage()
+if err != nil {
+   t.Error(err)
+}
+
+optionsPage1 := map[string]interface{}{"page":1}
+
+
