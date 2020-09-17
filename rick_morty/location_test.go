@@ -333,18 +333,31 @@ func TestFromMultipleLocationsGetResidents(t *testing.T) {
 }
 
 func TestFromAllLocationsGetNextPage(t *testing.T) {
-options := map[string]interface{}{"page": 1}
+   options := map[string]interface{}{"page": 1}
+   
+   locations, err := GetLocations(options)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   locationsNextPage, err := locations.GetNextPage()
+   if err != nil {
+      t.Error(err)
+   }
+   
+   optionsPage2 := map[string]interface{}{"page":2}
+   
+   locationsPage2, err := GetLocations(optionsPage2)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   comparation := cmp.Equal(locationsNextPage, locationsPage2)
 
-locations, err := GetLocations(options)
-if err != nil {
-   t.Error(err)
+   if !comparation {
+      t.Error("The response from location.GetNextPage was:")
+      t.Error(locationsNextPage)
+      t.Error("The data against is being run this test is:")
+      t.Error(locationsPage2)
+   }
 }
-
-locationsNextPage, err := locations.GetNextPage()
-if err != nil {
-   t.Error(err)
-}
-
-optionsPage2 := map[string]interface{}{"page":2}
-
-
