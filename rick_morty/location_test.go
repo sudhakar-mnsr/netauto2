@@ -292,16 +292,42 @@ func TestFromLocationGetResidents(t *testing.T) {
 }
 
 func TestFromMultipleLocationsGetResidents(t *testing.T) {
-locations, err := GetLocationsArray([]int{1,21})
-if err != nil {
-   t.Error(err)
-}
+   locations, err := GetLocationsArray([]int{1,21})
+   if err != nil {
+      t.Error(err)
+   }
+   
+   residents, err := locations.GetResidents()
+   if err != nil {
+      t.Error(err)
+   }
+   
+   // Chracters from episode 1 and 21
+   ids1 := []int{38, 45, 71, 82, 83, 92, 112, 114, 116, 117, 120, 127, 155, 169, 175, 179, 186, 201, 216, 239, 271, 302, 303, 338, 343, 356, 394}
+   ids21 := []int{7, 436}
+   
+   residentsFromLocation1, err := GetCharactersArray(ids1)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   residentsFromLocation21, err := GetCharactersArray(ids21)
+   if err != nil {
+      t.Error(err)
+   }
+   
+   residentsFromBothLocations := []MultipleCharacters{
+   *residentsFromLocations1,
+   *residentsFromLocations21,
+   }
+   
+   comparation := cmp.Equal(residents, residentsFromBothLocations)
 
-residents, err := locations.GetResidents()
-if err != nil {
-   t.Error(err)
-}
 
-// Chracters from episode 1 and 21
-ids1 := []int{38, 45, 71, 82, 83, 92, 112, 114, 116, 117, 120, 127, 155, 169, 175, 179, 186, 201, 216, 239, 271, 302, 303, 338, 343, 356, 394}
-ids21 := []int{7, 436}
+   if !comparation {
+      t.Error("The response from location.GetResidents was:")
+      t.Error(residents)
+      t.Error("The data against is being run this test is:")
+      t.Error(residentsFromBothLocations)
+   }
+}
