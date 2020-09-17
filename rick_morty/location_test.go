@@ -331,3 +331,20 @@ func TestFromMultipleLocationsGetResidents(t *testing.T) {
       t.Error(residentsFromBothLocations)
    }
 }
+
+func TestFromAllLocationsGetNextPage(t *testing.T) {
+options := map[string]interface{}{"page": 1}
+
+locations, err := GetLocations(options)
+if err != nil {
+   t.Error(err)
+}
+
+locationsNextPage, err := locations.GetNextPage()
+if err != nil {
+   t.Error(err)
+}
+
+optionsPage2 := map[string]interface{}{"page":2}
+
+
