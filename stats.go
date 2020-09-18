@@ -60,6 +60,18 @@ type MemoryStats struct {
    pageUsageByNUMA pageUsaeByNuma `json: "page usage by numa, omitempty"`
    // if true, memory usage is accounted for throuout a hireachy of cgroups
    UseHirearchy bool `json:"use_hirearcy"
-   tats map[string]uint64 `json:"stats, omitempty"`
+   Stats map[string]uint64 `json:"stats, omitempty"`
 }
-useHirearchy bool `json:"use_hirearchy"`o
+
+type PageUsageByNuma Struct {
+   // Embedding is used as types cant be recursive
+   PageUsageByNUMAInner
+   Hierarchical PageUsageByNUMAInner `json:"hierarchical, omitempty"`
+}
+
+type PageUsageByNUMAInner struct {
+   Total PageStats `json:"total, omitempty"`
+   File PageStats `json:"file, omitempty"`
+   Anon PageStats `json:"anon, omitempty"`
+   Unevictable PageStats `json:"unevictable, omitempty"`
+}
