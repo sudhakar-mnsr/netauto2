@@ -31,3 +31,15 @@ type CpuUsage struct {
    // Units: nanoseconds
    UsageInUsermode uint64 `json:"usage_in_usermode"`
 }
+
+type CpuStats struct {
+   CpuUsage CpuUsage `json:"cpu_usage, omitempty"`
+   ThrottlingData ThrottlingData `json:"throttling_data, omitempty"`
+}
+
+type MemoryData struct {
+   Usage uint64 `json:"usage, omitempty"`
+   MaxUsage uint64 `json:"max_usage, omitempty"`
+   Failcnt unit64 `json:"failcnt"`
+   Limit uint64 `json:"limit"`
+}
