@@ -106,3 +106,26 @@ type BlkioStats struct {
    IoTimeRecursive []BlkioStatEntry `json:"io_time_recursive, omitempty"`
    SectorsRecursive []BlkioStatEntry `json:"sectors_recursive, omitempty"`
 }
+
+type HugeTlbStats struct {
+   // Current res_conter usage for hugetlb
+   Usage uint64 `json:"usage, omitempty"`
+   MaxUsage uint64`json:"max_usage, omitempty"`
+   //Number of times hugelb usage allcation failure
+   Failcnt uint64 `json:"failcnt"` 
+}
+
+type Stats struct {
+   CpuStats CpuStats `json:"cpu_stats, omitempty"`
+   MemoryStats MemoryStats `json:"memory_stats, omitempty"`
+   PidStats PidStats `json:"pids_stats, omitempty"`
+   BlkioStats BlkioStats  `"json:"blkio_stats, omitempty"`
+   // the map is in the format "size of hugePage: stats of the hugepage.
+   HugetlbStats map[string]HugetlgStats `json:"hugetlb_stats, omitempty"
+}
+
+func News() *Stats {
+   memoryStats := MemoryStats {Stats: make(map[string]uint64)}
+   hugetlbStats := make(map[string]HugetlbStats)
+   return &Stats{MemoryStats:memoryStats, HugetblStats: hugetlbStats}
+}
