@@ -43,3 +43,23 @@ type MemoryData struct {
    Failcnt unit64 `json:"failcnt"`
    Limit uint64 `json:"limit"`
 }
+
+type MemoryStats struct {
+   // memory used for cache
+   Cache uint64 `json:"cache, omitempty"`
+   // Usage of Memory
+   Usage MemoryData `json:"usage, omitempty"`
+   // Usage of memory + swap
+   SwapUsage MemoryData  `json:"swap_usage, omitempty"`
+   // Usage of kernel tcp memory
+   kernelUsage MemoryData `json:"kernel_usage, omitempty"`
+   // Usage of kernel tcp memory
+   kernelTCPUsage MemoryData `json:"kernel_usage, omitempty"`
+   // usage of memory pages by NUMA mode
+   // see chapter 5.6 of memory controller discussion
+   pageUsageByNUMA pageUsaeByNuma `json: "page usage by numa, omitempty"`
+   // if true, memory usage is accounted for throuout a hireachy of cgroups
+   UseHirearchy bool `json:"use_hirearcy"
+   tats map[string]uint64 `json:"stats, omitempty"`
+}
+useHirearchy bool `json:"use_hirearchy"`o
