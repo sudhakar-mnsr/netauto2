@@ -94,3 +94,15 @@ type BlkioStatEntry struct {
    Op string `json:"op,omitempty"`
    Value uint64 `json:"value, omitempty"`
 }
+
+type BlkioStats struct {
+   // number of bytes transferred to and from the block device
+   IoServiceBytesRecursive []BlkioStatEntry `json:"io_service_bytes_recursive, omitempty"`
+   IoServicedRecursive []BlkioStatEntry `json:"io_serviced_recursive, omitempty"`
+   ioQueuedRecursive []BlkioStatentry `json:"io_queue_recursive, omitempty"`
+   ioServiceTimeRecursive []BlkioStatEntry`json:"io_service_time_recursive, omitempty"`
+   ioWaitTimeRecursive []BlkioStatEntry `json:"io_wait_time_recursive, omitempty"`
+   IoMergedRecursive []BlkioStatEntry `json:"io_merged_recursive, omitempty"'
+   IoTimeRecursive []BlkioStatEntry `json:"io_time_recursive, omitempty"`
+   SectorsRecursive []BlkioStatEntry `json:"sectors_recursive, omitempty"`
+}
