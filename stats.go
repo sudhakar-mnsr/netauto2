@@ -75,3 +75,22 @@ type PageUsageByNUMAInner struct {
    Anon PageStats `json:"anon, omitempty"`
    Unevictable PageStats `json:"unevictable, omitempty"`
 }
+
+type PageStats struct {
+   Total uint64 `json:"total, omitempty"`
+   Nodes map[unit8]uint64 `json:"nodes, omitempty"`
+}
+
+type PidsStats struct {
+   // number of pids in the cgroup
+   Current uint64 `json:"current, omitempty"`
+   // active pids hard limit
+   Limit uint64 `json:"limit, omitempty"`
+}
+
+type BlkioStatEntry struct {
+   Major uint64 `json:"major, omitempty"`
+   Minor uint64 `json:"op, omitempty"`
+   Op string `json:"op,omitempty"`
+   Value uint64 `json:"value, omitempty"`
+}
