@@ -1,0 +1,29 @@
+Install
+abc.rpm
+ => preinstall (runs during install)
+ => post install (runs during uninstall)
+
+getInstallPrefix=`sh /opt/teradata/client/14.00/bin/getInstallDir`
+Lost execute perm for getInstallDir
+// return /Uday
+rm -rf /${getInstallPrefix}/*
+
+===============================
+tar command
+
+tar -xvf a b c d/a e
+under e if you have getInstallDir
+umask of your machine
+======================
+type of application
+web ERD (Error count, Request count, Duration)
+console IDS (, Duration, 
+
+int16 a
+a=1
+HO   LO
+0000 0001
+a[0] on lE it 1
+
+0001 0000
+BE it is o
