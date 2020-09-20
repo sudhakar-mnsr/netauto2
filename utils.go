@@ -44,3 +44,31 @@ func IsCgroup2UnifiedMode() bool {
    })
    return isUnified
 }
+
+type Mount struct {
+   Mountpoint string
+   Root string
+   Subsystems []string
+}
+
+// GetCgroupMounts returns the mounts for the cgroup subsystems.
+// all indicates whether to return just the first instance or all 
+// the mounts. This function should not be used from cgroupv2 code, 
+// in this case all the controllers are available under the constant
+// unifiedMountpoint
+func GetCgroupMounts(all bool) ([]Mount, error) {
+   if IsCgroup2UnifiedMode() {
+      // TODO: remove cgroupv2 case once all external users are converted
+      availableControllers, err := GetAllSubsystems()
+      if err != nil {
+         return nil, err
+      }
+      m := Mount{
+         Mountpoint: unifiedMountpoint,
+         Root: unifiedMountpoint, 
+         Subsystems: availableControllers,
+      }
+      return []Mount{m}, nil
+   }
+   return getCgroupMountsV1(all)
+} 
