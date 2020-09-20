@@ -240,3 +240,19 @@ func RemovePath(path string) error {
    }
    return err
 }
+
+// RemovePaths iterates over the provided paths removing them.
+// trying to remove all paths five times with increasing delay between tries.
+// If there are not removed cgroups - appropriate error will be returned.
+func RemovePaths(paths map[string]string) (err error) {
+   const retries = 5
+   delay := 10 * time.Millisecond
+   for i := 0; i < retries; i++ {
+      if i != 0 {
+         time.Sleep(delay)
+         delay *= 2
+      }
+      for s, p := range paths {
+         if err := RemovePath(p); err != nil {
+            // do not log intermediate iterations
+             
