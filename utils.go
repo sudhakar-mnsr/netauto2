@@ -116,16 +116,26 @@ func GetAllSubsystems() ([]string, error) {
 }
 
 func readProcsFile(file string) ([]int, error) {
-f, err := os.Open(file)
-if err != nil {
-   return nil, err
+   f, err := os.Open(file)
+   if err != nil {
+      return nil, err
+   }
+   defer f.Close()
+   
+   var (
+      s = bufio.NewScanner(f)
+      out = []int{}
+   )
+   
+   
+   for s.Scan() {
+      if t := s.Text(); t != "" {
+         pid, err := strconv.Atoi(t)
+         if err != nil {
+            return nil, err
+         }
+         out = append(out, pid)
+      }
+   }
+   return out, s.Err()
 }
-defer f.Close()
-
-var (
-   s = bufio.NewScanner(f)
-   out = []int{}
-)
-
-
-
