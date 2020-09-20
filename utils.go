@@ -212,3 +212,18 @@ func rmdir(path string) error {
    }
    return &os.PathError{Op: "rmdir", Path: path, Err: err}
 }
+
+// RemovePath aims to remove cgroup path. It does so recursively,
+// by removing any subdirectories (sub-cgroups) first.
+func RemovePath(path string) error {
+   // try the fast path first
+   if err := rmdir(path); err == nil {
+      return nil
+   }
+   infos, err := ioutil.ReadDir(path)
+   if err != nil {
+      if os.IsNotExist(err) {
+         err = nil 
+      }
+      return err
+   }
