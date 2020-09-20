@@ -204,3 +204,11 @@ func EnterPid(cgroupPaths map[string]string, pid int) error {
    }
    return nil
 }   
+
+func rmdir(path string) error {
+   err := unix.Rmdir(path)
+   if err == nil || err == unix.ENOENT {
+      return nil
+   }
+   return &os.PathError{Op: "rmdir", Path: path, Err: err}
+}
