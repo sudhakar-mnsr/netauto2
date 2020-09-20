@@ -377,3 +377,15 @@ func ConvertBlkIOToCgroupV2Value(blkIoWeight uint16) uint64 {
    }
    return uint64(1 + (uint64(blkIoWeight) - 10) * 9999/990)
 }
+
+// Since the OCI spec is designed for cgroup v1, in some cases
+// there is need to convert from the cgroup v1 configuration to cgroup v2
+// the formula for cpuShares is y = (1 + ((x - 2) * 9999) / 262142)
+// convert from [2-262144] to [1-10000]
+// 262144 comes from Linux kernel definition "#define MAX_SHARES (1UL << 18)"
+func ConvertCPUSharesToCgroupV2Value(cpuShares uint64) uint64 {
+   if cpuShares == 0 {
+      return 0
+   }
+   return (1 + ((cpuShares-2)*9999)/262142)
+}
