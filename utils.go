@@ -395,4 +395,9 @@ func ConvertCPUSharesToCgroupV2Value(cpuShares uint64) uint64 {
 // MemorySwap is defined as memory+swap combined, while in cgroup v2
 // swap is a separate value.
 func ConvertMemorySwapToCgroupV2Value(memorySwap, memory int64) (int64, error) {
-
+// for compatibility with cgroup1 controller, set swap to unlimited in
+// case the memory is set to unlimited, and swap is not explicitly set,
+// treating the request as "set both memory and swap to unlimited".
+if memory == -1 && memorySwap == 0 {
+   return -1, nil
+}
