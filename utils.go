@@ -186,3 +186,10 @@ func parseCgroupFromReader(r io.Reader) (map[string]string, error) {
    
    return cgroups, nil
 }
+
+func pathExists(path string) bool {
+   if _, err := os.Stat(path); err != nil {
+      return false
+   }
+   return true
+}
