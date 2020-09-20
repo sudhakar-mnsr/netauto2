@@ -303,3 +303,8 @@ func getHugePageSizeFromFilenames(fileNames []string) ([]string, error) {
    
    return pageSizes, nil
 }
+
+// GetPids returns all pids, that were added to cgroup at path.
+func GetPids(dir string) ([]int, error) {
+   return readProcsFile(filepath.Join(dir, CgroupProcesses))
+}
