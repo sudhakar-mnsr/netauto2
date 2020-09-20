@@ -410,4 +410,7 @@ if memorySwap == -1 || memorySwap == 0 {
 if memory == 0 || memory == -1 {
    return 0, errors.New("unable to set swap limit without memory limit")
 }
+if memory < 0 {
+   return 0, fmt.Errorf("invalid memory value: %d", memory)
+}
 
