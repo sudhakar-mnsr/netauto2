@@ -288,3 +288,18 @@ func GetHugePageSize() ([]string, error) {
    }
    return getHugePageSizeFromFilenames(fileNames)
 }
+
+func getHugePageSizeFromFilenames(fileNames []string) ([]string, error) {
+   var pageSizes []string
+   for _, fileName := range fileNames {
+      nameArray := strings.Split(fileName, "-")
+      pageSize, err := units.RAMInBytes(nameArray[1])
+      if err != nil {
+         return []string{}, err
+      }
+      sizeString := units.CustomSize("%g%s", float64(pageSize), 1024.0, HugePageSizeUnitList)
+      pageSizes = append(pageSizes, sizeString)
+   }
+   
+   return pageSizes, nil
+}
