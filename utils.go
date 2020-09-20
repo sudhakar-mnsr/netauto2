@@ -315,14 +315,18 @@ func GetAllPids(path string) ([]int, error) {
    var pids []int
    // collect pids from all sub-cgroups
    err := filepath.Walk(path, func(p string, info os.FileInfo, iErr error) error {
-   if iErr != nil {
-      return iErr
-   }
-   if info.IsDir() || info.Name() != CgroupProcesses {
+      if iErr != nil {
+         return iErr
+      }
+      if info.IsDir() || info.Name() != CgroupProcesses {
+         return nil
+      }
+      cPids, err := readProcsFile(p)
+      if err != nil {
+         return err
+      }
+      pids = append(pids, cPids...)
       return nil
-   }
-   cPids, err := readProcsFile(p)
-   if err != nil {
-      return err
-   }
-
+   })
+return pids, err
+}
