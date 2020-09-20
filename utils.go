@@ -389,3 +389,10 @@ func ConvertCPUSharesToCgroupV2Value(cpuShares uint64) uint64 {
    }
    return (1 + ((cpuShares-2)*9999)/262142)
 }
+
+// ConvertMemorySwapToCgroupV2Value converts MemorySwap value from OCI spec
+// for use by cgroup v2 drivers. A conversion is needed since Resources.
+// MemorySwap is defined as memory+swap combined, while in cgroup v2
+// swap is a separate value.
+func ConvertMemorySwapToCgroupV2Value(memorySwap, memory int64) (int64, error) {
+
