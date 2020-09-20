@@ -401,3 +401,13 @@ func ConvertMemorySwapToCgroupV2Value(memorySwap, memory int64) (int64, error) {
 if memory == -1 && memorySwap == 0 {
    return -1, nil
 }
+
+if memorySwap == -1 || memorySwap == 0 {
+   // -1 is "max", 0 is "unset", so treat as is
+   return memorySwap, nil
+}
+// Sanity checks
+if memory == 0 || memory == -1 {
+   return 0, errors.New("unable to set swap limit without memory limit")
+}
+
