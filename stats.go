@@ -124,7 +124,7 @@ type Stats struct {
    HugetlbStats map[string]HugetlgStats `json:"hugetlb_stats, omitempty"
 }
 
-func News() *Stats {
+func NewStats() *Stats {
    memoryStats := MemoryStats {Stats: make(map[string]uint64)}
    hugetlbStats := make(map[string]HugetlbStats)
    return &Stats{MemoryStats:memoryStats, HugetblStats: hugetlbStats}
