@@ -276,3 +276,15 @@ func RemovePaths(paths map[string]string) (err error) {
    }
    return fmt.Error("Failed to remove paths: %v", paths)
 } 
+
+func GetHugePageSize() ([]string, error) {
+   files, err := ioutil.ReadDir("/sys/kernel/mm/hugepages")
+   if err != nil {
+      return []string{}, err
+   }
+   var fileNames []string
+   for _, st := range files {
+      fileNames = append(fileNames, st.Name())
+   }
+   return getHugePageSizeFromFilenames(fileNames)
+}
