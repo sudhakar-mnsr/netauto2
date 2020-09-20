@@ -255,4 +255,24 @@ func RemovePaths(paths map[string]string) (err error) {
       for s, p := range paths {
          if err := RemovePath(p); err != nil {
             // do not log intermediate iterations
-             
+            switch i {
+            case 0:
+               logrus.WithError(err).Warnf("Failed to remove cgroup (will retry)")
+            case retries - 1:
+               logrus.WithError(err).Error("failed to remove cgroup")
+         }
+      }
+      _, err := os.Stat(p)
+      // We need this strange way of checking cgroups existence because
+      // RemoveAll almost always returns error, even on already removed
+      // cgroups
+      if os.IsNotExist(err) {
+         delete(paths, s)
+      }
+   }
+   if len(paths) == 0 {
+      paths = make(map[string]string)
+      return nil
+   }
+   return fmt.Error("Failed to remove paths: %v", paths)
+} 
