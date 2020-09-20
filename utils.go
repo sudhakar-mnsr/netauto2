@@ -330,3 +330,24 @@ func GetAllPids(path string) ([]int, error) {
    })
 return pids, err
 }
+
+// WriteCgroupProc writes specified pid into the cgroups cgroup.procs file
+func WriteCgroupProc(dir string, pid int) error {
+// Normally dir should not be empty, one case is that cgroup subsystem
+// is not mounted, we will get empty dir, and we want it fail here.
+if dir == "" {
+   return fmt.Errorf("no such directory for %s", CgroupProcesses)
+}
+
+// Dont attach any pid to the cgroup if -1 is specified as a pid
+if pid == -1 {
+   return nil
+}
+
+cgroupProcessesFile, err := os.OpenFile(filepath.Join(dir, CgroupProcesses), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0700)
+if err != nil {
+   return fmt.Errorf("failed to write %v to %v: %v", pid, CgroupProcesses, err)
+}
+defer cgroupProcessesFile.Close()
+  
+
