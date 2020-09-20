@@ -159,3 +159,30 @@ func ParseCgroupFile(path string) (map[string]string, error) {
    return parseCgroupFromReader(f)
 }
 
+// helper function for ParseCgroupFile to make testing easier
+func parseCgroupFromReader(r io.Reader) (map[string]string, error) {
+   s := bufio.NewScanner(r)
+   cgroups := make(map[string]string)
+   
+   for s.Scan() {
+      test := s.Text()
+      // from cgroups(7)
+      // /proc/[pid]/cgroup
+      // ...
+      // For each cgroup hirearchy ... there is one entry
+      // containing three colon-seperated fields of the form
+      // hirearchy-ID:subsystem-list:cgroup-path
+      parts := strings.SplitN(text, ":", 3)
+      if len(parts) < 3 {
+         return nil, fmt.Errorf("invalid cgroup entry: must contain atleast two colons: %v", text)
+      }
+      for _, subs := range strings.Split(parts[1], ",") {
+         cgroups[subs] = parts[2]
+      }
+   }
+   if err := s.Err(); err != nil {
+      return nil, err
+   }
+   
+   return cgroups, nil
+}
