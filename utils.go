@@ -308,3 +308,21 @@ func getHugePageSizeFromFilenames(fileNames []string) ([]string, error) {
 func GetPids(dir string) ([]int, error) {
    return readProcsFile(filepath.Join(dir, CgroupProcesses))
 }
+
+// GetAllPids returns all pids, that were added to cgroup at path and 
+// to all its subcgroups
+func GetAllPids(path string) ([]int, error) {
+   var pids []int
+   // collect pids from all sub-cgroups
+   err := filepath.Walk(path, func(p string, info os.FileInfo, iErr error) error {
+   if iErr != nil {
+      return iErr
+   }
+   if info.IsDir() || info.Name() != CgroupProcesses {
+      return nil
+   }
+   cPids, err := readProcsFile(p)
+   if err != nil {
+      return err
+   }
+
