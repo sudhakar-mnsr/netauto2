@@ -177,84 +177,99 @@ const cgroup2Mountinfo = `18 64 0:18 / /sys rw,nosuid,nodev,noexec,relatime shar
 41 20 0:39 / /dev/hugepages rw,relatime shared:26 - hugetlbfs hugetlbfs rw,seclabel
 `
 func TestGetCgroupMounts(t *testing.T) {
-type testData struct {
-   mountInfo string
-   root string
-   subsystems map[string]bool
-}
-testTable := []testData{
-   {
-      mountInfo: fedoraMountinfo,
-      root: "/",
-      subsystems: map[string]bool{
-         "name=systemd": false,
-         "cpuset": false,
-         "cpu": false,
-         "cpuacct": false,
-         "memory": false,
-         "devices": false,
-         "freezer": false,
-         "net_cls": false,
-         "blkio": false,
-         "perf_event": false,
-         "hugetlb": false,
-      },
-   },
-   {
-      mountInfo: systemdMountinfo,
-      root: "/system.slice/docker-dc4eaa1a34ec4d593bc0125d31eea823a1d76ae483aeb1409cca80304e34da2e.scope",
-      subsystems: map[string]bool{
-         "name=systemd": false,
-         "cpuset": false,
-         "cpu": false,
-         "cpuacct": false,
-         "memory": false,
-         "devices": false,
-         "freezer": false,
-         "net_cls": false,
-         "blkio": false,
-         "perf_event": false,
-      },
-   },
-   {
-      mountInfo: bedrockMountinfo,
-      root: "/",
-      subsystems: map[string]bool{
-         "name=systemd": false,
-         "cpuset": false,
-         "cpu": false,
-         "cpuacct": false,
-         "memory": false,
-         "devices": false,
-         "freezer": false,
-         "net_cls": false,
-         "net_prio": false,
-         "blkio": false,
-         "perf_event": false,
-         "pids": false,
-      },
-   },
-}
-
-for _, td := range testTable {
-   mi := bytes.NewBufferString(td.mountInfo)
-   cgMounts, err := getCgroupMountsHelper(td.subsystems, mi, false)
-   if err != nil {
-      t.Fatal(err)
+   type testData struct {
+      mountInfo string
+      root string
+      subsystems map[string]bool
    }
-   cgMap := make(map[string]Mount)
-   for _, m := range cgMounts {
-      for _, ss := range m.Subsystems {
-         cgMaps[ss] = m
+   testTable := []testData{
+      {
+         mountInfo: fedoraMountinfo,
+         root: "/",
+         subsystems: map[string]bool{
+            "name=systemd": false,
+            "cpuset": false,
+            "cpu": false,
+            "cpuacct": false,
+            "memory": false,
+            "devices": false,
+            "freezer": false,
+            "net_cls": false,
+            "blkio": false,
+            "perf_event": false,
+            "hugetlb": false,
+         },
+      },
+      {
+         mountInfo: systemdMountinfo,
+         root: "/system.slice/docker-dc4eaa1a34ec4d593bc0125d31eea823a1d76ae483aeb1409cca80304e34da2e.scope",
+         subsystems: map[string]bool{
+            "name=systemd": false,
+            "cpuset": false,
+            "cpu": false,
+            "cpuacct": false,
+            "memory": false,
+            "devices": false,
+            "freezer": false,
+            "net_cls": false,
+            "blkio": false,
+            "perf_event": false,
+         },
+      },
+      {
+         mountInfo: bedrockMountinfo,
+         root: "/",
+         subsystems: map[string]bool{
+            "name=systemd": false,
+            "cpuset": false,
+            "cpu": false,
+            "cpuacct": false,
+            "memory": false,
+            "devices": false,
+            "freezer": false,
+            "net_cls": false,
+            "net_prio": false,
+            "blkio": false,
+            "perf_event": false,
+            "pids": false,
+         },
+      },
+   }
+   
+   for _, td := range testTable {
+      mi := bytes.NewBufferString(td.mountInfo)
+      cgMounts, err := getCgroupMountsHelper(td.subsystems, mi, false)
+      if err != nil {
+         t.Fatal(err)
+      }
+      cgMap := make(map[string]Mount)
+      for _, m := range cgMounts {
+         for _, ss := range m.Subsystems {
+            cgMaps[ss] = m
+         }
+      }
+      for ss := range td.subsystems {
+         ss = strings.TrimPrefix(ss, CgroupNamePrefix)
+         m, ok := cgMap[ss]
+         if !ok {
+            t.Fatal("%s not found", ss)
+         }
+         if m.Root != td.root {
+            t.Fatalf("unexpected root for %s: %s", ss, m.Root)
+         }
+         if !strings.HasPrefix(m.Mountpoint, "/sys/fs/cgroup/") && !strings.Contains(m.Mountpoint, ss) {
+            t.Fatalf("unexpected mountpoint for %s: %s", ss, m.Mountpoint)
+         }
+         var ssFound bool
+         for _, mss := range m.Subsystems {
+            if mss == ss {
+               ssFound = true
+               break
+            }
+         }
+         if !ssFound {
+            t.Fatalf("subsystem %s not found in Subsystems field %v", ss, m.Subsystems)
+         }
       }
    }
-   for ss := range td.subsystems {
-      ss = strings.TrimPrefix(ss, CgroupNamePrefix)
-      m, ok := cgMap[ss]
-      if !ok {
-         t.Fatal("%s not found", ss)
-      }
-      if m.Root != td.root {
-         t.Fatalf("unexpected root for %s: %s", ss, m.Root)
-      }
-
+}
