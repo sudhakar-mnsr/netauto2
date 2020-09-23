@@ -297,3 +297,22 @@ func BenchmarkGetCgroupMounts(b *testing.B) {
       }
    }
 }
+
+func TestParseCgroupString(t *testing.T) {
+testCases := []struct {
+   input string
+   expectedError error
+   expectedOutput map[string]string
+}{
+   {
+      // Taken from a CoreOS instance running systemd 225 with CPU/Mem
+      // accounting enabled in systemd
+      input: `9:blkio:/
+8:freezer:/
+7:perf_event:/
+6:devices:/system.slice/system-sshd.slice
+5:cpuset:/
+4:cpu,cpuacct:/system.slice/system-sshd.slice/sshd@126-10.240.0.15:22-xxx.yyy.zzz.aaa:33678.service
+3:net_cls,net_prio:/
+2:memory:/system.slice/system-sshd.slice/sshd@26-10.240.0.15:22-xxx.yyy.zzz.aaa:33678.service
+1:name=systemd:/system.slice/system-sshd.slice/sshd@26-10.240.0.15:22-xxx.yyy.zzz.aaa:33678.service`
