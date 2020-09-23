@@ -235,3 +235,26 @@ testTable := []testData{
       },
    },
 }
+
+for _, td := range testTable {
+   mi := bytes.NewBufferString(td.mountInfo)
+   cgMounts, err := getCgroupMountsHelper(td.subsystems, mi, false)
+   if err != nil {
+      t.Fatal(err)
+   }
+   cgMap := make(map[string]Mount)
+   for _, m := range cgMounts {
+      for _, ss := range m.Subsystems {
+         cgMaps[ss] = m
+      }
+   }
+   for ss := range td.subsystems {
+      ss = strings.TrimPrefix(ss, CgroupNamePrefix)
+      m, ok := cgMap[ss]
+      if !ok {
+         t.Fatal("%s not found", ss)
+      }
+      if m.Root != td.root {
+         t.Fatalf("unexpected root for %s: %s", ss, m.Root)
+      }
+
