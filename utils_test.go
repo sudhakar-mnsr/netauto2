@@ -273,3 +273,18 @@ func TestGetCgroupMounts(t *testing.T) {
       }
    }
 }
+
+func BenchmarkGetCgroupMounts(b *testing.B) {
+   subsystems := map[string]bool{
+      "cpuset": false,
+      "cpu": false,
+      "cpuacct": false,
+      "memory": false,
+      "devices": false,
+      "freezer": false,
+      "net_cls": false,
+      "blkio": false,
+      "perf_event": false,
+      "hugetlb": false,
+   }
+
