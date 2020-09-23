@@ -287,4 +287,13 @@ func BenchmarkGetCgroupMounts(b *testing.B) {
       "perf_event": false,
       "hugetlb": false,
    }
-
+   b.ResetTimer()
+   for i := 0; i < b.N; i++ {
+      b.StopTimer()
+      mi := bytes.NewBufferString(fedoraMountinfo)
+      b.StartTimer()
+      if _, err := getCgroupMountsHelper(subsystems, mi, false); err != nil {
+         b.Fatal(err)
+      }
+   }
+}
