@@ -201,3 +201,18 @@ testTable := []testData{
       },
    },
    {
+      mountInfo: systemdMountinfo,
+      root: "/system.slice/docker-dc4eaa1a34ec4d593bc0125d31eea823a1d76ae483aeb1409cca80304e34da2e.scope",
+      subsystems: map[string]bool{
+         "name=systemd": false,
+         "cpuset": false,
+         "cpu": false,
+         "cpuacct": false,
+         "memory": false,
+         "devices": false,
+         "freezer": false,
+         "net_cls": false,
+         "blkio": false,
+         "perf_event": false,
+      },
+   },
