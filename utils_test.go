@@ -216,3 +216,22 @@ testTable := []testData{
          "perf_event": false,
       },
    },
+   {
+      mountInfo: bedrockMountinfo,
+      root: "/",
+      subsystems: map[string]bool{
+         "name=systemd": false,
+         "cpuset": false,
+         "cpu": false,
+         "cpuacct": false,
+         "memory": false,
+         "devices": false,
+         "freezer": false,
+         "net_cls": false,
+         "net_prio": false,
+         "blkio": false,
+         "perf_event": false,
+         "pids": false,
+      },
+   },
+}
