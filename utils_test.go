@@ -176,3 +176,28 @@ const cgroup2Mountinfo = `18 64 0:18 / /sys rw,nosuid,nodev,noexec,relatime shar
 40 20 0:16 / /dev/mqueue rw,relatime shared:25 - mqueue mqueue rw,seclabel
 41 20 0:39 / /dev/hugepages rw,relatime shared:26 - hugetlbfs hugetlbfs rw,seclabel
 `
+func TestGetCgroupMounts(t *testing.T) {
+type testData struct {
+   mountInfo string
+   root string
+   subsystems map[string]bool
+}
+testTable := []testData{
+   {
+      mountInfo: fedoraMountinfo,
+      root: "/",
+      subsystems: map[string]bool{
+         "name=systemd": false,
+         "cpuset": false,
+         "cpu": false,
+         "cpuacct": false,
+         "memory": false,
+         "devices": false,
+         "freezer": false,
+         "net_cls": false,
+         "blkio": false,
+         "perf_event": false,
+         "hugetlb": false,
+      },
+   },
+   {
