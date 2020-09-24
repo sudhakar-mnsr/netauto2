@@ -377,3 +377,17 @@ func TestIgnoreCgroup2Mount(t *testing.T) {
       }
    }
 }
+
+func TestFindCgroupMountpointAndRoot(t *testing.T) {
+fakeMountInfo := `
+35 27 0:29 / /foo rw,nosuid,nodev,noexec,relatime shared:18 - cgroup cgroup rw,devices
+35 27 0:29 / /sys/fs/cgroup/devices rw,nosuid,nodev,noexec,relatime shared:18 - cgroup cgroup rw,devices
+`
+testCases := []struct {
+   cgroupPath string
+   output string
+}{
+   {cgroupPath: "/sys/fs", output: "/sys/fs/cgroup/devices"},
+   {cgroupPath: "", output: "/foo"},
+}
+  
