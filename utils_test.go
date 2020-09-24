@@ -349,3 +349,24 @@ func TestParseCgroupString(t *testing.T) {
       }
    }
 }
+
+func TestIgnoreCgroup2Mount(t *testing.T) {
+subsystems := map[string]bool{
+"cpuset": false,
+"cpu": false,
+"cpuacct": false,
+"memory": false,
+"devices": false,
+"freezer": false,
+"net_cls": false,
+"blkio": false,
+"perf_event": false,
+"pids": false,
+"name=systemd": false,
+}
+
+mi := bytes.NewBufferString(cgroup2Mountinfo)
+cgMounts, err := getCgroupMountsHelper(subsystems, mi, false)
+if err != nil {
+   t.Fatal(err)
+}
