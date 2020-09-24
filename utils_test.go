@@ -416,4 +416,11 @@ testCases := []struct {
       err: nil,
    },
    {
-      
+      inputFiles: []string{"hugepages-a"},
+      outputPageSizes: []string{},
+      err: errors.New("invalid size: 'a'"),
+   },
+}
+
+for _, c := range testCases {
+ 
