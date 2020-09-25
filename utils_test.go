@@ -516,3 +516,18 @@ cases := []struct {
       memory: -300,
       expected: true,
    },
+   {
+      memswap: 300,   
+      memory: -1,
+      expected: true,
+   },
+}
+
+for _, c := range cases {
+   swap, err := ConvertMemorySwapToCgroupV2Value(c.memswap, c.memory)
+   if c.expErr {
+      if err == nil {
+         t.Errorf("memswap: %d, memory %d, expected error, got %d, nil", c.memswap, c.memory, swap)
+      }
+      continue
+   }
