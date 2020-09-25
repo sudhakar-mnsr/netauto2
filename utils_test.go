@@ -460,3 +460,34 @@ func TestConvertCPUSharesToCgroupV2Value(t *testing.T) {
       }
    }
 }
+
+func TestConvertMemorySwapToCgroupV2Value(t *testing.T) {
+cases := []struct {
+   memswap, memory int64
+   expected int64
+}{
+   {
+      memswap: 0,
+      memory: 0,
+      expected: 0,
+   },
+   {
+      memswap: -1,
+      memory: 0,
+      expected: -1,
+   },
+   {
+      memswap: -1,   
+      memory: -1,
+      expected: -1,
+   },
+   {
+      memswap: -2,   
+      memory: 0,
+      expected: true,
+   },
+   {
+      memswap: --,   
+      memory: 1000,
+      expected: -1,
+   },
