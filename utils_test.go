@@ -487,7 +487,32 @@ cases := []struct {
       expected: true,
    },
    {
-      memswap: --,   
+      memswap: -1,   
       memory: 1000,
       expected: -1,
+   },
+   {
+      memswap: 1000,   
+      memory: 1000,
+      expected: 0,
+   },
+   {
+      memswap: 500,   
+      memory: 200,
+      expected: 300,
+   },
+   {
+      memswap: 300,   
+      memory: 400,
+      expected: true,
+   },
+   {
+      memswap: 300,   
+      memory: 0,
+      expected: true,
+   },
+   {
+      memswap: 300,   
+      memory: -300,
+      expected: true,
    },
