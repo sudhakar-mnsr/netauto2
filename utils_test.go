@@ -462,72 +462,80 @@ func TestConvertCPUSharesToCgroupV2Value(t *testing.T) {
 }
 
 func TestConvertMemorySwapToCgroupV2Value(t *testing.T) {
-cases := []struct {
-   memswap, memory int64
-   expected int64
-}{
-   {
-      memswap: 0,
-      memory: 0,
-      expected: 0,
-   },
-   {
-      memswap: -1,
-      memory: 0,
-      expected: -1,
-   },
-   {
-      memswap: -1,   
-      memory: -1,
-      expected: -1,
-   },
-   {
-      memswap: -2,   
-      memory: 0,
-      expected: true,
-   },
-   {
-      memswap: -1,   
-      memory: 1000,
-      expected: -1,
-   },
-   {
-      memswap: 1000,   
-      memory: 1000,
-      expected: 0,
-   },
-   {
-      memswap: 500,   
-      memory: 200,
-      expected: 300,
-   },
-   {
-      memswap: 300,   
-      memory: 400,
-      expected: true,
-   },
-   {
-      memswap: 300,   
-      memory: 0,
-      expected: true,
-   },
-   {
-      memswap: 300,   
-      memory: -300,
-      expected: true,
-   },
-   {
-      memswap: 300,   
-      memory: -1,
-      expected: true,
-   },
-}
-
-for _, c := range cases {
-   swap, err := ConvertMemorySwapToCgroupV2Value(c.memswap, c.memory)
-   if c.expErr {
-      if err == nil {
-         t.Errorf("memswap: %d, memory %d, expected error, got %d, nil", c.memswap, c.memory, swap)
-      }
-      continue
+   cases := []struct {
+      memswap, memory int64
+      expected int64
+   }{
+      {
+         memswap: 0,
+         memory: 0,
+         expected: 0,
+      },
+      {
+         memswap: -1,
+         memory: 0,
+         expected: -1,
+      },
+      {
+         memswap: -1,   
+         memory: -1,
+         expected: -1,
+      },
+      {
+         memswap: -2,   
+         memory: 0,
+         expected: true,
+      },
+      {
+         memswap: -1,   
+         memory: 1000,
+         expected: -1,
+      },
+      {
+         memswap: 1000,   
+         memory: 1000,
+         expected: 0,
+      },
+      {
+         memswap: 500,   
+         memory: 200,
+         expected: 300,
+      },
+      {
+         memswap: 300,   
+         memory: 400,
+         expected: true,
+      },
+      {
+         memswap: 300,   
+         memory: 0,
+         expected: true,
+      },
+      {
+         memswap: 300,   
+         memory: -300,
+         expected: true,
+      },
+      {
+         memswap: 300,   
+         memory: -1,
+         expected: true,
+      },
    }
+   
+   for _, c := range cases {
+      swap, err := ConvertMemorySwapToCgroupV2Value(c.memswap, c.memory)
+      if c.expErr {
+         if err == nil {
+            t.Errorf("memswap: %d, memory %d, expected error, got %d, nil", c.memswap, c.memory, swap)
+         }
+         continue
+      }
+      if err != nil {
+         t.Errorf("memswap: %d, memory %d, expected success, got error %s", c.memswap, c.memory, err)
+      }
+      if swap != c.expected {
+         t.Errorf("memswap: %d, memory %d, expected %d, got %d, c.memswap, c.memory, c.expected, swap)
+      }
+   }
+}
