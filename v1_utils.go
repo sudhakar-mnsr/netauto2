@@ -123,10 +123,23 @@ func FindCgrouMountpointAndRoot(cgroupPath, subsystem string) (string, string, e
 }
 
 func findCgroupMountpointAndRootFromReader(reader io.Reader, cgroupPath, subsystem string) (string, string, error) {
-scanner := bufio.NewScanner(reader)
-for scanner.Scan() {
-txt := scanner.Text()
-fields := strings.Fields(txt)
-if len(fields) < 9 {
-   continue
+   scanner := bufio.NewScanner(reader)
+   for scanner.Scan() {
+      txt := scanner.Text()
+      fields := strings.Fields(txt)
+      if len(fields) < 9 {
+         continue
+      }
+      if strings.HasPrefix(fields[4], cgroupPath) {
+         for _, opt := range strings.Split(fields[len(fields)-1], ",") {
+            if opt == subsystem {
+               return fields[4], fields[3], nil
+            }
+         }
+      }
+   }
+   if err := scanner.Err(); err != nil {
+      return "", "", err
+   }
+   return "", "", NewNotFoundError(subsystem)
 }
