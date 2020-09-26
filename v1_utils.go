@@ -121,3 +121,12 @@ func FindCgrouMountpointAndRoot(cgroupPath, subsystem string) (string, string, e
    
    return findCgroupMountpointAndRootFromReader(f, cgroupPath, subsystem)
 }
+
+func findCgroupMountpointAndRootFromReader(reader io.Reader, cgroupPath, subsystem string) (string, string, error) {
+scanner := bufio.NewScanner(reader)
+for scanner.Scan() {
+txt := scanner.Text()
+fields := strings.Fields(txt)
+if len(fields) < 9 {
+   continue
+}
