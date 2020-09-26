@@ -88,3 +88,17 @@ func tryDefaultPath(cgroupPath, subsystem string) string {
     
    return path
 }
+
+func FindCgroupMountpoint(cgroupPath, subsystem string) (string, error) {
+   if IsCgroup2UnifiedMode() {
+      return "", errUnified
+   }
+   
+   // Avoid parsing mountinfo by trying the default path first, if possible.
+   if path := tryDefaultPath(cgroupPath, subsystem); path != "" {
+      return path, nil
+   }
+   
+   mnt, _, err := FindCgroupMountpointAndRoot(cgroupPath, subsystem)
+   return mnt, err
+}
