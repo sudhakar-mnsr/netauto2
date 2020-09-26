@@ -104,11 +104,20 @@ func FindCgroupMountpoint(cgroupPath, subsystem string) (string, error) {
 }
 
 func FindCgrouMountpointAndRoot(cgroupPath, subsystem string) (string, string, error) {
-if IsCgroup2UnifiedMode() {
-   return "", "", errUnified
-}
-
-// Avoid parsing mountinfo by checking if subsystem is valid/available
-if !isSubsystemAvailable(subsystem) {
-   return "", "", NewNotFoundError(subsystem)
+   if IsCgroup2UnifiedMode() {
+      return "", "", errUnified
+   }
+   
+   // Avoid parsing mountinfo by checking if subsystem is valid/available
+   if !isSubsystemAvailable(subsystem) {
+      return "", "", NewNotFoundError(subsystem)
+   }
+   
+   f, err := os.Open("/proc/self/mountinfo")
+   if err != nil {
+      return "", "", err
+   }
+   defer f.Close()
+   
+   return findCgroupMountpointAndRootFromReader(f, cgroupPath, subsystem)
 }
