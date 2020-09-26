@@ -49,4 +49,17 @@ func IsNotFound(err error) bool {
    return ok
 }
 
+func tryDefaultPath(cgroupPath, subsystem string) string {
+if !strings.HasPrefix(defaultPrefix, cgroupPath) {
+   return ""
+}
 
+// remove possible prefix
+subsystem = strings.TrimPrefix(subsystem, CgroupNamePrefix)
+
+// Make sure we're still under defaultPrefix, and resolve
+// a possible symlink (like cpu -> cpu,cpuacct).
+path, err := securejoin.SecureJoin(defaultPrefix, subsystem)
+if err != nil {
+   return ""
+}
