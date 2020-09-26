@@ -102,3 +102,13 @@ func FindCgroupMountpoint(cgroupPath, subsystem string) (string, error) {
    mnt, _, err := FindCgroupMountpointAndRoot(cgroupPath, subsystem)
    return mnt, err
 }
+
+func FindCgrouMountpointAndRoot(cgroupPath, subsystem string) (string, string, error) {
+if IsCgroup2UnifiedMode() {
+   return "", "", errUnified
+}
+
+// Avoid parsing mountinfo by checking if subsystem is valid/available
+if !isSubsystemAvailable(subsystem) {
+   return "", "", NewNotFoundError(subsystem)
+}
