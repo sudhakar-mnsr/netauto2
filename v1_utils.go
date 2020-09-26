@@ -50,16 +50,41 @@ func IsNotFound(err error) bool {
 }
 
 func tryDefaultPath(cgroupPath, subsystem string) string {
-if !strings.HasPrefix(defaultPrefix, cgroupPath) {
-   return ""
-}
-
-// remove possible prefix
-subsystem = strings.TrimPrefix(subsystem, CgroupNamePrefix)
-
-// Make sure we're still under defaultPrefix, and resolve
-// a possible symlink (like cpu -> cpu,cpuacct).
-path, err := securejoin.SecureJoin(defaultPrefix, subsystem)
-if err != nil {
-   return ""
+   if !strings.HasPrefix(defaultPrefix, cgroupPath) {
+      return ""
+   }
+   
+   // remove possible prefix
+   subsystem = strings.TrimPrefix(subsystem, CgroupNamePrefix)
+   
+   // Make sure we're still under defaultPrefix, and resolve
+   // a possible symlink (like cpu -> cpu,cpuacct).
+   path, err := securejoin.SecureJoin(defaultPrefix, subsystem)
+   if err != nil {
+      return ""
+   }
+   
+   st, err := os.Lstat(path)
+   if err != nil || !st.IsDir() {
+      return ""
+   }
+   
+   pst, err := os.Lstat(filepath.Dir(path))
+   if err != nil {
+      return ""
+   }
+   
+   if st.Sys().(*syscall.Stat_t).Dev == pst.Sys().(*syscall.Stat_t).Dev {
+      // parent dir has the same dev -- path is not a mount point
+      return ""
+   }
+   
+   // (3) path should have 'cgroup' fs type.
+   fst := unix.Statfs_t{}
+   err = unix.Statfs(path, &fst)
+   if err != nil || fst.Type != unix.CGROUP_SUPER_MAGIC {
+      return ""
+   }
+    
+   return path
 }
