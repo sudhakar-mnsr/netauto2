@@ -11,3 +11,20 @@ import (
 	"os"
 	"strings"
 )
+
+type Configuration struct {
+   Address string
+   ReadTimeout int64
+   WriteTimeout int64
+   Static string
+}
+
+var config Configuration
+var logger *log.Logger
+
+// Convenience function for printing to stdout
+func p(a ...interface{}) {
+   fmt.Println(a)
+}
+
+
