@@ -67,3 +67,15 @@ if user.Password == data.Encrypt(request.PostFormValue("password")) {
       http.Redirect(writer, request, "/login", 302)
    }
 }
+
+// GET /logout
+// Logs the user out
+func logout(writer http.ResponseWriter, request *http.Request) {
+   cookie, err := request.Cookie("_cookie")
+   if err != http.ErrNoCookie {
+      warning(err, "Failed to get cookie")
+      session := data.Session{Uuid: cookie.Value}
+      session.DeleteByUUID()
+   }
+   http.Redirect(writer, request, "/", 302)
+}
