@@ -89,3 +89,9 @@ func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...str
    templates := template.Must(template.Parsefiles(files...))
    templates.ExecuteTemplate(writer, "layout", data)
 }
+
+// for logging
+func info(args ...interface{}) {
+   logger.SetPrefix("INFO")
+   logger.Println(args...)
+}
