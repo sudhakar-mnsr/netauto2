@@ -49,3 +49,10 @@ func loadConfig() {
       log.Fatalln("Cannot get configuration from file", err)
    }
 }
+
+// Convenience function to redirect to the error message page
+func error_message(writer http.ResponseWriter, request *http.Request, msg string) {
+   url := []string{"/err?msg=", msg}
+   http.Redirect(writer, request, strings.Join(url, ""), 302)
+}
+
