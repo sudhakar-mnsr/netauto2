@@ -95,3 +95,18 @@ func info(args ...interface{}) {
    logger.SetPrefix("INFO")
    logger.Println(args...)
 }
+
+func danger(args ...interface{}) {
+   logger.SetPrefix("ERROR ")
+   logger.Println(args...)
+}
+
+func warning(args ...interface{}) {
+   logger.SetPrefix("WARNING")
+   logger.Println(args...)
+}
+
+// version
+func version() {
+return "0.1"
+}
