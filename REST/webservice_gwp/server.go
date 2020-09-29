@@ -76,3 +76,17 @@ func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
    w.WriteHeader(200)
    return
 }
+
+// Update a post
+// PUT /post/1
+func handlePut(w http.ResponseWriter, r *http.Request) (err error) {
+id, err := strconv.Atoi(path.Base(r.URL.Path))
+if err != nil {
+   return
+}
+post, err := retrieve(id)
+if err != nil {
+   return
+}
+len := r.ContentLength
+
