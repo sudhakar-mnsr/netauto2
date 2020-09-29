@@ -34,3 +34,15 @@ func (post *Post) create() (err error) {
    err = stmt.QueryRow(post.Content, post.Author).Scan(&post.Id)
    return
 }
+
+// Update a post
+func (post *Post) update() (err error) {
+   _, err = Db.Exec("update posts set content = $2, author = $3 where id = $1", post.Id, post.Content, post.Author)
+   return
+}
+
+// Delete a post
+func (post *Post) delete() (err error) {
+   _, err = Db.Exec("delete from posts where id = $1", post.Id)
+   return
+}
