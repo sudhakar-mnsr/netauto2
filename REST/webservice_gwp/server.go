@@ -63,8 +63,16 @@ func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
 // Create a post
 // POST /post/
 func handlePost(w http.ResponseWriter, r *http.Request) (err error) {
-len := r.ContentLength
-body := make([]byte, len)
-r.Body.Read(body)
-var post Post
-
+   len := r.ContentLength
+   body := make([]byte, len)
+   r.Body.Read(body)
+   var post Post
+   
+   json.Unmarshal(body, &post)
+   err = post.create()
+   if err != nil {
+      return
+   }
+   w.WriteHeader(200)
+   return
+}
