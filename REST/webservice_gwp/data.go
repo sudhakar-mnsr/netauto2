@@ -23,3 +23,14 @@ func retrieve(id int) (post Post, err error) {
    return
 }
 
+// Create a new post
+func (post *Post) create() (err error) {
+   statement := "insert into posts (content, author) values ($1, $2) returning id"
+   stmt, err := Db.Prepare(statement)
+   if err != nil {
+      return
+   }
+   defer stmt.Close()
+   err = stmt.QueryRow(post.Content, post.Author).Scan(&post.Id)
+   return
+}
