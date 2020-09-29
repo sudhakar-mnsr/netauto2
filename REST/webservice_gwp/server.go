@@ -39,3 +39,16 @@ func handleRequest(w http.ResponseWriter, r *http.Request) {
       return
    }
 }
+
+// Retrieve a post
+// GET /post/1
+func handleGet(w http.ResponseWriter, r *http.Request) (err error) {
+id, err := strconv.Atoi(path.Base(r.URL.Path))
+if err != nil {
+   return
+}
+post, err := retrieve(id)
+if err != nil {
+   return
+}
+
