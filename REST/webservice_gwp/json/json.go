@@ -25,23 +25,37 @@ type Comment struct {
 }
 
 func main() {
-post := Post{
-   Id: 1,
-   Content: "Hello World!",
-   Author: Author{
-      Id: 2,
-      Name: "Sau Sheong",
-   },
-   Comments: []Comment{
-      Comment{
-         Id: 1,
-         Content: "Have a great day!",
-         Author: "Adam",
-      },
-      Comment{
+   post := Post{
+      Id: 1,
+      Content: "Hello World!",
+      Author: Author{
          Id: 2,
-         Content: "How are you today?",
-         Author: "Betty",
+         Name: "Sau Sheong",
       },
-   },
+      Comments: []Comment{
+         Comment{
+            Id: 1,
+            Content: "Have a great day!",
+            Author: "Adam",
+         },
+         Comment{
+            Id: 2,
+            Content: "How are you today?",
+            Author: "Betty",
+         },
+      },
+   }
+   
+   jsonFile, err := os.Create("post.json")
+   if err != nil {
+      fmt.Println("Error creating JSON file:", err)
+      return
+   }
+   jsonWriter := io.Writer(jsonFile)
+   encoder := json.NewEncoder(jsonWriter)
+   err = encoder.Encode(&post)
+   if err != nil {
+      fmt.Println("Error encodeing JSON to file:", err)
+      return
+   }
 }
