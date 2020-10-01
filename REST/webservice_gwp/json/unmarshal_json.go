@@ -26,15 +26,26 @@ type Comment struct {
 }
 
 func main() {
-jsonFile, err := os.Open("post.json")
-if err != nil {
-   fmt.Println("Error opening JSON file:", err)
-   return
+   jsonFile, err := os.Open("post.json")
+   if err != nil {
+      fmt.Println("Error opening JSON file:", err)
+      return
+   }
+   defer json.Close()
+   jsonData, err := ioutil.ReadAll(jsonFile)
+   if err != nil {
+      fmt.Println("Error reading JSON data:", err)
+      return
+   }
+   
+   fmt.Println(string(jsonData))
+   var post Post
+   json.Unmarshal(jsonData, &post)
+   fmt.Println(post.Id)
+   fmt.Println(post.Content)
+   fmt.Println(post.Author.Id)
+   fmt.Println(post.Author.Name)
+   fmt.Println(post.Comments[0].Id)
+   fmt.Println(post.Comments[0].Content)
+   fmt.Println(post.Comments[0].Author)
 }
-defer json.Close()
-jsonData, err := ioutil.ReadAll(jsonFile)
-if err != nil {
-   fmt.Println("Error reading JSON data:", err)
-   return
-}
-
