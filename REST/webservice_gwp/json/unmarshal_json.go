@@ -24,3 +24,17 @@ type Comment struct {
 	Content string `json:"content"`
 	Author  string `json:"author"`
 }
+
+func main() {
+jsonFile, err := os.Open("post.json")
+if err != nil {
+   fmt.Println("Error opening JSON file:", err)
+   return
+}
+defer json.Close()
+jsonData, err := ioutil.ReadAll(jsonFile)
+if err != nil {
+   fmt.Println("Error reading JSON data:", err)
+   return
+}
+
