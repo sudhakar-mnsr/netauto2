@@ -14,3 +14,13 @@ const station = `
       CLOSING_TIME TIME NULL
    )
 `
+const schedule = `
+   CREATE TABLE IF NOT EXISTS schedule (
+      ID INTEGER PRIMARY KEY AUTOINCREMENT,
+      TRAIN_ID INT,
+      STATION_ID INT,
+      ARRIVAL_TIME TIME,
+      FOREIGN KEY (TRAIN_ID) REFERENCES train(ID),
+      FOREIGN KEY (STATION_ID) REFERENCES station(ID)
+   )
+`
