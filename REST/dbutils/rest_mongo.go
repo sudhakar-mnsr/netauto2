@@ -79,6 +79,20 @@ func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
       w.Write([]byte("Updated successfully!"))
    }
 }
+
+// DeleteMovie removes the data from the db
+func (db *DB) DeleteMovie(w http.ResponseWriter, r *http.Request) {
+   vars := mux.Vars(r)
+   // Create and Hash id to insert
+   err := db.collection.Remove(bson.M{"_id": bson.ObjectIdHex(vars["id"])})
+   if err != nil {
+      w.WriteHeader(http.StatusOK)
+      w.Write([]byte(err.Error()))
+   } else {
+      w.Header().Set("Content-Type", "text")
+      w.Write([]byte("Deleted successfully!"))
+   }
+}
 func main() {
    session, err := mgo.Dial("127.0.0.1")
    c := session.DB("appdb").C("movies")
