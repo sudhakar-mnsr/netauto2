@@ -35,6 +35,16 @@ type ScheduleResource struct {
    ArrivalTime time.Time
 }
 
+// Register adds paths and routes to container
+func (t *TrainResource) Register(container *restful.Container) {
+   ws := new(restful.WebService)
+   ws.Path("/v1/trains").Consumes(restful.MIME_JSON).Produces(restful.MIME_JSON)
+   ws.Route(ws.GET("/{train-id}").To(t.getTrain))
+   ws.Route(ws.POST("").To(t.CreateTrain))
+   ws.Route(ws.Delete("/{train-id}").To(t.removeTrain))
+   container.Add(ws)
+}
+
 func main() {
    db, err :=sql.Open("sqlite3", "./railapi.db")
    if err != nil {
@@ -42,3 +52,4 @@ func main() {
    }
    dbutils.Initialize(db)
 }
+
