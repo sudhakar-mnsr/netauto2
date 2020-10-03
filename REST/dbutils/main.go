@@ -19,6 +19,26 @@ type TrainResource struct {
    OperatingStatus bool
 }
 
+// GET http://localhost:8080/v1/trains/1
+func (t TrainResource) getTrain(request *restful.Request, response *restful.Response) {
+id := request.PathParameter("train-id")
+err := Db.QueryRow("select ID, DRIVER_Name, OPERATING_STATUS FROM train where id=?", id).Scan(&t.DriverName, &t.OperatingStatus)
+if err != nil {
+   log.Println(err)
+   response.AddHeader("Content-Type", "text/plain")
+   response.WriteErrorString(http.StatusNotFound, "Train could not be found.")
+} else {
+   response.WriteEntity(t)
+}
+
+// POST  http://localhost:8080/v1/trains
+func (t TrainResource) createTrain(request *restful.Request, response *restful.Response) {
+log.Println(request.Request.Body)
+decoder := json.NewDecoder(request.Request.Body)
+var b TrainingResource
+err := decoder.Decode(&b)
+log.Println(b.DriverName, b.OperatingStatus)
+
 // StationResource holds information about locations
 type StationResource struct {
    ID int
