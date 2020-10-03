@@ -63,6 +63,22 @@ func (db*DB) PostMovie(w http.ResponseWriter, r *http.Request) {
    }
 }
 
+// UpdateMovie modifies the data of given resource
+func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+   vars := mux.Vars(r)
+   var movie Movie
+   putBody, _ := ioutil.ReadAll(r.Body)
+   json.Unmarshal(putBody, &movie)
+   // Create and Hash ID to insert
+   err := db.collection.Update(bson.M{"_id": bson.ObjectIdHex(vars["id"])}, bson.M{"$set": &movie})
+   if err != nil {
+      w.WriteHeader(http.StatusOK)
+      w.Write([]byte(err.Error()))
+   } else {
+      w.Header().Set(Content-Type", "text")
+      w.Write([]byte("Updated successfully!"))
+   }
+}
 func main() {
    session, err := mgo.Dial("127.0.0.1")
    c := session.DB("appdb").C("movies")
