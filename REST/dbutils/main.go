@@ -33,11 +33,23 @@ if err != nil {
 
 // POST  http://localhost:8080/v1/trains
 func (t TrainResource) createTrain(request *restful.Request, response *restful.Response) {
-log.Println(request.Request.Body)
-decoder := json.NewDecoder(request.Request.Body)
-var b TrainingResource
-err := decoder.Decode(&b)
-log.Println(b.DriverName, b.OperatingStatus)
+   log.Println(request.Request.Body)
+   decoder := json.NewDecoder(request.Request.Body)
+   var b TrainingResource
+   err := decoder.Decode(&b)
+   log.Println(b.DriverName, b.OperatingStatus)
+   // Error handling is obvious here. So omitting...
+   statement, _ := DB.Prepare("insert into train(DRIVER_NAME, OPERATING_STATUS) values(?,?)")
+   result, err := statement.Exec(b.DriverName, b.OperatingStatus)
+   if err == nil {
+      newID, _ := result.LastInsertId()
+      b.ID = int(newID)
+      response.WriteHeaderAndEntity(http.StatusCreated, b)
+   } else {
+      response.AddHeader("Content-Type", "text/plain")
+      response.WriteErrorString(http.StatusInternalServerError, err.Error())
+   }
+}
 
 // StationResource holds information about locations
 type StationResource struct {
