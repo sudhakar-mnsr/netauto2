@@ -26,3 +26,23 @@ type Movie struct {
    Writers []string `json:"writers" bson:"writers"`
    BoxOffice BoxOffice `json:"boxOffice" bson:"boxOffice"`
 }
+
+type BoxOffice struct {
+   Budget uint64 `json:"budget" bson:"budget"`
+   Gross uint64 `json:"gross" bson:"gross"`
+}
+
+// GetMovie fetches a movie with a given ID
+func (db *DB) GetMovie(w http.ResponseWriter, r *http.Request) {
+   vars := mux.Vars(r)
+   w.WriteHeader(http.StatusOK)
+   var movie Movie
+   err := db.collection.Find(bson.M{"_id": bson.ObjectIdHex(vars["id"])}).One(&movie)
+   if err != nil {
+      w.Write([]byte(err.Error()))
+   } else {
+      w.Header().Set("Content-Type", "application/json")
+      response, _ := json.Marshal(movie)
+      w.Write(response)
+   }
+}
