@@ -62,3 +62,17 @@ func (db*DB) PostMovie(w http.ResponseWriter, r *http.Request) {
       w.Write(response)
    }
 }
+
+func main() {
+session, err := mgo.Dial("127.0.0.1")
+c := session.DB("appdb").C("movies")
+db := &DB{session: session, collection: c}
+if err != nil {
+   panic(err)
+}
+defer session.Close()
+// Create a new router
+r := mux.NewRouter()
+// Attach an elegant path with handler
+r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.GetMovie).Methods("GET")
+
