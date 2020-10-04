@@ -25,3 +25,11 @@ func getStats(url string) *grequests.Response{
    }
    return resp
 }
+
+func main() {
+   var repos []Repo
+   var repoUrl = "https://api.github.com/users/torvalds/repos"
+   resp := getStats(repoUrl)
+   resp.JSON(&repos)
+   log.Println(repos)
+}
