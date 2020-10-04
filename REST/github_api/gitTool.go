@@ -33,4 +33,12 @@ type Gist struct {
    Files map[string]File `json:"files"`
 }
 
-
+// Fetches the repos for the given Github users
+func getStats(url string) *grequests.Response {
+   resp, err := grequests.Get(url, requestOptions)
+   // you can modify the request by passing an optional RequestOptions struct
+   if err != nil {
+      log.Fatalln("Unable to make request: ", err)
+   }
+   return resp
+}
