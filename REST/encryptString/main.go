@@ -2,7 +2,7 @@ package main
 
 import (
    "log"
-   "/Users/sudhakar/shell_scripts/test/sudhakar/netauto2/REST/encryptString/utils"
+   "./utils"
 )
 
 func main() {
