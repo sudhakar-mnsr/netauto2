@@ -35,11 +35,19 @@ func RecieveStream(client pb.MoneyTransactionClient, request *pb.TransactionRequ
 }
 
 func main() {
-// Setup a connection to the server.
-conn, err := grpc.Dial(address, grpc.WithInsecure())
-if err != nil {
-   log.Fatal("Did not connect: %v", err)
+   // Setup a connection to the server.
+   conn, err := grpc.Dial(address, grpc.WithInsecure())
+   if err != nil {
+      log.Fatal("Did not connect: %v", err)
+   }
+   defer conn.Close()
+   client := pb.NewMoneyTransactionClient(conn)
+   
+   // Prepare data. Get this from clients like Front-end or Android App
+   from := "1234"
+   to := "5678"
+   amount := float32(1250.75)
+   
+   // Contact the server and print out its response.
+   RecieveStream(client, &pb.TransactionRequest(From: from, To: to, Amount: amount})
 }
-defer conn.Close()
-client := pb.NewMoneyTransactionClient(conn)
-
