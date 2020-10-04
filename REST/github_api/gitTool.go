@@ -42,3 +42,21 @@ func getStats(url string) *grequests.Response {
    }
    return resp
 }
+
+// Reads the files provided and creates Gist on github
+func createGist(url string, args []string) *grequests.Response {
+// get first two arguments
+description := args[0]
+// remaining arguments are filenames with path
+var fileContents = make(map[string]File)
+for i := 1; i < len(args); i++ {
+   dat, err := ioutil.ReadFile(args[i])
+   if err != nil {
+      log.Println("Please check the filenames.Absolute path or same directory are allowed")
+      return nil
+   }
+   
+   var file File
+   file.Content = string(dat)
+   fileContents[args[i]] = file
+}
