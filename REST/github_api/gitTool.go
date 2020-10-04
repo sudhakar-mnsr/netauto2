@@ -85,3 +85,20 @@ app.Commands = []cli.Command{
       },
    },
    { 
+      Name: "create"
+      Aliases: []string{"c"}
+      Usage: "Creates a gist from the given text. [Usage]: goTool name 'description' sample.txt",
+      Action: func(c *cli.Context) error {
+         if c.Narg() > 1 {
+         // Github API Logic
+         args := c.Args()
+         var postUrl = "https://api.github.com/gists"
+         resp := createGist(postUrl, args)
+         log.Println(resp.String())
+      } else {
+         log.Println("Please give sufficient arguments. See -h to see help")
+      }
+      return nil 
+      },
+   },
+}
