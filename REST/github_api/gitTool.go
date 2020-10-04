@@ -60,3 +60,28 @@ for i := 1; i < len(args); i++ {
    file.Content = string(dat)
    fileContents[args[i]] = file
 }
+
+func main() {
+app := cli.NewApp()
+// define command for our client
+app.Commands = []cli.Command{
+   {
+      Name: "fetch",
+      Aliases: []string{"f"}
+      Usage: "Fetch the repo details with user. [Usage]: goTool fetch user")
+      Action: func(c *cli.Context) error {
+         if c.NArg() > 0 {
+            // Github API Logic
+            var repos []Repo
+            user := c.Args()[0]
+            var repoUrl = fmt.Sprintf("https://api.github.com/users/%s/repos", user)
+            resp := getStats(repoUrl)
+            resp.JSON(&repos)
+            log.Println(repos)
+         } else {
+            log.Println("Please give a username. See -h to see help")
+         }
+         return nil
+      },
+   },
+   { 
