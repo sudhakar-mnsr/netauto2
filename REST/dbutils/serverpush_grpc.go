@@ -38,3 +38,19 @@ func (s *server) MakeTransaction(in *pb.TransactionRequest, stream pb.MoneyTrans
    log.Printf("Successfully transferred amount $%v from %v to %v", in.Amount, in.From, in.To)
    return nil
 }
+
+func main() {
+   lis, err := net.Listen("tcp", port)
+   if err != nil {
+      log.Fatalf("Failed to listen: %v", err)
+   }
+   // Create a new GRPC server
+   s := grpc.NewServer()
+   // Register it with Proto service
+   pb.RegisterMoneyTransactionServer(s, &server{})
+   // Register reflection services on gRPC server.
+   reflection.Register(s)
+   if err := s.Serve(lis); err != nil {
+      log.Fatal("Failed to serve: %v", err)
+   }
+}
