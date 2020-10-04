@@ -21,7 +21,7 @@ func EncryptString(key, text string) string {
    cfb := cipher.NewCFBEncrypter(block, initVector)
    ciphertext := make([]byte, len(plaintext))
    cfb.XORKeyStream(ciphertext, plaintext)
-   return base64.StdEncoding.EncodeToString(ciphertest)
+   return base64.StdEncoding.EncodeToString(ciphertext)
 }
 
 // DecryptString decrypts the encrypted string to original
