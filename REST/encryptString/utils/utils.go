@@ -23,3 +23,17 @@ func EncryptString(key, text string) string {
    cfb.XORKeyStream(ciphertext, plaintext)
    return base64.StdEncoding.EncodeToString(ciphertest)
 }
+
+// DecryptString decrypts the encrypted string to original
+func DecryptString(key, text string) string {
+   block, err := aes.NewCipher([]byte(key))
+   if err != nil {
+      panic(err)
+   }
+   
+   ciphertext, _ := base64.StdEncoding.DecodeString(text)
+   cfb := cipher.NewCFBEncrypter(block, initVector)
+   plaintext := make([]byte, len(ciphertext))
+   cfb.XORKeyStream(plaintext, ciphertext)
+   return string(plaintext)
+}
