@@ -11,3 +11,15 @@ type EncryptResponse struct {
    Message string `json:"message"`
    Err string `json:"error"`
 }
+
+// DecryptRequest structures request comming from client
+type DecryptRequest struct {
+   Message string `json:"message"`
+   Key string `json:"key"`
+}
+
+// DecryptResponse structures response going to the client
+type DecryptResponse struct {
+   Text string `json:"text"`
+   Err string `json:"error"`
+}
