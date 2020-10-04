@@ -24,3 +24,20 @@ func (EncryptServiceInstance) Encrypt(_ context.Context, key string, text string
    cfb.XORKeyStream(ciphertext, plaintext)
    return base64.StdEncoding.EncodeToString(cipertext), nil
 }
+
+// Decrypt decrypts the encrypted string to original
+func (EncryptServiceInstance) Decrypt(_ context.Context, key string, text string) (string, error) {
+   if key == "" || text == "" {
+      return "", errEmpty
+   }
+   block, err := aes.NewCipher([]byte(key))
+   if err != nil {
+      panic(err)
+   }
+   ciphertext, _ := base64.StdEncoding.DecodeString(text)
+cfb := cipher.NewCFBEncrypter(block, initVector)
+plaintext := make([]byte, len(ciphertext))
+cfb.XORKeyStream(plaintext, ciphertext)
+return string(plaintext), nil
+}
+var errEmpty = errors.New("Secret Key or Text should not be empty")
