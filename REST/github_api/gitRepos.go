@@ -16,3 +16,12 @@ type Repo struct {
    Forks int `json:"forks"`
    Private bool `json:"private"`
 }
+
+func getStats(url string) *grequests.Response{
+   resp, err := grequests.Get(url, requestOptions)
+   // You can modify the request by passing an optional RequestOptions struct
+   if err != nil {
+      log.Fatalln("Unable to make request: ", err)
+   }
+   return resp
+}
