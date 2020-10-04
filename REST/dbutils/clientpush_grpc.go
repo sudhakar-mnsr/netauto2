@@ -33,3 +33,13 @@ func RecieveStream(client pb.MoneyTransactionClient, request *pb.TransactionRequ
       log.Printf("Status: %v, Operation: %v", response.Status, response.Description)
    }
 }
+
+func main() {
+// Setup a connection to the server.
+conn, err := grpc.Dial(address, grpc.WithInsecure())
+if err != nil {
+   log.Fatal("Did not connect: %v", err)
+}
+defer conn.Close()
+client := pb.NewMoneyTransactionClient(conn)
+
