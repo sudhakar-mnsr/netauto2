@@ -14,3 +14,15 @@ import (
    
    kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 )
+
+func main() {
+logger := kitlog.NewLogfmtLogger(os.Stderr)
+
+fieldKeys := []string{"method", "error"}
+requestCount := kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
+   Namespace: "encryption",
+   Subsystem: "my_service",
+   Name: "request_count",
+   Help: "Number of requests received.",
+}, fieldKeys)
+
