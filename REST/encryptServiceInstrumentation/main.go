@@ -32,3 +32,12 @@ requestLatency := kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
    Help: "Total duration of requests in microseconds.",
 }, fieldKeys)
 
+var svc helpers.EncryptService
+svc = helpers.EncryptServiceInstance{}
+svc = helpers.LoggingMiddleware{Logger: logger, Next: svc}
+svc = helpers.InstrumentingMiddleware{RequestCount: requestCount, RequestLatency: requestLatency, Next: svc}
+encryptHandler := httptransport.NewServer(helpers.MakeEncryptEndpoint(svc),
+   helpers.DecodeEncryptRequest,
+   helpers.EncodeResponse)
+
+
