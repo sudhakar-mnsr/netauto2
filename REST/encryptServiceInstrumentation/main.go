@@ -25,4 +25,10 @@ requestCount := kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
    Name: "request_count",
    Help: "Number of requests received.",
 }, fieldKeys)
+requestLatency := kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
+   Namespace: "encryption",
+   Subsystem: "my_service",
+   Name: "request_latency_microseconds",
+   Help: "Total duration of requests in microseconds.",
+}, fieldKeys)
 
