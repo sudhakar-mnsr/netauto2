@@ -43,3 +43,5 @@ func (EncryptServiceInstance) Decrypt(_ context.Context, key string, text string
    cfb.XORKeyStream(plaintext, ciphertext)
    return string(plaintext), nil
 }
+
+var errEmpty = errors.New("Sectt Key or Text should not be empty")
