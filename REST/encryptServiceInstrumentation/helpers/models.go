@@ -6,3 +6,10 @@ type EncryptRequest struct {
    Key string `json:"key"`
 }
 
+// EncryptResponse structures response going to the client
+type EncryptResponse struct {
+   Message string `json:"message"`
+   Err string `json:"error"`
+}
+
+
