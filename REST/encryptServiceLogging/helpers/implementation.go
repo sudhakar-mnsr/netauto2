@@ -28,3 +28,13 @@ func (EncryptServiceInstance) Encrypt(_ context.Context, key string, text string
    cfb.XORKeyStream(ciphertext, plaintext)
    return base64.StdEncoding.EncodeToString(ciphertext), nil
 }
+
+// Decrypt decrypts the encrypted string to original
+func (EncryptServiceInstance) Decrypt(_ context.Context, key string, text string) (string, error) {
+if key == "" || text == "" {
+   return "", errEmpty
+}
+block, err := aes.NewCipher([]byte(key))
+if err != nil {
+   panic(err)
+}
