@@ -21,3 +21,14 @@ return func(ctx context.Context, request interface{}) (interface{}, error) {
    }
    return EncryptResponse{message, ""}, nil
 }
+
+// MakeDecryptEndpoint forms endpoint for request/response of decrypt func
+func MakeDecryptEndpoint(svc EncryptService) endpoint.Endpoint {
+return func(ctx context.Context, request interface{}) (interface{}, error) {
+   req := request.(DecryptRequest)
+   text, err := svc.Decrypt(ctx, req.Key, req.Message)
+   if err != nil {
+      return DecryptResponse{text, err.Error()}, nil
+   }
+   return DecryptResponse{text, ""}, nil
+}
