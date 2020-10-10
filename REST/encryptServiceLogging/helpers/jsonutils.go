@@ -14,3 +14,12 @@ func DecodeEncryptRequest(_ context.Context, r *http.Request) (interface{}, erro
    }
    return request, nil
 }
+
+// DecodeDecryptRequest fills struct from JSON details of request
+func DecodeDecryptRequest(_ context.Context, r *http.Request) (interface{}, error) {
+   var request DecryptRequest 
+   if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
+      return nil, err
+   }
+   return request, nil
+}
