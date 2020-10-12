@@ -16,11 +16,22 @@ type response struct {
 }
 
 func findFastest(urls []string) response {
-urlChan := make(chan string)
-latencyChan := make(chan time.Duration)
-
-for _, url := range urls {
-mirrorURL := url
-go func() {
-   log.Println("Started probing: ", mirrorURL)
-   start := time.Now()
+   urlChan := make(chan string)
+   latencyChan := make(chan time.Duration)
+   
+   for _, url := range urls {
+      mirrorURL := url
+      go func() {
+         log.Println("Started probing: ", mirrorURL)
+         start := time.Now()
+         _, err := http.Get(mirrorURL + "/README")
+         latency := time.Now().Sub(start) / time.Millisecond
+         if err == nil {
+            urlChan <- mirrorURL
+            latencyChan <- latency
+         }
+         log.Printf("Got the best mirror: %s with latency: %s", mirrorURL, latency)
+      }()
+   }
+   return response(<-urlChann, <-latencyChan}
+}
