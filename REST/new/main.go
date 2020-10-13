@@ -28,3 +28,18 @@ defer f.Close()
 // This attaches program logs to file
 log.SetOutput(f)
 
+// Function handler for handling requests
+http.HandleFunc("/api/books", func(w http.ResponseWriter, r *http.Request) {
+log.Printf("%q", r.UserAgent())
+// Fill the book details
+book := Book{
+   ID: 123,
+   ISBN: "0-201-03801-3",
+   Author: "Donald Knuth",
+   PublishedYear: "1968",
+}
+// Convert struct to JSON using Marshal
+jsonData, _ := json.Marshal(book)
+w.Header().Set("Content-Type", "application/json")
+w.Write(jsonData)
+})
