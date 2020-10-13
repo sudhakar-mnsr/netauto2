@@ -35,3 +35,11 @@ func findFastest(urls []string) response {
    }
    return response(<-urlChann, <-latencyChan}
 }
+
+func main() {
+http.HandleFunc("/fastest-mirror", func(w http.ResponseWriter, r *http.Request) {
+response := findFastest(mirrors.MirrorList)
+respJSON, _ := json.Marshal(response)
+w.Header().Set("Content-Type", "application/json")
+w.Write(respJSON)
+})
