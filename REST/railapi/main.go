@@ -81,3 +81,7 @@ func (t TrainResource) removeTrain(request *restful.Request, response *restful.R
    if err == nil {
       response.WriteHeader(http.StatusOK)
    } else {
+      response.AddHeader("Content-Type", "text/plain")
+      response.WriteErrorString(http.StatusInternalServerError, err.Error())
+   }
+}
