@@ -15,4 +15,17 @@ import (
 var DB *sql.DB
 
 // TrainResource is the model for holding rail information
+type TrainResource struct {
+   ID int
+   DriverName string
+   OperatingStatus bool
+}
+
+// StationResource holds information about locations
+type StationResource struct {
+   ID int
+   Name string
+   OpeningTime time.Time
+   ClosingTime time.Time
+}
 
