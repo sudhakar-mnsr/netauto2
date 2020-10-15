@@ -59,3 +59,16 @@ func (t TrainResource) createTrain(request *restful.Request, response *restful.R
    var b TrainResource
    err := decoder.Decode(&b)
    log.Println(b.DriverName, b.OperatingStatus)
+
+   // Error handling is obivious here. So omitting...
+   statement, _ := DB.Prepare("insert into train (DRIVER_NAME, OPERATING_STATUS) values (?, ?)")
+   result, err := statement.Exec(b.DriverName, b.OperatingStatus)
+   if err == nil {
+      newID, _ := result.LastInsertId()
+      b.ID = int(newID)
+      response.WriteHeaderAndEntity(http.StatusCreated, b)
+   } else {
+      response.AddHeader("Content-Type", "text/plain")
+      response.WriteErrorString(http.StatusInternalServerError, err.Error())
+   }
+}
