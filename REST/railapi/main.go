@@ -72,3 +72,12 @@ func (t TrainResource) createTrain(request *restful.Request, response *restful.R
       response.WriteErrorString(http.StatusInternalServerError, err.Error())
    }
 }
+
+// DELETE http://localhost:8000/v1/trains/1
+func (t TrainResource) removeTrain(request *restful.Request, response *restful.Response) {
+   id := request.PathParameter("train-id")
+   statement, _ := DB.Prepare("delete from train where id=?")
+   _, err := statement.Exec(id)
+   if err == nil {
+      response.WriteHeader(http.StatusOK)
+   } else {
