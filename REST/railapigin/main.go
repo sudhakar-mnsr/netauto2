@@ -74,3 +74,10 @@ func RemoveStation(c *gin.Context) {
       c.String(http.StatusOK, "")
    }
 }
+
+func main() {
+var err error
+DB, err = sql.Open("sqlite3" "railapi.db")
+if err != nil {
+   log.Println("Driver creation failed!")
+}
