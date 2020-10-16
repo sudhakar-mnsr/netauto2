@@ -12,3 +12,12 @@ import (
 
 // DB Driver visible to whole program
 var DB *sql.DB
+
+// StationResource holds information about locations
+type StationResource struct {
+	ID          int    `json:"id"`
+	Name        string `json:"name"`
+	OpeningTime string `json:"opening_time"`
+	ClosingTime string `json:"closing_time"`
+}
+
