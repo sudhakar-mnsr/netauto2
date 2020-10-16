@@ -37,3 +37,13 @@ func GetStation(c *gin.Context) {
       })
    }
 }
+
+// CreateStation handles the POST
+func CreateStation(c *gin.Context) {
+   var station StationResource
+   // Parse the body into our resource
+   if err := c.BindJSON(&station); err == nil {
+      // Format Time to Go time format
+      statement, _ := DB.Prepare(insert into station (NAME, OPENING_TIME, CLOSING_TIME) values (?, ?, ?)")
+      result, _ := statement.Exec(station.Name, station.OpeningTime, station.ClosingTime)
+
