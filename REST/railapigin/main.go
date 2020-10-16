@@ -60,4 +60,17 @@ func CreateStation(c *gin.Context) {
    }
 }
 
-
+// RemoveStation handles the removing of resource
+func RemoveStation(c *gin.Context) {
+   id := c.Param("station-id")
+   statement, _ := DB.Prepare("delete from station where id=?")
+   _, err := statement.Exec(id)
+   if err != nil {
+      log.Println(err)
+      c.JSON(500, gin.H{
+         "error": err.Error(),
+      })
+   } else {
+      c.String(http.StatusOK, "")
+   }
+}
