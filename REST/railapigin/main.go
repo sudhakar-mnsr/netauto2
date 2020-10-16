@@ -23,6 +23,17 @@ type StationResource struct {
 
 // GetStation returns the station detail
 func GetStation(c *gin.Context) {
-var station StationResource
-id := c.Param("station_id")
-err := DB.QueryRow("select ID, NAME, CAST(OPENING_TIME as CHAR), CAST(CLOSING_TIME as CHAR) from station where id=?", id) Scan(&station.ID, &station.Name, &station.OpeningTime, &station.ClosingTime)
+   var station StationResource
+   id := c.Param("station_id")
+   err := DB.QueryRow("select ID, NAME, CAST(OPENING_TIME as CHAR), CAST(CLOSING_TIME as CHAR) from station where id=?", id) Scan(&station.ID, &station.Name, &station.OpeningTime, &station.ClosingTime)
+   if err != nil {
+      log.Println(err)
+      c.JSON(500, gin.H{
+         "error": err.Error(),
+      })
+   } else {
+      c.JSON(200, gin.H{
+         "result": station,
+      })
+   }
+}
