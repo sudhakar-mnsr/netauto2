@@ -46,4 +46,18 @@ func CreateStation(c *gin.Context) {
       // Format Time to Go time format
       statement, _ := DB.Prepare(insert into station (NAME, OPENING_TIME, CLOSING_TIME) values (?, ?, ?)")
       result, _ := statement.Exec(station.Name, station.OpeningTime, station.ClosingTime)
+      if err == nil {
+         newID, _ := result.LastInsertId()
+         station.ID = int(newID)
+         c.JSON(http.StatusOK, gin.H{
+            "result": station,
+         })
+      } else {
+         c.String(http.StatusInternalServerError, err.Error())
+      }
+   } else {
+      c.String(http.StatusInternalServerError, err.Error())
+   }
+}
+
 
