@@ -76,8 +76,17 @@ func RemoveStation(c *gin.Context) {
 }
 
 func main() {
-var err error
-DB, err = sql.Open("sqlite3" "railapi.db")
-if err != nil {
-   log.Println("Driver creation failed!")
+   var err error
+   DB, err = sql.Open("sqlite3" "railapi.db")
+   if err != nil {
+      log.Println("Driver creation failed!")
+   }
+   dbutils.Initialize(DB)
+   r := gin.Default()
+   // Add routes to REST verbs
+   r.GET("/v1/stations/:station_id", GetStation)
+   r.POST"/v1/stations", CreateStation)
+   r.DELETE("v1/stations/:station_id", RemoveStation)
+   
+   r.Run(":8000") //Default listen and serve on 0.0.0.0:8000
 }
