@@ -39,11 +39,19 @@ func dbOperations(db *sql.DB) {
 }
 
 func main() {
-db, err := sql.Open("sqlite3", "./books.db")
-if err != nil {
-   log.Println(err)
+   db, err := sql.Open("sqlite3", "./books.db")
+   if err != nil {
+      log.Println(err)
+   }
+   
+   // Create table
+   statement, err := db.Prepare("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, isbn INTEGER, author VARCHAR(64), name VARCHAR(64) NULL)")
+   
+   if err != nil {
+      log.Println("Error in creating table")
+   } else {
+      log.Println("Successfully created table books!")
+   }
+   statement.Exec()
+   dbOperations(db)
 }
-
-// Create table
-statement, err := db.Prepare("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, isbn INTEGER, author VARCHAR(64), name VARCHAR(64) NULL)")
-
