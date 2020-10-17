@@ -16,4 +16,12 @@ revel.Filters = []revel.Filter{
    revel.RouterFilter,
    revel.FilterConfiguringFilter,
    revel.ParamsFilter,
-
+   revel.SessionFilter,
+   revel.FlashFilter,
+   revel.ValidationFilter,
+   revel.I18nFilter,
+   HeaderFilter,
+   revel.InterceptorFilter,
+   revel.CompressFilter,
+   revel.ActionInvoker,
+}
