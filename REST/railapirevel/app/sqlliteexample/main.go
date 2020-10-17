@@ -22,3 +22,12 @@ log.Println("Inserted the book into database!")
 // Read
 rows, _ := db.Query("SELECT id, name, author FROM books")
 var tempBook Book
+for rows.Next() {
+   rows.Scan(&tempBook.id, &tempBook.name, &tempBook.author)
+   log.Printf("ID:%d, Book:%s, Author: %s\n", tempBook.id, tempBook.name, tempBook.author)
+}
+
+// Update
+statement, _ = db.Prepare("update books set name=? where id=?")
+statement.Exec("The tale of two cities", 1)
+log.Println("Successfully updated the book in database!)
