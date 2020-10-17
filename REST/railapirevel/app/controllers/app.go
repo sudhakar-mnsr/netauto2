@@ -30,3 +30,13 @@ func (c App) GetTrain() revel.Result {
    c.Response.Status = http.StatusOK
    return c.RenderJSON(train)
 }
+
+// CreateTrain handles POST on train resource
+func (c App) CreateTrain() revel.Result {
+   var train TrainResource
+   c.Params.BingJSON(&train)
+   // Use train.DriverName and train.OperatingStatus to insert into train table
+   train.ID = 2
+   c.Response.Status = http.StatusCreated
+   return c.RenderJSON(train)
+}
