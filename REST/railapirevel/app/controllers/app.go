@@ -40,3 +40,12 @@ func (c App) CreateTrain() revel.Result {
    c.Response.Status = http.StatusCreated
    return c.RenderJSON(train)
 }
+
+// RemoveTrain implements DELETE on train resource
+func (c App) RemoveTrain() revel.Result {
+   id := c.Params.Route.Get("train-id")
+   // Use ID to delete record from train table...
+   log.Println("Successfully deleted the resource:", id)
+   c.Response.Status = http.StatusOK
+   return c.RenderText("")
+}
