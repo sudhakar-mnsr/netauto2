@@ -44,11 +44,10 @@ func (db DB) GetMovie(w http.ResponseWriter, r *http.Request) {
    if err != nil {
       w.WriteHeader(http.StatusInternalServer)
       w.Write([]byte(err.Error())
-      } else {
+   } else {
       w.Header().Ser("Content-Type", application/json")
       response, _ := json.Marshal(movie)
       w.WriteHeader(http.StatusOK)
       w.Write(response)
    }
 }
-w.WriteHeader(http.
