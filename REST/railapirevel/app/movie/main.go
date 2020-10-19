@@ -35,9 +35,20 @@ type BoxOffice struct {
 
 // GetMovie feature a movie with given ID
 func (db DB) GetMovie(w http.ResponseWriter, r *http.Request) {
-vars := mux.Vars(r)
-var movie Movie
-objectID, _ := primitive.ObjectIDFromHex(vars["id"])
-filter := bson.M{_id": objectID}
-err := db.collection.FindONe(context.TODO(), filter).Decode(&movie)
-
+   vars := mux.Vars(r)
+   var movie Movie
+   objectID, _ := primitive.ObjectIDFromHex(vars["id"])
+   filter := bson.M{_id": objectID}
+   err := db.collection.FindONe(context.TODO(), filter).Decode(&movie)
+   
+   if err != nil {
+      w.WriteHeader(http.StatusInternalServer)
+      w.Write([]byte(err.Error())
+      } else {
+      w.Header().Ser("Content-Type", application/json")
+      response, _ := json.Marshal(movie)
+      w.WriteHeader(http.StatusOK)
+      w.Write(response)
+   }
+}
+w.WriteHeader(http.
