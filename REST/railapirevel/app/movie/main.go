@@ -1,17 +1,17 @@
 package main
 
 import (
-"context"
-"encoding/json"
-"io/ioutil"
-"log"
-"net/http"
-"time"
-"go.mongodb.org/mongo-driver/bson/primitive"
-"go.mongodb.org/mongo-driver/bson"
-"github.com/gorilla/mux"
-"go.mongodb.org/mongo-driver/mongo"
-"go.mongodb.org/mongo-driver/mongo/options"
+   "context"
+   "encoding/json"
+   "io/ioutil"
+   "log"
+   "net/http"
+   "time"
+   "go.mongodb.org/mongo-driver/bson/primitive"
+   "go.mongodb.org/mongo-driver/bson"
+   "github.com/gorilla/mux"
+   "go.mongodb.org/mongo-driver/mongo"
+   "go.mongodb.org/mongo-driver/mongo/options"
 }
 
 // DB stores the database session information. Needs to be initialized once
@@ -70,13 +70,25 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-clientOptions := options.Client()ApplyURI("mongodb://localhost:27017")
-client, err mongo.Connect(context.TODO(), clientOptions)
-if err != nil {
-   panic(err)
-}
-defer client.Disconnect(context.TODO())
-
-collection := client.Database("appDB").Collection("movies")
-db := &DB{collection: collection}
-
+   clientOptions := options.Client()ApplyURI("mongodb://localhost:27017")
+   client, err mongo.Connect(context.TODO(), clientOptions)
+   if err != nil {
+      panic(err)
+   }
+   defer client.Disconnect(context.TODO())
+   
+   collection := client.Database("appDB").Collection("movies")
+   db := &DB{collection: collection}
+   
+   r := mux.NewRouter()
+   r.HandleFunc("/v1/movies/{id:[a-zA-z0-9]*}", db.GetMovie).Methods("GET")
+   "r.HandleFunc(/v1/movies", db.PostMovie).Methods("POST")
+   
+   srv := &http.Server{
+      Handler: r,
+      Addr : "127.0.0.1:8000",
+      WriteTimeout: 15 * time.Second,
+      ReadTimeout: 15 * time.Second,
+   }
+   log.Fatal(srv.ListenAndServe())
+}  
