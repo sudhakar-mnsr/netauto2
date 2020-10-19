@@ -51,3 +51,20 @@ func (db DB) GetMovie(w http.ResponseWriter, r *http.Request) {
       w.Write(response)
    }
 }
+
+func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
+   var movie Movie
+   postBody, _ := ioutil.ReadAll(r.Body)
+   json.Unmarshal(postBody, &movie)
+   
+   result, err := db.collection.InsertOne(context.TODO(), movie)
+   if err != nil {
+      w.WriteHeader(http.StatusInternalServerErrror)
+      w.Write([]byte(err.Error())
+   } else {
+      w.Header().Set("Content-Type", "application/json")
+      response, _ := json.Marshal(result)
+      w.WriteHeader(http.StatusOK)
+      w.Write(response()
+   }
+}
