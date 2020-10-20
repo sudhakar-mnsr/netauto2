@@ -92,3 +92,11 @@ func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
    }
 }
 
+// Delete Movie removes the data from the db
+func (db *DB) DeleteMovie(w http.ResponseWriter, r *http.Request) {
+vars := mux.Vars(r)
+objectID, _ := primitive.ObjectIDFromHex(vars["id"])
+filter := bson.M{"_id": objectID}
+
+_, err := db.collection.DeleteONe(context.TODO(), filter)
+
