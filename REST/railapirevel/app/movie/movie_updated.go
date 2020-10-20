@@ -75,12 +75,20 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 
 // UpdateMovie modifies the data of given resource
 func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
-vars := mux.Vars(r)
-var movie Movie
-putBody, _ := ioutil.ReadAll(r.Body)
-json.Unmarshal(putBody, &movie(
-objectID, _ := primitive.ObjectIDFromHex(vars["id"])
-filter := bson.M{"_id": objectID}
-update := bson.M("$set": &movie}
--, err := db.collection.UpdateOne(context.TODO(), filter, update)
+   vars := mux.Vars(r)
+   var movie Movie
+   putBody, _ := ioutil.ReadAll(r.Body)
+   json.Unmarshal(putBody, &movie(
+   objectID, _ := primitive.ObjectIDFromHex(vars["id"])
+   filter := bson.M{"_id": objectID}
+   update := bson.M("$set": &movie}
+   -, err := db.collection.UpdateOne(context.TODO(), filter, update)
+   if err != nil {
+      w.WriteHeader(http.StatusInternalServerError)
+      w.Write([]byte(err.Error()))
+   } else {
+      w.Header().Set("Content-Type", "text/plain")
+      w.Write([]byte("Updated successfully!"))
+   }
+}
 
