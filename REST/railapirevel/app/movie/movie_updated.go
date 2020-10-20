@@ -110,19 +110,27 @@ func (db *DB) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
-client, err := mongo.Connect(context.TODO(), clientOptions)
-if err != nil {
-   panic(err)
+   clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+   client, err := mongo.Connect(context.TODO(), clientOptions)
+   if err != nil {
+      panic(err)
+   }
+   defer client.Disconnect(context.TODO())
+   
+   collection := client.Database("appDB").Collection("movies")
+   db := &DB{collection: collection}
+   
+   r := mux.NewRouter()
+   r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.GetMovie).Methods("GET")
+   r.HandleFunc("/v1/movies", db.PostMovie).Methods("POST")
+   r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.UpdateMovie).Methods("PUT")
+   r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.DeleteMovie).Methods("DELETE")
+   
+   srv := &http.Server{
+      Handler: r,
+      Addr: "127.0.0.1:8000",
+      WriteTimeout: 15 * time.Second,
+      ReadTimeout: 15 * time.Second,
+   }
+   log.Fatal(srv.ListenAndServe())
 }
-defer client.Disconnect(context.TODO())
-
-collection := client.Database("appDB").Collection("movies")
-db := &DB{collection: collection}
-
-r := mux.NewRouter()
-r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.GetMovie).Methods("GET")
-r.HandleFunc("/v1/movies", db.PostMovie).Methods("POST")
-r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.UpdateMovie).Methods("PUT")
-r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.DeleteMovie).Methods("DELETE")
-
