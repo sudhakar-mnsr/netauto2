@@ -117,3 +117,12 @@ if err != nil {
 }
 defer client.Disconnect(context.TODO())
 
+collection := client.Database("appDB").Collection("movies")
+db := &DB{collection: collection}
+
+r := mux.NewRouter()
+r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.GetMovie).Methods("GET")
+r.HandleFunc("/v1/movies", db.PostMovie).Methods("POST")
+r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.UpdateMovie).Methods("PUT")
+r.HandleFunc("/v1/movies/{id:[a-zA-Z0-9]*}", db.DeleteMovie).Methods("DELETE")
+
