@@ -53,8 +53,6 @@ func main() {
 		},
 	}
 
-[200~
-
 	// Insert a document into MongoDB
 	_, err = collection.InsertOne(context.TODO(), darkNight)
 
@@ -67,3 +65,15 @@ func main() {
 	filter := bson.M{"boxOffice.budget": bson.M{"$gt": 150000000}}
 	result := collection.FindOne(context.TODO(), filter)
 	err = result.Decode(queryResult)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Movie:", queryResult)
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Disconnected from MongoDB")
+}
