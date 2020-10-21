@@ -39,3 +39,16 @@ func main() {
 	}
 	fmt.Println("Connected to MongoDB successfully")
 
+	collection := client.Database("appDB").Collection("movies")
+
+	// Create a movie
+	darkNight := Movie{
+		Name:      "The Dark Knight",
+		Year:      "2008",
+		Directors: []string{"Christopher Nolan"},
+		Writers:   []string{"Jonathan Nolan", "Christopher Nolan"},
+		BoxOffice: BoxOffice{
+			Budget: 185000000,
+			Gross:  533316061,
+		},
+	}
