@@ -52,3 +52,18 @@ func main() {
 			Gross:  533316061,
 		},
 	}
+
+[200~
+
+	// Insert a document into MongoDB
+	_, err = collection.InsertOne(context.TODO(), darkNight)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	queryResult := &Movie{}
+	// bson.M is used for nested fields
+	filter := bson.M{"boxOffice.budget": bson.M{"$gt": 150000000}}
+	result := collection.FindOne(context.TODO(), filter)
+	err = result.Decode(queryResult)
