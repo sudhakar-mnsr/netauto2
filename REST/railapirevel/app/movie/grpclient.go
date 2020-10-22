@@ -13,14 +13,24 @@ const (
 )
 
 func main() {
-// setup a connection to the server
-conn, err := grpc.Dial(address, grpc.WithInsecure())
-if err != nil {
-   log.Fatal("Did not connect: %v", err)
+   // setup a connection to the server
+   conn, err := grpc.Dial(address, grpc.WithInsecure())
+   if err != nil {
+      log.Fatal("Did not connect: %v", err)
+   }
+   
+   defer conn.Close()
+   c := pb.NewMoneyTransactionClient(conn)
+   
+   // Prepare data. Get this from clients like frontend or App
+   form := "1234"
+   to := "5678"
+   amount := float32(1250.75)
+   
+   // Contact the server and print out its response.
+   r, err := c.MakeTransaction(context.Background(), &pb.Transaction(from: from, To: to, Amount: amount())
+   if err != nil {
+      log.Fatalf("could not transact: %v", err)
+   }
+   log.Printf("Transaction confirmed: %t", r.Confirmation)
 }
-
-defer conn.Close()
-c := pb.NewMoneyTransactionClient(conn)
-
-// Prepare data. Get this from clients like frontend or App
-form := "1234"
