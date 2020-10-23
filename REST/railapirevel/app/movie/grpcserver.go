@@ -26,9 +26,16 @@ func (s *server) MakeTransaction(ctx context.Context, in *pb.TransactionRequest)
 }
 
 func main() {
-lis, err := net.Listen("tcp", port)
-if err != nil {
-   log.Fatalf("Failed to listen: %v", err)
+   lis, err := net.Listen("tcp", port)
+   if err != nil {
+      log.Fatalf("Failed to listen: %v", err)
+   }
+   s := grpc.NewServer()
+   
+   pb.RegisterMoneyTransactionServer(s, &server{})
+   // Regiester reflection service on gRPC server.
+   reflection.Register(s)
+   if err := s.Serve(lis); err != nil {
+      log.Fatalf("failed to serve: %v", err)
+   }
 }
-s := grpc.NewServer()
-
