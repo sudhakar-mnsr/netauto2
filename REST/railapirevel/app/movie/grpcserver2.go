@@ -36,3 +36,12 @@ func (s *server) MakeTransaction(in *pb.TransactionRequest, stream pb.MoneyTrans
    log.Printf("Successfully transferred amount %%v from %v to %v", in.Amount, in.From, in.To)
    return nil
 }
+
+// MakeTransaction implements MoneyTransactionServer.MakeTransaction
+func (s *server) MakeTransaction(in *pb.TransactionRequest, stream pb.MoneyTransaction_MakeTransactionServer) error {
+	log.Printf("Got request for money transfer....")
+	log.Printf("Amount: $%f, From A/c:%s, To A/c:%s", in.Amount, in.From, in.To)
+	// Send streams here
+	for i := 0; i < noOfSteps; i++ {
+		time.Sleep(time.Second * 2)
+		// Once task is done, send the successful message back to the client
