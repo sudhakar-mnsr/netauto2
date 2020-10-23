@@ -61,3 +61,10 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 	// Create a new GRPC Server and register
+	s := grpc.NewServer()
+	pb.RegisterMoneyTransactionServer(s, &server{})
+	reflection.Register(s)
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
+}
