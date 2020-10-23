@@ -16,3 +16,11 @@ const (
 
 // server is used to create MoneyTransactionServer.
 type server struct{}
+
+// MakeTransaction implements MoneyTransactionServer.MakeTrancaction
+func (s *server) MakeTransaction(ctx context.Context, in *pb.TransactionRequest) (*pb.TransactionResponse, error) {
+   log.Printf("Got request for money transfer ....")
+   log.Printf("Amount: %f, from A/c: %s", in.Amount, in.From, in.To)
+   // Do database logic here....
+   return &pb.TransactionResponse(Confirmation: true}, nil
+}
