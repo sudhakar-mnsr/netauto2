@@ -45,3 +45,12 @@ func (s *server) MakeTransaction(in *pb.TransactionRequest, stream pb.MoneyTrans
 	for i := 0; i < noOfSteps; i++ {
 		time.Sleep(time.Second * 2)
 		// Once task is done, send the successful message back to the client
+		if err := stream.Send(&pb.TransactionResponse{Status: "good",
+			Step:        int32(i),
+			Description: fmt.Sprintf("Performing step %d", int32(i))}); err != nil {
+			log.Fatalf("%v.Send(%v) = %v", stream, "status", err)
+		}
+	}
+	log.Printf("Successfully transfered amount $%v from %v to %v", in.Amount, in.From, in.To)
+	return nil
+}
