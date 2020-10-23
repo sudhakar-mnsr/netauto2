@@ -24,3 +24,11 @@ func (s *server) MakeTransaction(ctx context.Context, in *pb.TransactionRequest)
    // Do database logic here....
    return &pb.TransactionResponse(Confirmation: true}, nil
 }
+
+func main() {
+lis, err := net.Listen("tcp", port)
+if err != nil {
+   log.Fatalf("Failed to listen: %v", err)
+}
+s := grpc.NewServer()
+
