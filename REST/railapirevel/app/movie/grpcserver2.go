@@ -54,3 +54,10 @@ func (s *server) MakeTransaction(in *pb.TransactionRequest, stream pb.MoneyTrans
 	log.Printf("Successfully transfered amount $%v from %v to %v", in.Amount, in.From, in.To)
 	return nil
 }
+
+func main() {
+	lis, err := net.Listen("tcp", port)
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+	// Create a new GRPC Server and register
