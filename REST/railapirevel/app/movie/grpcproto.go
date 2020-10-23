@@ -6,3 +6,11 @@ message TransactionRequest {
    string to = 2;
    float amount = 3;
 }
+
+message TransactionResponse{
+   bool confirmation = 1;
+}
+
+service MoneyTransaction {
+   rpc MakeTransaction(TransactionRequest) returns (TransactionResponse) {}
+}
