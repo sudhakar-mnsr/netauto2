@@ -43,3 +43,13 @@ func main() {
 	}
 	defer conn.Close()
 	client := pb.NewMoneyTransactionClient(conn)
+
+	// Prepare data. Get this from clients like Front-end or Android App
+	from := "1234"
+	to := "5678"
+	amount := float32(1250.75)
+
+	// Contact the server and print out its response.
+	ReceiveStream(client, &pb.TransactionRequest{From: from,
+		To: to, Amount: amount})
+}
