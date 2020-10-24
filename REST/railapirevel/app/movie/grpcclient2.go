@@ -20,3 +20,17 @@ func ReceiveStream(client pb.MoneyTransactionClient, request *pb.TransactionRequ
 	if err != nil {
 		log.Fatalf("%v.MakeTransaction(_) = _, %v", client, err)
 	}
+
+	// Listen to the stream of messages
+	for {
+		response, err := stream.Recv()
+		if err == io.EOF {
+			// If there are no more messages, get out of loop
+			break
+		}
+		if err != nil {
+			log.Fatalf("%v.MakeTransaction(_) = _, %v", client, err)
+		}
+		log.Printf("Status: %v, Operation: %v", response.Status, response.Description)
+	}
+}
