@@ -12,3 +12,11 @@ import (
 const (
 	address = "localhost:50051"
 )
+
+// ReceiveStream listens to the stream contents and use them
+func ReceiveStream(client pb.MoneyTransactionClient, request *pb.TransactionRequest) {
+	log.Println("Started listening to the server stream!")
+	stream, err := client.MakeTransaction(context.Background(), request)
+	if err != nil {
+		log.Fatalf("%v.MakeTransaction(_) = _, %v", client, err)
+	}
