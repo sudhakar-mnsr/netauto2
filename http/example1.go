@@ -27,3 +27,9 @@ func getFileContent(w http.ResponseWriter, r *http.Request, params httprouter.Pa
 	fmt.Fprintf(w, getCommandOutput("/bin/cat", params.ByName("name")))
 }
 
+func main() {
+	router := httprouter.New()
+	router.GET("/api/v1/go-version", goVersion)
+	router.GET("/api/v1/show-file/:name", getFileContent)
+	log.Fatal(http.ListenAndServe(":8000", router))
+}
