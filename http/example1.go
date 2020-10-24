@@ -10,3 +10,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+
+func getCommandOutput(command string, arguments ...string) string {
+	out, _ := exec.Command(command, arguments...).Output()
+	return string(out)
+}
