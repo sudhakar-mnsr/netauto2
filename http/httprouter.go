@@ -14,3 +14,9 @@ func getCommandOutput(command string, arguments ...string) string {
 	out, _ := exec.Command(command, arguments...).Output()
 	return string(out)
 }
+
+func goVersion(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	response := getCommandOutput("/usr/local/go/bin/go", "version")
+	io.WriteString(w, response)
+	return
+}
