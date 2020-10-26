@@ -28,3 +28,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("405 - Method Not Allowed"))
 	}
 }
+
+func main() {
+	http.HandleFunc("/city", postHandler)
+	http.ListenAndServe(":8000", nil)
+}
