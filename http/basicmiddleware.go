@@ -13,3 +13,9 @@ func middleware(handler http.Handler) http.Handler {
 		fmt.Println("Executing middleware after response phase!")
 	})
 }
+
+func mainLogic(w http.ResponseWriter, r *http.Request) {
+	// Business logic goes here 
+	fmt.Println("Executing mainHandler...")
+	w.Write([]byte("OK"))
+}
