@@ -28,3 +28,8 @@ func giveRandomUUID(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, fmt.Sprintf("%x", b))
 }
+
+func main() {
+	mux := &UUID{}
+	http.ListenAndServe(":8000", mux)
+}
