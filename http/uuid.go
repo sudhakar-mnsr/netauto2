@@ -18,3 +18,13 @@ func (p *UUID) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, r)
 	return
 }
+
+func giveRandomUUID(w http.ResponseWriter, r *http.Request) {
+	c := 10
+	b := make([]byte, c)
+	_, err := rand.Read(b)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Fprintf(w, fmt.Sprintf("%x", b))
+}
