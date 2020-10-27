@@ -19,3 +19,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Executing mainHandler...")
 	w.Write([]byte("OK"))
 }
+
+func main() {
+	// HandlerFunc returns a HTTP Handler
+	originalHandler := http.HandlerFunc(handle)
+	http.Handle("/", middleware(originalHandler))
+	http.ListenAndServe(":8000", nil)
+}
