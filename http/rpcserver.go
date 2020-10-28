@@ -38,3 +38,9 @@ func (t *JSONServer) GiveBookDetail(r *http.Request, args *Args, reply *Book) er
 		log.Println("error:", readerr)
 		os.Exit(1)
 	}
+	// Unmarshal JSON raw data into books array
+	marshalerr := jsonparse.Unmarshal(raw, &books)
+	if marshalerr != nil {
+		log.Println("error:", marshalerr)
+		os.Exit(1)
+	}
