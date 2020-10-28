@@ -44,3 +44,13 @@ func (t *JSONServer) GiveBookDetail(r *http.Request, args *Args, reply *Book) er
 		log.Println("error:", marshalerr)
 		os.Exit(1)
 	}
+	// Iterate over each book to find the given book
+	for _, book := range books {
+		if book.ID == args.ID {
+			// If book found, fill reply with it
+			*reply = book
+			break
+		}
+	}
+	return nil
+}
