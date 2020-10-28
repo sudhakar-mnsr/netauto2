@@ -27,3 +27,14 @@ type Book struct {
 }
 
 type JSONServer struct{}
+
+// GiveBookDetail is RPC implementation
+func (t *JSONServer) GiveBookDetail(r *http.Request, args *Args, reply *Book) error {
+	var books []Book
+	// Read JSON file and load data
+	absPath, _ := filepath.Abs("chapter3/books.json")
+	raw, readerr := ioutil.ReadFile(absPath)
+	if readerr != nil {
+		log.Println("error:", readerr)
+		os.Exit(1)
+	}
