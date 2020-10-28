@@ -54,3 +54,9 @@ func (t *JSONServer) GiveBookDetail(r *http.Request, args *Args, reply *Book) er
 	}
 	return nil
 }
+
+func main() {
+	// Create a new RPC server
+	s := rpc.NewServer()
+	// Register the type of data requested as JSON
+	s.RegisterCodec(json.NewCodec(), "application/json")
