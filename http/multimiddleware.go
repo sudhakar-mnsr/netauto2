@@ -35,3 +35,13 @@ func setServerTimeCookie(handler http.Handler) http.Handler {
 		log.Println("Currently in the set server time middleware")
 	})
 }
+
+func handle(w http.ResponseWriter, r *http.Request) {
+	// Check if method is POST
+	if r.Method == "POST" {
+		var tempCity city
+		decoder := json.NewDecoder(r.Body)
+		err := decoder.Decode(&tempCity)
+		if err != nil {
+			panic(err)
+		}
