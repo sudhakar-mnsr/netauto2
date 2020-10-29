@@ -52,3 +52,14 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("201 - Created"))
 	} else {
+		// Say method not allowed
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte("405 - Method Not Allowed"))
+	}
+}
+
+func main() {
+	originalHandler := http.HandlerFunc(handle)
+	http.Handle("/city", filterContentType(setServerTimeCookie(originalHandler)))
+	http.ListenAndServe(":8000", nil)
+}
