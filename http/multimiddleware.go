@@ -45,3 +45,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
+		defer r.Body.Close()
+		// Your resource creation logic goes here. For now it is plain print to console
+		log.Printf("Got %s city with area of %d sq miles!\n", tempCity.Name, tempCity.Area)
+		// Tell everything is fine
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("201 - Created"))
+	} else {
