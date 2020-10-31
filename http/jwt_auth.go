@@ -39,3 +39,15 @@ func HealthcheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		// If token is valid
+		response := make(map[string]string)
+		// response["user"] = claims["username"]
+		response["time"] = time.Now().String()
+		response["user"] = claims["username"].(string)
+		responseJSON, _ := json.Marshal(response)
+		w.Write(responseJSON)
+	} else {
+		w.WriteHeader(http.StatusForbidden)
+		w.Write([]byte(err.Error()))
+	}
+}
