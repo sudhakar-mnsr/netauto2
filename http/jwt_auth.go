@@ -21,3 +21,12 @@ type Response struct {
 	Token  string `json:"token"`
 	Status string `json:"status"`
 }
+
+// HealthcheckHandler returns the date and time
+func HealthcheckHandler(w http.ResponseWriter, r *http.Request) {
+	tokenString, err := request.HeaderExtractor{"access_token"}.ExtractToken(r)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		// Don't forget to validate the alg is what you expect:
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+		}
