@@ -61,3 +61,12 @@ func getTokenHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	username := r.PostForm.Get("username")
 	password := r.PostForm.Get("password")
+
+	if originalPassword, ok := users[username]; ok {
+		if password == originalPassword {
+			// Create a claims map
+			claims := jwt.MapClaims{
+				"username":  username,
+				"ExpiresAt": 15000,
+				"IssuedAt":  time.Now().Unix(),
+			
