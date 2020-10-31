@@ -78,3 +78,16 @@ func getTokenHandler(w http.ResponseWriter, r *http.Request) {
 			}
 			response := Response{Token: tokenString, Status: "success"}
 			responseJSON, _ := json.Marshal(response)	
+			w.WriteHeader(http.StatusOK)
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(responseJSON)
+
+		} else {
+			http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
+			return
+		}
+	} else {
+		http.Error(w, "User is not found", http.StatusNotFound)
+		return
+	}
+}
