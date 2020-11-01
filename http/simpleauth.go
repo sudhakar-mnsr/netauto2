@@ -33,3 +33,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	username := r.PostForm.Get("username")
 	password := r.PostForm.Get("password")
+	if originalPassword, ok := users[username]; ok {
+		session, _ := store.Get(r, "session.id")
+		if password == originalPassword {
+			session.Values["authenticated"] = true
+			session.Save(r, w)
+		} else {
