@@ -22,3 +22,14 @@ func HealthcheckHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 	}
 }
+
+// LoginHandler validates the user credentials
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+
+	if err != nil {
+		http.Error(w, "Please pass the data as URL form encoded", http.StatusBadRequest)
+		return
+	}
+	username := r.PostForm.Get("username")
+	password := r.PostForm.Get("password")
