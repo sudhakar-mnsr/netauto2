@@ -57,3 +57,10 @@ func LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	session.Save(r, w)
 	w.Write([]byte(""))
 }
+
+func main() {
+	r := mux.NewRouter()
+	r.HandleFunc("/login", LoginHandler)
+	r.HandleFunc("/healthcheck", HealthcheckHandler)
+	r.HandleFunc("/logout", LogoutHandler)
+	http.Handle("/", r)
