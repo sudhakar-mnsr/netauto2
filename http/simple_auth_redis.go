@@ -31,3 +31,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Please pass the data as URL form encoded", http.StatusBadRequest)
 		return
 	}
+	username := r.PostForm.Get("username")
+	password := r.PostForm.Get("password")
+	if originalPassword, ok := users[username]; ok {
+		if password == originalPassword {
+			session.Values["authenticated"] = true
+			session.Save(r, w)
+		} else {
