@@ -38,3 +38,13 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 			session.Values["authenticated"] = true
 			session.Save(r, w)
 		} else {
+			http.Error(w, "Invalid Credentials", http.StatusUnauthorized)
+			return
+		}
+	} else {
+		http.Error(w, "User is not found", http.StatusNotFound)
+		return
+	}
+	w.Write([]byte("Logged In successfully"))
+
+}
