@@ -16,3 +16,17 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+// DB stores the database session imformation. Needs to be initialized once
+type DB struct {
+	collection *mongo.Collection
+}
+
+type Movie struct {
+	ID        interface{} `json:"id" bson:"_id,omitempty"`
+	Name      string      `json:"name" bson:"name"`
+	Year      string      `json:"year" bson:"year"`
+	Directors []string    `json:"directors" bson:"directors"`
+	Writers   []string    `json:"writers" bson:"writers"`
+	BoxOffice BoxOffice   `json:"boxOffice" bson:"boxOffice"`
+}
