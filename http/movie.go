@@ -72,3 +72,11 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 		w.Write(response)
 	}
 }
+
+func main() {
+	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		panic(err)
+	}
+	defer client.Disconnect(context.TODO())
