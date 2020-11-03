@@ -30,3 +30,8 @@ type Movie struct {
 	Writers   []string    `json:"writers" bson:"writers"`
 	BoxOffice BoxOffice   `json:"boxOffice" bson:"boxOffice"`
 }
+
+type BoxOffice struct {
+	Budget uint64 `json:"budget" bson:"budget"`
+	Gross  uint64 `json:"gross" bson:"gross"`
+}
