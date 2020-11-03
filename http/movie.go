@@ -55,3 +55,9 @@ func (db *DB) GetMovie(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+// PostMovie adds a new movie to our MongoDB collection
+func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
+	var movie Movie
+	postBody, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(postBody, &movie)
