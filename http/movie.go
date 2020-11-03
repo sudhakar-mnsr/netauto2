@@ -61,3 +61,8 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 	var movie Movie
 	postBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(postBody, &movie)
+	result, err := db.collection.InsertOne(context.TODO(), movie)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
