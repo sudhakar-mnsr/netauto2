@@ -58,3 +58,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	queryResult := &Movie{}
+	// bson.M is used for nested fields
+	filter := bson.M{"boxOffice.budget": bson.M{"$gt": 150000000}}
+	result := collection.FindOne(context.TODO(), filter)
+	err = result.Decode(queryResult)
+
+	if err != nil {
+		log.Fatal(err)
+	}
