@@ -31,3 +31,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	err = client.Ping(context.TODO(), nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Connected to MongoDB successfully")
