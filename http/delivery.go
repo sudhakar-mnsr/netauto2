@@ -52,3 +52,9 @@ func main() {
 			Gross:  533316061,
 		},
 	}
+	// Insert a document into MongoDB
+	_, err = collection.InsertOne(context.TODO(), darkNight)
+
+	if err != nil {
+		log.Fatal(err)
+	}
