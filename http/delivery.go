@@ -68,3 +68,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println("Movie:", queryResult)
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Disconnected from MongoDB")
+}
