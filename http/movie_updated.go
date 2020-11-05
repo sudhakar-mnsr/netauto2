@@ -43,3 +43,14 @@ func (db *DB) GetMovie(w http.ResponseWriter, r *http.Request) {
 	objectID, _ := primitive.ObjectIDFromHex(vars["id"])
 	filter := bson.M{"_id": objectID}
 	err := db.collection.FindOne(context.TODO(), filter).Decode(&movie)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+		response, _ := json.Marshal(movie)
+		w.WriteHeader(http.StatusOK)
+		w.Write(response)
+	}
+
+}
