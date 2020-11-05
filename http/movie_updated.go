@@ -78,3 +78,8 @@ func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	var movie Movie
 	putBody, _ := ioutil.ReadAll(r.Body)
 	json.Unmarshal(putBody, &movie)
+	objectID, _ := primitive.ObjectIDFromHex(vars["id"])
+	filter := bson.M{"_id": objectID}
+	update := bson.M{"$set": &movie}
+	_, err := db.collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
