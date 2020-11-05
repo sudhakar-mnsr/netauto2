@@ -16,3 +16,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+type Movie struct {
+	ID        interface{} `json:"id" bson:"_id,omitempty"`
+	Name      string      `json:"name" bson:"name"`
+	Year      string      `json:"year" bson:"year"`
+	Directors []string    `json:"directors" bson:"directors"`
+	Writers   []string    `json:"writers" bson:"writers"`
+	BoxOffice BoxOffice   `json:"boxOffice" bson:"boxOffice"`
+}
