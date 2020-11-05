@@ -36,3 +36,10 @@ type BoxOffice struct {
 	Gross  uint64 `json:"gross" bson:"gross"`
 }
 
+// GetMovie fetches a movie with a given ID
+func (db *DB) GetMovie(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var movie Movie
+	objectID, _ := primitive.ObjectIDFromHex(vars["id"])
+	filter := bson.M{"_id": objectID}
+	err := db.collection.FindOne(context.TODO(), filter).Decode(&movie)
