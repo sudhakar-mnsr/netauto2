@@ -71,3 +71,10 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 		w.Write(response)
 	}
 }
+
+// UpdateMovie modifies the data of given resource
+func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	var movie Movie
+	putBody, _ := ioutil.ReadAll(r.Body)
+	json.Unmarshal(putBody, &movie)
