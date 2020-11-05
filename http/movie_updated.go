@@ -83,3 +83,10 @@ func (db *DB) UpdateMovie(w http.ResponseWriter, r *http.Request) {
 	update := bson.M{"$set": &movie}
 	_, err := db.collection.UpdateOne(context.TODO(), filter, update)
 	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
+		w.Header().Set("Content-Type", "text/plain")
+		w.Write([]byte("Updated succesfully!"))
+	}
+}
