@@ -65,3 +65,9 @@ func (db *DB) PostMovie(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 	} else {
+		w.Header().Set("Content-Type", "application/json")
+		response, _ := json.Marshal(result)
+		w.WriteHeader(http.StatusOK)
+		w.Write(response)
+	}
+}
