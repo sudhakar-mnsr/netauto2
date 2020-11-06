@@ -101,3 +101,7 @@ func (db *DB) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 	} else {
+		w.Header().Set("Content-Type", "text/plain")
+		w.Write([]byte("Deleted succesfully!"))
+	}
+}
