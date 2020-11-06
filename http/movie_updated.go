@@ -96,3 +96,8 @@ func (db *DB) DeleteMovie(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	objectID, _ := primitive.ObjectIDFromHex(vars["id"])
 	filter := bson.M{"_id": objectID}
+	_, err := db.collection.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
