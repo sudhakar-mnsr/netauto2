@@ -10,3 +10,9 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
+const (
+	port = ":50051"
+)
+
+// server is used to create MoneyTransactionServer.
+type server struct{}
