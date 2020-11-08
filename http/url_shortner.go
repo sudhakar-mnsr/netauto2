@@ -13,3 +13,14 @@ import (
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 )
+
+// DBClient stores the database session information. Needs to be initialized once
+type DBClient struct {
+	db *sql.DB
+}
+
+// Record Model is a HTTP response
+type Record struct {
+	ID  int    `json:"id"`
+	URL string `json:"url"`
+}
