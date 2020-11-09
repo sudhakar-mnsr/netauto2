@@ -74,3 +74,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	defer db.Close()
+	// Create a new router
+	r := mux.NewRouter()
+	// Attach an elegant path with handler
+	r.HandleFunc("/v1/short/{encoded_string:[a-zA-Z0-9]*}", dbclient.GetOriginalURL).Methods("GET")
+	r.HandleFunc("/v1/short", dbclient.GenerateShortURL).Methods("POST")
