@@ -44,3 +44,11 @@ func (driver *DBClient) GetOriginalURL(w http.ResponseWriter, r *http.Request) {
 		w.Write(response)
 	}
 }
+
+// GenerateShortURL adds URL to DB and gives back shortened string
+func (driver *DBClient) GenerateShortURL(w http.ResponseWriter, r *http.Request) {
+	var id int
+	var record Record
+	postBody, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(postBody, &record)
+	err = driver.db.QueryRow("INSERT INTO web_url(url) VALUES($1) RETURNING id", record.URL).Scan(&id)
