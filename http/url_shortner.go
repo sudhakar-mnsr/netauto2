@@ -58,3 +58,9 @@ func (driver *DBClient) GenerateShortURL(w http.ResponseWriter, r *http.Request)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 	} else {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		response, _ := json.Marshal(responseMap)
+		w.Write(response)
+	}
+}
