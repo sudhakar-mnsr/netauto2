@@ -64,3 +64,13 @@ func (driver *DBClient) GenerateShortURL(w http.ResponseWriter, r *http.Request)
 		w.Write(response)
 	}
 }
+
+func main() {
+	db, err := helper.InitDB()
+	if err != nil {
+		panic(err)
+	}
+	dbclient := &DBClient{db: db}
+	if err != nil {
+		panic(err)
+	}
