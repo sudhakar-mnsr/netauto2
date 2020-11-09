@@ -33,3 +33,7 @@ func (driver *DBClient) GetOriginalURL(w http.ResponseWriter, r *http.Request) {
 	id := base62.ToBase10(vars["encoded_string"])
 	err := driver.db.QueryRow("SELECT url FROM web_url WHERE id = $1", id).Scan(&url)
 	// Handle response details
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
